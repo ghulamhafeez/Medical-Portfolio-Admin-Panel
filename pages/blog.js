@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import TextField from "@mui/material/TextField";
@@ -7,7 +7,8 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Card from "@mui/material/Card";
-
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -23,6 +24,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 export default function Blog() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [openModal, setOpenModal] = React.useState(false);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -30,15 +33,72 @@ export default function Blog() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
   return (
-    <Grid
-      display={"flex"}
-      direction={"column"}
-      justifyContent={"center"}
-      mt={10}
-      ml={30}
-      gap={2}
-    >
+    <Grid display={"flex"} direction={"column"} gap={2} mb={2}>
+      <Grid display={"flex"} direction={"column"} gap={1}>
+        <Grid
+          paddingTop={1}
+          paddingRight={3}
+          display={"flex"}
+          justifyContent={"end"}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => handleOpenModal()}
+          >
+            + Add Blog
+          </Button>
+          <Modal
+            open={openModal}
+            onClose={() => handleCloseModal()}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: 500,
+                height: 500,
+                bgcolor: "background.paper",
+                border: "2px solid #000",
+                boxShadow: 24,
+                p: 4,
+              }}
+            >
+              <TextField
+                id="outlined-basic"
+                label="Email"
+                variant="outlined"
+                // value={email}
+                sx={{ width: "500px" }}
+              />
+            </Box>
+          </Modal>
+          {/* <Fab
+            sx={{
+              backgroundColor: "#666666",
+              ":hover": {
+                backgroundColor: "grey",
+              },
+              mt: 1,
+              mr: 3,
+            }}
+            onClick={handleClick}
+          >
+            <AddIcon sx={{ color: "white" }} />
+          </Fab> */}
+        </Grid>
+        <Grid>
+          <hr color="gray"></hr>
+        </Grid>
+      </Grid>
+
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -53,56 +113,98 @@ export default function Blog() {
         <MenuItem onClick={handleClose}>Video</MenuItem>
       </Menu>
 
-      <Grid>
-        <Card sx={{ width: 300, height: 75, boxShadow: 4 }}>
-          <Grid display={"flex"} direction={"row"} gap={4}>
-            {/* <TextField
-          sx={{ width: 300 }}
-          id="outlined-basic"
-          label="Blog"
-          variant="outlined"
-        /> */}
-            <Typography variant="h6" gutterBottom ml={3} mt={3}>
-              Add Blog
-            </Typography>
-            <Fab
-              sx={{
-                backgroundColor: "#89C1CB",
-                ":hover": {
-                  backgroundColor: "#89C1CB",
-                },
-                mt: 1,
-              }}
-              onClick={handleClick}
-            >
-              <AddIcon sx={{ color: "white" }} />
-            </Fab>
-          </Grid>
-        </Card>
-      </Grid>
-      <Grid>
-        <Card sx={{ maxWidth: 345 }}>
+      <Grid display={"flex"} direction={"column"} alignItems={"center"} gap={4}>
+        <Card sx={{ maxWidth: 1050, boxShadow: 4 }}>
           <CardHeader
-            action={
-              <IconButton aria-label="settings">
-                <MoreVertIcon onClick={handleClick} />
-              </IconButton>
-            }
-            title="Blog 1"
-            // subheader="September 14, 2016"
+            // action={
+            //   <IconButton aria-label="settings">
+            //     <MoreVertIcon onClick={handleClick} />
+            //   </IconButton>
+            // }
+            sx={{ color: "#666666" }}
+            title="Reasons you don’t need permanent tooth extractions"
           />
+
           <CardMedia
             component="img"
-            height="194"
-            image="/static/images/cards/paella.jpg"
+            width={"100%"}
+            height={200}
+            image="https://img.freepik.com/free-photo/doctors-day-cute-young-handsome-man-lab-coat-glasses-smiling-holding-book_140725-162884.jpg"
             alt="Paella dish"
             // color="red"
           />
           <CardContent>
-            <Typography variant="body2" color="text.secondary">
-              This impressive paella is a perfect party dish and a fun meal to
-              cook together with your guests. Add 1 cup of frozen peas along
-              with the mussels, if you like.
+            <Typography variant="body2" color="#666666">
+              Do you remember those rings around your teeth with the braces?
+              These are called bands. Until the late 70’s, that was the only way
+              to connect braces to the teeth. Then a process called bonding came
+              along. Bonding allowed orthodontists to use a thin layer of
+              adhesive to connect a brace to the front surface of a tooth. Bands
+              were no longer needed. Placing bands around each tooth in the
+              mouth added about 5mm of material between the teeth. Because of
+              this, even in mildly crowded cases, there just was not enough room
+              to fit all the teeth in the mouth.
+            </Typography>
+            <br></br>
+            <Typography variant="body2" color="#666666">
+              Materials that have been tested by NASA in space are now
+              incorporated into the wires used in orthodontics. These wires
+              delivered a force on the teeth much lower and gentler than
+              traditional braces with stainless steel wires did. Due to this
+              gentler force, teeth were allowed to move in a way that allowed
+              the bone to adapt and change, allowing the orthodontist to treat
+              more cases without extractions.
+            </Typography>
+          </CardContent>
+          {/* <CardActions disableSpacing>
+            <IconButton aria-label="add to favorites">
+              <FavoriteIcon />
+            </IconButton>
+            <IconButton aria-label="share">
+              <ShareIcon />
+            </IconButton>
+          </CardActions> */}
+        </Card>
+        <Card sx={{ maxWidth: 1050, boxShadow: 4 }}>
+          <CardHeader
+            // action={
+            //   <IconButton aria-label="settings">
+            //     <MoreVertIcon onClick={handleClick} />
+            //   </IconButton>
+            // }
+            sx={{ color: "#666666" }}
+            title="Reasons you don’t need permanent tooth extractions"
+          />
+
+          <CardMedia
+            component="img"
+            width={"100%"}
+            height={200}
+            image="https://img.freepik.com/free-photo/doctors-day-cute-young-handsome-man-lab-coat-glasses-smiling-holding-book_140725-162884.jpg"
+            alt="Paella dish"
+            // color="red"
+          />
+          <CardContent>
+            <Typography variant="body2" color="#666666">
+              Do you remember those rings around your teeth with the braces?
+              These are called bands. Until the late 70’s, that was the only way
+              to connect braces to the teeth. Then a process called bonding came
+              along. Bonding allowed orthodontists to use a thin layer of
+              adhesive to connect a brace to the front surface of a tooth. Bands
+              were no longer needed. Placing bands around each tooth in the
+              mouth added about 5mm of material between the teeth. Because of
+              this, even in mildly crowded cases, there just was not enough room
+              to fit all the teeth in the mouth.
+            </Typography>
+            <br></br>
+            <Typography variant="body2" color="#666666">
+              Materials that have been tested by NASA in space are now
+              incorporated into the wires used in orthodontics. These wires
+              delivered a force on the teeth much lower and gentler than
+              traditional braces with stainless steel wires did. Due to this
+              gentler force, teeth were allowed to move in a way that allowed
+              the bone to adapt and change, allowing the orthodontist to treat
+              more cases without extractions.
             </Typography>
           </CardContent>
           {/* <CardActions disableSpacing>

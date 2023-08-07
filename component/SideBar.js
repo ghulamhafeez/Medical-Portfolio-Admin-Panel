@@ -9,7 +9,6 @@ export default function About() {
   return (
     <Grid
       pt={4}
-      mb={2}
       boxShadow={5}
       //   sx={{ display: { sm: "none", xs: "none", md: "block", lg: "block" } }}
       //   px={{ sm: 2, md: 5, lg: 22, xl: 26 }}
@@ -17,18 +16,22 @@ export default function About() {
       bgcolor={"white"}
       width={260}
       height={"100vh"}
+      position={"sticky"}
+      top={0}
     >
       {TabsData?.map((x) => {
         return (
           <Link href={x.path} key={x}>
             <Typography
-              variant="h6"
+              //   variant="h6"
               gutterBottom
               ml={3}
-              //   fontSize={{ sm: "15px", md: "17px", lg: "20px" }}
+              color={"#666666"}
+              fontSize={"16px"}
+              mb={3}
             >
-              {x.name}
-            </Typography>{" "}
+              {x.name}{" "}
+            </Typography>
             {/* <br></br> */}
           </Link>
         );

@@ -4,10 +4,11 @@ import SideBar from "./SideBar";
 
 export default function MainLayout({ children }) {
   return (
-    <Grid display={"flex"} direction={"row"}>
-      <SideBar />
-
-      {children}
+    <Grid container display={"flex"} direction={"row"}>
+      <Grid lg={2}>
+        <SideBar />
+      </Grid>
+      <Grid lg={10}> {children}</Grid>
     </Grid>
   );
 }

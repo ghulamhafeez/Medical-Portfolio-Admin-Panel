@@ -16,7 +16,7 @@ export default function PatientStories() {
   }
 
   return (
-    <Grid display={"flex"} justifyContent={"center"}>
+    <Grid display={"flex"} justifyContent={"center"} mt={10}>
       <Card sx={{ width: 350, height: 180, boxShadow: 4 }}>
         <CardContent>
           <Grid display={"flex"} direction={"column"} gap={3} mt={2}>

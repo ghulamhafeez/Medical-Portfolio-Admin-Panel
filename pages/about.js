@@ -1,47 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid } from "@mui/material";
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
-
+import TextareaAutosize from "@mui/base/TextareaAutosize";
+import Textarea from "@mui/joy/Textarea";
 export default function About() {
+  const [email] = useState("drharis22@gmail.com");
+  const [password] = useState("haris123@gmail.com");
+  const [mySefl] = useState(
+    "Dr Grammatopoulos attended secondary school in Athens and completed his ultimate two years at Dulwich College under the Ishigaki Scholarship. He gained his Dental Degree from the University of Newcastle in 2004. Following further training in Restorative Dentistry, Paediatric Dentistry and Oral and Maxillofacial Surgery, he qualified as a Specialist Orthodontist in 2010 and Consultant Orthodontist in 2012. He was appointed Consultant in Orthodontics at Guy’s and St Thomas’ Hospitals and Honorary Senior Specialist Clinical Teacher at King’s College London in 2012, remaining in the post until 2020. For over a decade he has trained Dentists, Specialists in Orthodontics and Consultants in Orthodontics."
+  );
   return (
     <Grid
       display={"flex"}
       direction={"column"}
       // justifyContent={"center"}
-      ml={20}
+      alignItems={"center"}
+      // ml={20}
       mt={10}
       // textAlign={"center"}
       gap={3}
     >
-      <Avatar
-        alt="Travis Howard"
-        src="/static/images/avatar/1.jpg"
-        sx={{ width: 140, height: 140 }}
-      />
-      <TextField
-        id="outlined-basic"
-        label="First Name"
-        variant="outlined"
-        sx={{ width: "500px" }}
-      />
-      <TextField
+      <Grid>
+        {" "}
+        <Avatar
+          alt="Travis Howard"
+          src="/static/images/avatar/1.jpg"
+          sx={{ width: 140, height: 140, marginRight: 45 }}
+        />
+      </Grid>
+
+      {/* <TextField
         id="outlined-basic"
         label="Last Name"
         variant="outlined"
         sx={{ width: "500px" }}
-      />
+      /> */}
       <TextField
         id="outlined-basic"
         label="Email"
         variant="outlined"
+        value={email}
         sx={{ width: "500px" }}
+      />
+      <TextField
+        id="outlined-basic"
+        label="Password"
+        variant="outlined"
+        sx={{ width: "500px" }}
+        value={password}
+        type="password"
+      />
+      {/* <TextareaAutosize ></TextareaAutosize> */}
+      <Textarea
+        placeholder="Type in here…"
+        required
+        minRows={10}
+        value={mySefl}
+        sx={{ mb: 1, width: 500 }}
       />
     </Grid>
   );
