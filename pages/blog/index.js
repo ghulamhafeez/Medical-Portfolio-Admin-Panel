@@ -8,6 +8,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
+import Link from "next/link";
 import Modal from "@mui/material/Modal";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -16,7 +17,6 @@ import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
-
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
@@ -24,7 +24,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 export default function Blog() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [openModal, setOpenModal] = React.useState(false);
+  // const [openModal, setOpenModal] = React.useState(false);
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -33,8 +33,8 @@ export default function Blog() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
+  // const handleOpenModal = () => setOpenModal(true);
+  // const handleCloseModal = () => setOpenModal(false);
   return (
     <Grid display={"flex"} direction={"column"} gap={2} mb={2}>
       <Grid display={"flex"} direction={"column"} gap={1}>
@@ -44,55 +44,15 @@ export default function Blog() {
           display={"flex"}
           justifyContent={"end"}
         >
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => handleOpenModal()}
-          >
-            + Add Blog
-          </Button>
-          <Modal
-            open={openModal}
-            onClose={() => handleCloseModal()}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box
-              sx={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: 500,
-                height: 500,
-                bgcolor: "background.paper",
-                border: "2px solid #000",
-                boxShadow: 24,
-                p: 4,
-              }}
+          <Link href={"/blog/add-blog"}>
+            <Button
+              variant="contained"
+              color="primary"
+              // onClick={() => handleOpenModal()}
             >
-              <TextField
-                id="outlined-basic"
-                label="Email"
-                variant="outlined"
-                // value={email}
-                sx={{ width: "500px" }}
-              />
-            </Box>
-          </Modal>
-          {/* <Fab
-            sx={{
-              backgroundColor: "#666666",
-              ":hover": {
-                backgroundColor: "grey",
-              },
-              mt: 1,
-              mr: 3,
-            }}
-            onClick={handleClick}
-          >
-            <AddIcon sx={{ color: "white" }} />
-          </Fab> */}
+              + Add Blog
+            </Button>
+          </Link>
         </Grid>
         <Grid>
           <hr color="gray"></hr>
@@ -108,19 +68,18 @@ export default function Blog() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Text</MenuItem>
-        <MenuItem onClick={handleClose}>Image</MenuItem>
-        <MenuItem onClick={handleClose}>Video</MenuItem>
+        <MenuItem onClick={handleClose}>Edit</MenuItem>
+        <MenuItem onClick={handleClose}>Save</MenuItem>
       </Menu>
 
       <Grid display={"flex"} direction={"column"} alignItems={"center"} gap={4}>
         <Card sx={{ maxWidth: 1050, boxShadow: 4 }}>
           <CardHeader
-            // action={
-            //   <IconButton aria-label="settings">
-            //     <MoreVertIcon onClick={handleClick} />
-            //   </IconButton>
-            // }
+            action={
+              <IconButton aria-label="settings">
+                <MoreVertIcon onClick={handleClick} />
+              </IconButton>
+            }
             sx={{ color: "#666666" }}
             title="Reasons you don’t need permanent tooth extractions"
           />
@@ -167,11 +126,11 @@ export default function Blog() {
         </Card>
         <Card sx={{ maxWidth: 1050, boxShadow: 4 }}>
           <CardHeader
-            // action={
-            //   <IconButton aria-label="settings">
-            //     <MoreVertIcon onClick={handleClick} />
-            //   </IconButton>
-            // }
+            action={
+              <IconButton aria-label="settings">
+                <MoreVertIcon onClick={handleClick} />
+              </IconButton>
+            }
             sx={{ color: "#666666" }}
             title="Reasons you don’t need permanent tooth extractions"
           />
