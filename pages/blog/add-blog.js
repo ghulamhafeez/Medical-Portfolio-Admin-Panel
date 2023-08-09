@@ -2,22 +2,19 @@ import React from "react";
 import { Grid } from "@mui/material";
 import { useRouter } from "next/router";
 import CardContent from "@mui/material/CardContent";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Button from "@mui/material/Button";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AddIcon from "@mui/icons-material/Add";
 import AbcIcon from "@mui/icons-material/Abc";
 import ImageIcon from "@mui/icons-material/Image";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import Box from "@mui/material/Box";
-// import MenuButton from "@mui/joy/MenuButton";
+
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import MoreVert from "@mui/icons-material/MoreVert";
-import Modal from "@mui/material/Modal";
 
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
+
 export default function AddBlog() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [items, setItems] = React.useState([]);
@@ -29,6 +26,10 @@ export default function AddBlog() {
   const open = Boolean(anchorEl);
 
   const router = useRouter();
+  let Url = "https://www.youtube.com/embed/_g9sAB0hn-E";
+
+  let Id = Url.split("embed");
+  console.log("id", Id[1]);
 
   const handleClick = (event) => {
     console.log("event", event);

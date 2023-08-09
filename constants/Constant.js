@@ -11,13 +11,6 @@ export const CardData = [
     title: "Crolla",
     url: "https://www.youtube.com/watch?v=_g9sAB0hn-E",
   },
-
-  {
-    file: "C:\\fakepath\\image_2022_12_05T10_49_15_151Z.png",
-    text: "Good Doctor ",
-    title: "Doctor",
-    url: "https://www.youtube.com/watch?v=oIDdDBe_5zg",
-  },
 ];
 
 export const TabsData = [
