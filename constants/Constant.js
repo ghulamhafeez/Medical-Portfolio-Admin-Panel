@@ -1,16 +1,22 @@
-export const homeData = [
+export const CardData = [
   {
-    url: "https://www.ektorgrammatopoulos.com/wp-content/uploads/2018/12/slider-thumb1.jpg",
-    text: "Patient-centred care in a relaxing environment  Efficient orthodontic treatment  Optimum and guaranteed orthodontic outcomes and results ",
+    file: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbg-57GR__o17OerEPudaBLOTcPvBdehAnow&usqp=CAU",
+    text: "Best in handling and road grip",
+    title: "Civic",
+    url: "https://www.youtube.com/watch?v=oIDdDBe_5zg",
   },
   {
-    url: "https://www.ektorgrammatopoulos.com/wp-content/uploads/2019/01/incognito.jpg",
-    text: "Damon braces are the best! Widen your smile while you straighten it! ",
+    file: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJi8EWrfoyh1zLDsW5dudo5TJLJHTQyOLITA&usqp=CAU",
+    text: "Best in suspension and comfortable ride",
+    title: "Crolla",
+    url: "https://www.youtube.com/watch?v=_g9sAB0hn-E",
   },
 
   {
-    url: "https://www.ektorgrammatopoulos.com/wp-content/uploads/2019/01/Discreet-systems-for-children-and-adults.jpg",
-    text: "Seriously one of the best orthodontists on the planet!",
+    file: "C:\\fakepath\\image_2022_12_05T10_49_15_151Z.png",
+    text: "Good Doctor ",
+    title: "Doctor",
+    url: "https://www.youtube.com/watch?v=oIDdDBe_5zg",
   },
 ];
 

@@ -1,9 +1,6 @@
 import React from "react";
 import { Grid } from "@mui/material";
-import Fab from "@mui/material/Fab";
-import Dropdown from "@mui/joy/Dropdown";
-import IconButton from "@mui/joy/IconButton";
-import CardActions from "@mui/material/CardActions";
+import { useRouter } from "next/router";
 import CardContent from "@mui/material/CardContent";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Button from "@mui/material/Button";
@@ -25,11 +22,13 @@ export default function AddBlog() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [items, setItems] = React.useState([]);
   const [text, setText] = React.useState("");
-  const [title, setTitles] = React.useState("");
+  const [title, setTitle] = React.useState("");
   const [url, setUrl] = React.useState("");
   const [file, setFile] = React.useState("");
 
   const open = Boolean(anchorEl);
+
+  const router = useRouter();
 
   const handleClick = (event) => {
     console.log("event", event);
@@ -39,12 +38,24 @@ export default function AddBlog() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleSubmit = () => {
+    console.log("Submit");
+    const CardData = {
+      title: title,
+      text: text,
+      file: file,
+      url: url,
+    };
+    console.log("CardData", CardData);
+  };
+
   const handleAdd = (data) => {
     console.log("called", data);
     const type = { type: data };
     console.log("type", type);
     setItems([...items, type]);
-
+    setAnchorEl(null);
     // const newItems = items.slice();
     // newItems.push(type);
     // setItems(newItems);
@@ -90,6 +101,7 @@ export default function AddBlog() {
               label="Title"
               value={title}
               variant="outlined"
+              onChange={(e) => setTitle(e.currentTarget.value)}
             />
             {/* </Grid> */}
           </CardContent>
@@ -123,17 +135,25 @@ export default function AddBlog() {
                     label="Text"
                     variant="outlined"
                     type={"text"}
+                    onChange={(e) => setText(e.currentTarget.value)}
                     value={text}
                   />
                 )}
-                {x.type === "file" && <input type="file" value={file}></input>}
+                {x.type === "file" && (
+                  <input
+                    type="file"
+                    value={file}
+                    onChange={(e) => setFile(e.currentTarget.value)}
+                  ></input>
+                )}
                 {x.type === "youtube" && (
                   <TextField
                     sx={{ width: "100%" }}
                     id="outlined-basic"
                     label="url"
                     variant="outlined"
-                    type={"text"}
+                    type={"url"}
+                    onChange={(e) => setUrl(e.currentTarget.value)}
                     value={url}
                   />
                 )}
@@ -144,6 +164,31 @@ export default function AddBlog() {
           );
         })}
       </Grid>
+      <Button
+        sx={{ mb: 2, width: 130 }}
+        variant="contained"
+        onClickCapture={() => handleSubmit()}
+      >
+        {" "}
+        submit
+      </Button>
+      <Button
+        sx={{ mb: 2, width: 130 }}
+        variant="contained"
+        onClick={() => router.back()}
+      >
+        {" "}
+        Cancel
+      </Button>
+      <iframe
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/_g9sAB0hn-E"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
     </Grid>
   );
 }
