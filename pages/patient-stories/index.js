@@ -63,9 +63,9 @@ export default function PatientStories() {
         <MenuItem onClick={handleClose}>Delete</MenuItem>
       </Menu>
 
-      {/* <Grid
+      <Grid
         display={"flex"}
-        px={{ xl: 30, lg: 20, md: 12, sm: 10 }}
+        px={{ xl: 30, lg: 20, md: 16, sm: 10 }}
         direction={"column"}
         alignItems={"center"}
         gap={4}
@@ -86,7 +86,7 @@ export default function PatientStories() {
 
               <CardMedia
                 component="img"
-                // width={"100%"}
+                width={"100%"}
                 image={x.file}
                 alt="Paella dish"
               />
@@ -98,7 +98,7 @@ export default function PatientStories() {
             </Card>
           );
         })}
-      </Grid> */}
+      </Grid>
     </Grid>
   );
 }

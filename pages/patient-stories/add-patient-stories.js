@@ -32,7 +32,6 @@ export default function AddPatientStories() {
   console.log("id", Id[1]);
 
   const handleClick = (event) => {
-    console.log("event", event);
     setAnchorEl(event.currentTarget);
   };
 

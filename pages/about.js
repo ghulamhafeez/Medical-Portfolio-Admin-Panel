@@ -14,11 +14,12 @@ export default function About() {
     <Grid
       display={"flex"}
       direction={"column"}
-      // justifyContent={"center"}
-      alignItems={"center"}
+      justifyContent={"center"}
+      // alignItems={"center"}
       // ml={20}
       mt={10}
       // textAlign={"center"}
+      px={{ xl: 45, lg: 40, md: 20, sm: 10, xs: 2 }}
       gap={3}
     >
       <Grid>
@@ -26,39 +27,35 @@ export default function About() {
         <Avatar
           alt="Travis Howard"
           src="/static/images/avatar/1.jpg"
-          sx={{ width: 140, height: 140, marginRight: 45 }}
+          sx={{ width: 140, height: 140 }}
         />
       </Grid>
 
-      {/* <TextField
-        id="outlined-basic"
-        label="Last Name"
-        variant="outlined"
-        sx={{ width: "500px" }}
-      /> */}
-      <TextField
-        id="outlined-basic"
-        label="Email"
-        variant="outlined"
-        value={email}
-        sx={{ width: "500px" }}
-      />
-      <TextField
-        id="outlined-basic"
-        label="Password"
-        variant="outlined"
-        sx={{ width: "500px" }}
-        value={password}
-        type="password"
-      />
-      {/* <TextareaAutosize ></TextareaAutosize> */}
-      <Textarea
-        placeholder="Type in here…"
-        required
-        minRows={10}
-        value={mySefl}
-        sx={{ mb: 1, width: 500 }}
-      />
+      <Grid display={"flex"} direction={"column"} gap={2}>
+        <TextField
+          id="outlined-basic"
+          label="Email"
+          variant="outlined"
+          value={email}
+          sx={{ width: "100%" }}
+        />
+        <TextField
+          id="outlined-basic"
+          label="Password"
+          variant="outlined"
+          sx={{ width: "100%" }}
+          value={password}
+          type="password"
+        />
+        {/* <TextareaAutosize ></TextareaAutosize> */}
+        <Textarea
+          placeholder="Type in here…"
+          required
+          minRows={10}
+          value={mySefl}
+          sx={{ mb: 1, width: "100%" }}
+        />
+      </Grid>
     </Grid>
   );
 }

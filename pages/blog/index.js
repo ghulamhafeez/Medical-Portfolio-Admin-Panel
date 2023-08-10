@@ -85,7 +85,8 @@ export default function Blog() {
 
               <CardMedia
                 component="img"
-                // width={"100%"}
+                width={"100%"}
+                height={"100%"}
                 image={x.file}
                 alt="Paella dish"
               />

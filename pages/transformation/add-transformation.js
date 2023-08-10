@@ -36,11 +36,9 @@ export default function AddBlog() {
   console.log("id", Id[1]);
 
   const handleClickAfter = (event) => {
-    console.log("event", event);
     setAnchorElAfter(event.currentTarget);
   };
   const handleClickBefore = (event) => {
-    console.log("event", event);
     setAnchorElBefore(event.currentTarget);
   };
   const handleCloseBefore = () => {

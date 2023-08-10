@@ -61,7 +61,7 @@ export default function Transformation() {
 
       <Grid
         display={"flex"}
-        px={{ xl: 30, lg: 20, md: 15, sm: 13 }}
+        px={{ xl: 30, lg: 20, md: 15, sm: 6 }}
         direction={"column"}
         alignItems={"center"}
         gap={4}
@@ -70,11 +70,20 @@ export default function Transformation() {
           return (
             <Grid key={x} display={"flex"} direction={"column"}>
               <Typography variant="h6">{x.title}</Typography>
-              <Grid key={x} display={"flex"} direction={"row"} gap={3}>
+              <Grid key={x} display={"flex"} direction={"row"} gap={8}>
                 <Grid key={x} display={"flex"} direction={"row"}>
                   {x.Before.map((x) => {
                     return (
-                      <Card key={x} sx={{ maxWidth: "100%", boxShadow: 4 }}>
+                      <Card key={x} sx={{ Width: "100%", boxShadow: 4 }}>
+                        <CardHeader
+                          action={
+                            <IconButton aria-label="settings">
+                              <MoreVertIcon onClick={handleClick} />
+                            </IconButton>
+                          }
+                          sx={{ color: "#666666" }}
+                          title={x.title}
+                        />
                         <CardMedia
                           component="img"
                           width={"100%"}
@@ -93,7 +102,16 @@ export default function Transformation() {
                 <Grid key={x} display={"flex"} direction={"row"}>
                   {x.After.map((x) => {
                     return (
-                      <Card key={x} sx={{ maxWidth: "100%", boxShadow: 4 }}>
+                      <Card key={x} sx={{ width: "100%", boxShadow: 4 }}>
+                        <CardHeader
+                          action={
+                            <IconButton aria-label="settings">
+                              <MoreVertIcon onClick={handleClick} />
+                            </IconButton>
+                          }
+                          sx={{ color: "#666666" }}
+                          title={x.title}
+                        />
                         <CardMedia
                           component="img"
                           width={"100%"}

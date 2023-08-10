@@ -26,13 +26,12 @@ export default function AddBlog() {
   const open = Boolean(anchorEl);
 
   const router = useRouter();
-  let Url = "https://www.youtube.com/embed/_g9sAB0hn-E";
+  // let Url = "https://www.youtube.com/embed/_g9sAB0hn-E";
 
-  let Id = Url.split("embed");
-  console.log("id", Id[1]);
+  // let Id = Url.split("embed");
+  // console.log("id", Id[1]);
 
   const handleClick = (event) => {
-    console.log("event", event);
     setAnchorEl(event.currentTarget);
   };
 
@@ -50,10 +49,23 @@ export default function AddBlog() {
     };
     console.log("CardData", CardData);
   };
+  const handleText = (e, x) => {
+    console.log("e", e.target.value);
 
+    const newsetitems = items.map((item) =>
+      item.id == x.id ? { ...item, value: e.target.value } : item
+    );
+    console.log("newsetitems", newsetitems);
+    setItems(newsetitems);
+  };
+  // setText(e.target.value) : setText(x.value)
   const handleAdd = (data) => {
     console.log("called", data);
-    const type = { type: data };
+    const type = {
+      type: data,
+      value: "",
+      id: Math.random().toString(16).slice(-4),
+    };
     console.log("type", type);
     setItems([...items, type]);
     setAnchorEl(null);
@@ -136,8 +148,8 @@ export default function AddBlog() {
                     label="Text"
                     variant="outlined"
                     type={"text"}
-                    onChange={(e) => setText(e.currentTarget.value)}
-                    value={text}
+                    onChange={(e) => handleText(e, x)}
+                    value={x.value}
                   />
                 )}
                 {x.type === "file" && (
