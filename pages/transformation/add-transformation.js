@@ -52,11 +52,9 @@ export default function AddBlog() {
   const handleSubmit = () => {
     console.log("Submit");
     const CardData = {
-      textBefore: textBefore,
-      textAfter: textAfter,
       title: title,
-      fileBefore: fileBefore,
-      fileAfter: fileAfter,
+      Before: [{ textBefore: textBefore, fileBefore: fileBefore }],
+      After: [{ textAfter: textAfter, fileAfter: fileAfter }],
     };
     console.log("CardData", CardData);
   };

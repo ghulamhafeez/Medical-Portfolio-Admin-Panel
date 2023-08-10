@@ -13,7 +13,7 @@ import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
-import { CardData } from "../../constants/Constant";
+import { TransfoemationCardData } from "../../constants/Constant";
 export default function Transformation() {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -24,6 +24,8 @@ export default function Transformation() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  console.log("TransfoemationCardData", TransfoemationCardData);
   return (
     <Grid display={"flex"} direction={"column"} gap={2} mb={2}>
       <Grid display={"flex"} direction={"column"} gap={1}>
@@ -60,35 +62,55 @@ export default function Transformation() {
       <Grid
         display={"flex"}
         px={{ xl: 30, lg: 20, md: 15, sm: 13 }}
-        direction={"row"}
+        direction={"column"}
         alignItems={"center"}
         gap={4}
       >
-        {CardData?.map((x) => {
+        {TransfoemationCardData?.map((x) => {
           return (
-            <Card key={x} sx={{ maxWidth: "100%", boxShadow: 4 }}>
-              <CardHeader
-                action={
-                  <IconButton aria-label="settings">
-                    <MoreVertIcon onClick={handleClick} />
-                  </IconButton>
-                }
-                sx={{ color: "#666666" }}
-                title={x.title}
-              />
-
-              <CardMedia
-                component="img"
-                width={"100%"}
-                image={x.file}
-                alt="Paella dish"
-              />
-              <CardContent>
-                <Typography variant="body2" color="#666666">
-                  {x.text}
-                </Typography>
-              </CardContent>
-            </Card>
+            <Grid key={x} display={"flex"} direction={"column"}>
+              <Typography variant="h6">{x.title}</Typography>
+              <Grid key={x} display={"flex"} direction={"row"} gap={3}>
+                <Grid key={x} display={"flex"} direction={"row"}>
+                  {x.Before.map((x) => {
+                    return (
+                      <Card key={x} sx={{ maxWidth: "100%", boxShadow: 4 }}>
+                        <CardMedia
+                          component="img"
+                          width={"100%"}
+                          image={x.fileBefore}
+                          alt="Paella dish"
+                        />
+                        <CardContent>
+                          <Typography variant="body1" color="#666666">
+                            {x.textBefore}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </Grid>
+                <Grid key={x} display={"flex"} direction={"row"}>
+                  {x.After.map((x) => {
+                    return (
+                      <Card key={x} sx={{ maxWidth: "100%", boxShadow: 4 }}>
+                        <CardMedia
+                          component="img"
+                          width={"100%"}
+                          image={x.fileAfter}
+                          alt="Paella dish"
+                        />
+                        <CardContent>
+                          <Typography variant="body1" color="#666666">
+                            {x.textAfter}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </Grid>
+              </Grid>
+            </Grid>
           );
         })}
       </Grid>

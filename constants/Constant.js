@@ -12,6 +12,42 @@ export const CardData = [
     url: "https://www.youtube.com/watch?v=_g9sAB0hn-E",
   },
 ];
+export const TransfoemationCardData = [
+  {
+    title: "Difference",
+    Before: [
+      {
+        textBefore: "Before Car",
+        fileBefore:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbg-57GR__o17OerEPudaBLOTcPvBdehAnow&usqp=CAU",
+      },
+    ],
+    After: [
+      {
+        textAfter: "After Car",
+        fileAfter:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJi8EWrfoyh1zLDsW5dudo5TJLJHTQyOLITA&usqp=CAU",
+      },
+    ],
+  },
+  {
+    title: "Difference",
+    Before: [
+      {
+        textBefore: "Before Car",
+        fileBefore:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbg-57GR__o17OerEPudaBLOTcPvBdehAnow&usqp=CAU",
+      },
+    ],
+    After: [
+      {
+        textAfter: "After Car",
+        fileAfter:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJi8EWrfoyh1zLDsW5dudo5TJLJHTQyOLITA&usqp=CAU",
+      },
+    ],
+  },
+];
 
 export const TabsData = [
   { name: "Home", path: "/" },
