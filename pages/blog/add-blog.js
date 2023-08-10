@@ -40,16 +40,15 @@ export default function AddBlog() {
   };
 
   const handleSubmit = () => {
-    console.log("Submit");
-    const CardData = {
-      title: title,
-      text: text,
-      file: file,
-      url: url,
-    };
-    console.log("CardData", CardData);
+    // const CardData = {
+    //   title: title,
+    //   text: text,
+    //   file: file,
+    //   url: url,
+    // };
+    console.log("CardData", items);
   };
-  const handleText = (e, x) => {
+  const handleValue = (e, x) => {
     console.log("e", e.target.value);
 
     const newsetitems = items.map((item) =>
@@ -58,7 +57,7 @@ export default function AddBlog() {
     console.log("newsetitems", newsetitems);
     setItems(newsetitems);
   };
-  // setText(e.target.value) : setText(x.value)
+
   const handleAdd = (data) => {
     console.log("called", data);
     const type = {
@@ -69,9 +68,6 @@ export default function AddBlog() {
     console.log("type", type);
     setItems([...items, type]);
     setAnchorEl(null);
-    // const newItems = items.slice();
-    // newItems.push(type);
-    // setItems(newItems);
   };
 
   return (
@@ -148,15 +144,15 @@ export default function AddBlog() {
                     label="Text"
                     variant="outlined"
                     type={"text"}
-                    onChange={(e) => handleText(e, x)}
+                    onChange={(e) => handleValue(e, x)}
                     value={x.value}
                   />
                 )}
                 {x.type === "file" && (
                   <input
                     type="file"
-                    value={file}
-                    onChange={(e) => setFile(e.currentTarget.value)}
+                    value={x.value}
+                    onChange={(e) => handleValue(e, x)}
                   ></input>
                 )}
                 {x.type === "youtube" && (
@@ -166,8 +162,8 @@ export default function AddBlog() {
                     label="url"
                     variant="outlined"
                     type={"url"}
-                    onChange={(e) => setUrl(e.currentTarget.value)}
-                    value={url}
+                    onChange={(e) => handleValue(e, x)}
+                    value={x.value}
                   />
                 )}
 

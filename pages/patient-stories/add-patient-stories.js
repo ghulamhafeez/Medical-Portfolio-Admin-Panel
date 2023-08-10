@@ -26,10 +26,6 @@ export default function AddPatientStories() {
   const open = Boolean(anchorEl);
 
   const router = useRouter();
-  let Url = "https://www.youtube.com/embed/_g9sAB0hn-E";
-
-  let Id = Url.split("embed");
-  console.log("id", Id[1]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -39,20 +35,33 @@ export default function AddPatientStories() {
     setAnchorEl(null);
   };
 
+  const handleValue = (e, x) => {
+    console.log("e", e.target.value);
+
+    const newsetitems = items.map((item) =>
+      item.id == x.id ? { ...item, value: e.target.value } : item
+    );
+    console.log("newsetitems", newsetitems);
+    setItems(newsetitems);
+  };
+
   const handleSubmit = () => {
     console.log("Submit");
-    const CardData = {
-      title: title,
-      text: text,
-      file: file,
-    };
-    console.log("CardData", CardData);
+    // const CardData = {
+    //   title: title,
+    //   text: text,
+    //   file: file,
+    // };
+    console.log("CardData", items);
   };
 
   const handleAdd = (data) => {
     console.log("called", data);
-    const type = { type: data };
-    console.log("type", type);
+    const type = {
+      type: data,
+      value: "",
+      id: Math.random().toString(16).slice(-4),
+    };
     setItems([...items, type]);
     setAnchorEl(null);
     // const newItems = items.slice();
@@ -131,15 +140,15 @@ export default function AddPatientStories() {
                     label="Text"
                     variant="outlined"
                     type={"text"}
-                    onChange={(e) => setText(e.currentTarget.value)}
-                    value={text}
+                    onChange={(e) => handleValue(e, x)}
+                    value={x.value}
                   />
                 )}
                 {x.type === "file" && (
                   <input
                     type="file"
-                    value={file}
-                    onChange={(e) => setFile(e.currentTarget.value)}
+                    value={x.value}
+                    onChange={(e) => handleValue(e, x)}
                   ></input>
                 )}
               </CardContent>

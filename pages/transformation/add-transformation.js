@@ -51,28 +51,51 @@ export default function AddBlog() {
     console.log("Submit");
     const CardData = {
       title: title,
-      Before: [{ textBefore: textBefore, fileBefore: fileBefore }],
-      After: [{ textAfter: textAfter, fileAfter: fileAfter }],
+      Before: itemsBefore,
+      After: itemsAfter,
     };
     console.log("CardData", CardData);
   };
 
+  const handleAfterValue = (e, x) => {
+    console.log("e", e.target.value);
+
+    const newItems = itemsAfter.map((item) =>
+      item.id == x.id ? { ...item, value: e.target.value } : item
+    );
+    console.log("newItems", itemsAfter);
+    setItemsAfter(newItems);
+  };
+
+  const handleBeforeValue = (e, x) => {
+    console.log("e", e.target.value);
+
+    const newItems = itemsBefore.map((item) =>
+      item.id == x.id ? { ...item, value: e.target.value } : item
+    );
+    console.log("newItems", itemsBefore);
+    setItemsBefore(newItems);
+  };
   const handleAddBefore = (data) => {
-    console.log("called", data);
-    const type = { type: data };
-    console.log("type", type);
+    const type = {
+      type: data,
+      value: "",
+      id: Math.random().toString(16).slice(-4),
+    };
     setItemsBefore([...itemsBefore, type]);
-    // setItems([...items, type]);
     setAnchorElBefore(null);
   };
   const handleAddAfter = (data) => {
-    console.log("called", data);
-    const type = { type: data };
-    console.log("type", type);
+    const type = {
+      type: data,
+      value: "",
+      id: Math.random().toString(16).slice(-4),
+    };
+
     setItemsAfter([...itemsAfter, type]);
-    // setItems([...items, type]);
     setAnchorElAfter(null);
   };
+
   return (
     <Grid
       display={"flex"}
@@ -172,19 +195,15 @@ export default function AddBlog() {
                             label="Text Before"
                             variant="outlined"
                             type={"text"}
-                            onChange={(e) =>
-                              setTextBefore(e.currentTarget.value)
-                            }
-                            value={textBefore}
+                            onChange={(e) => handleBeforeValue(e, x)}
+                            value={x.value}
                           />
                         )}
                         {x.type === "file" && (
                           <input
                             type="file"
-                            value={fileBefore}
-                            onChange={(e) =>
-                              setFileBefore(e.currentTarget.value)
-                            }
+                            onChange={(e) => handleBeforeValue(e, x)}
+                            value={x.value}
                           ></input>
                         )}
                       </CardContent>
@@ -232,19 +251,15 @@ export default function AddBlog() {
                             label="Text After"
                             variant="outlined"
                             type={"text"}
-                            onChange={(e) =>
-                              setTextAfter(e.currentTarget.value)
-                            }
-                            value={textAfter}
+                            onChange={(e) => handleAfterValue(e, x)}
+                            value={x.value}
                           />
                         )}
                         {x.type === "file" && (
                           <input
                             type="file"
-                            value={fileAfter}
-                            onChange={(e) =>
-                              setFileAfter(e.currentTarget.value)
-                            }
+                            onChange={(e) => handleAfterValue(e, x)}
+                            value={x.value}
                           ></input>
                         )}
                       </CardContent>
