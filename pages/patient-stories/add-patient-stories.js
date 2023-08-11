@@ -7,21 +7,15 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AddIcon from "@mui/icons-material/Add";
 import AbcIcon from "@mui/icons-material/Abc";
 import ImageIcon from "@mui/icons-material/Image";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 
 export default function AddPatientStories() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [items, setItems] = React.useState([]);
-  const [text, setText] = React.useState("");
   const [title, setTitle] = React.useState("");
-  const [url, setUrl] = React.useState("");
-  const [file, setFile] = React.useState("");
 
   const open = Boolean(anchorEl);
 

@@ -4,14 +4,10 @@ import { useRouter } from "next/router";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import AddIcon from "@mui/icons-material/Add";
 import AbcIcon from "@mui/icons-material/Abc";
 import ImageIcon from "@mui/icons-material/Image";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 
@@ -21,19 +17,9 @@ export default function AddBlog() {
   const [itemsBefore, setItemsBefore] = React.useState([]);
   const [itemsAfter, setItemsAfter] = React.useState([]);
   const [title, setTitle] = React.useState("");
-  const [textBefore, setTextBefore] = React.useState("");
-
-  const [fileBefore, setFileBefore] = React.useState("");
-  const [textAfter, setTextAfter] = React.useState("");
-
-  const [fileAfter, setFileAfter] = React.useState("");
   const openBefore = Boolean(anchorElBefore);
   const openAfter = Boolean(anchorElAfter);
   const router = useRouter();
-  let Url = "https://www.youtube.com/embed/_g9sAB0hn-E";
-
-  let Id = Url.split("embed");
-  console.log("id", Id[1]);
 
   const handleClickAfter = (event) => {
     setAnchorElAfter(event.currentTarget);
@@ -99,8 +85,6 @@ export default function AddBlog() {
   return (
     <Grid
       display={"flex"}
-      // justifyContent={"center"}
-      // alignItems={"center"}
       mt={10}
       direction={"column"}
       px={{ xl: 30, lg: 20, md: 15, sm: 13 }}
@@ -116,7 +100,7 @@ export default function AddBlog() {
       >
         <MenuItem onClick={() => handleAddBefore("text")}>
           <AbcIcon sx={{ mr: 1, fontSize: 30 }}></AbcIcon>
-          {""} Text
+          Text
         </MenuItem>
         <MenuItem onClick={() => handleAddBefore("file")}>
           <ImageIcon sx={{ mr: 2 }}></ImageIcon>Image
@@ -134,7 +118,7 @@ export default function AddBlog() {
       >
         <MenuItem onClick={() => handleAddAfter("text")}>
           <AbcIcon sx={{ mr: 1, fontSize: 30 }}></AbcIcon>
-          {""} Text
+          Text
         </MenuItem>
         <MenuItem onClick={() => handleAddAfter("file")}>
           <ImageIcon sx={{ mr: 2 }}></ImageIcon>Image
@@ -144,7 +128,6 @@ export default function AddBlog() {
       <Grid mb={2}>
         <Card sx={{ width: "100%", height: 100, boxShadow: 4 }}>
           <CardContent>
-            {/* <Grid display={"flex"} mt={2}> */}
             <TextField
               sx={{ width: "100%" }}
               id="outlined-basic"
@@ -153,7 +136,6 @@ export default function AddBlog() {
               variant="outlined"
               onChange={(e) => setTitle(e.currentTarget.value)}
             />
-            {/* </Grid> */}
           </CardContent>
         </Card>
       </Grid>
@@ -271,9 +253,7 @@ export default function AddBlog() {
           </Card>
         </Grid>
       </Grid>
-      {/* <Grid>
 
-      </Grid> */}
       <Button
         sx={{ mb: 2, width: 130 }}
         variant="contained"

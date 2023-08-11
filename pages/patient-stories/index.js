@@ -1,18 +1,14 @@
 import React from "react";
 import { Button, Grid } from "@mui/material";
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Card from "@mui/material/Card";
-import Box from "@mui/material/Box";
 import Link from "next/link";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -69,7 +65,6 @@ export default function PatientStories() {
         direction={"column"}
         alignItems={"center"}
         gap={4}
-        // width={"100%"}
       >
         {CardData?.map((x) => {
           return (

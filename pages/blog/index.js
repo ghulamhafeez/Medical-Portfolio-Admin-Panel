@@ -68,7 +68,6 @@ export default function Blog() {
         direction={"column"}
         alignItems={"center"}
         gap={4}
-        // width={"100%"}
       >
         {CardData?.map((x) => {
           return (
@@ -83,13 +82,14 @@ export default function Blog() {
                 title={x.title}
               />
 
-              <CardMedia
+              {/* <CardMedia
                 component="img"
                 width={"100%"}
                 height={"100%"}
                 image={x.file}
                 alt="Paella dish"
-              />
+              /> */}
+              <img src={x.file} alt="Img" />
               <CardContent>
                 <Typography variant="body2" color="#666666">
                   {x.text}

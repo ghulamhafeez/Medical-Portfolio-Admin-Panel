@@ -23,16 +23,14 @@ export default function About() {
         return (
           <Link href={x.path} key={x}>
             <Typography
-              //   variant="h6"
               gutterBottom
               ml={3}
               color={"#666666"}
-              fontSize={"16px"}
+              fontSize={"15px"}
               mb={3}
             >
-              {x.name}{" "}
+              <b>{x.name}</b>
             </Typography>
-            {/* <br></br> */}
           </Link>
         );
       })}

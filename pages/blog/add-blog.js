@@ -4,24 +4,18 @@ import { useRouter } from "next/router";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import AddIcon from "@mui/icons-material/Add";
 import AbcIcon from "@mui/icons-material/Abc";
 import ImageIcon from "@mui/icons-material/Image";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 
 export default function AddBlog() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [items, setItems] = React.useState([]);
-  const [text, setText] = React.useState("");
   const [title, setTitle] = React.useState("");
-  const [url, setUrl] = React.useState("");
-  const [file, setFile] = React.useState("");
 
   const open = Boolean(anchorEl);
 
@@ -73,8 +67,6 @@ export default function AddBlog() {
   return (
     <Grid
       display={"flex"}
-      // justifyContent={"center"}
-      // alignItems={"center"}
       mt={10}
       direction={"column"}
       px={{ xl: 30, lg: 20, md: 15, sm: 13 }}
@@ -103,7 +95,6 @@ export default function AddBlog() {
       <Grid>
         <Card sx={{ width: "100%", height: 100, boxShadow: 4 }}>
           <CardContent>
-            {/* <Grid display={"flex"} mt={2}> */}
             <TextField
               sx={{ width: "100%" }}
               id="outlined-basic"
@@ -112,7 +103,6 @@ export default function AddBlog() {
               variant="outlined"
               onChange={(e) => setTitle(e.currentTarget.value)}
             />
-            {/* </Grid> */}
           </CardContent>
         </Card>
       </Grid>
@@ -166,8 +156,6 @@ export default function AddBlog() {
                     value={x.value}
                   />
                 )}
-
-                {/* {x.type} */}
               </CardContent>
             </Card>
           );
