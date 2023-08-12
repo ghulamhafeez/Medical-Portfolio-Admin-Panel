@@ -56,20 +56,9 @@ export const TabsData = [
   { name: "Patient Stories", path: "/patient-stories" },
   { name: "Transformation", path: "/transformation" },
 ];
-export const CasesGalleryData = [
-  { name: "Crowding", path: "/" },
-  { name: "Deep Bite", path: "/cases-gallery/deep-bite" },
-  {
-    name: "Protruding Lower Teeth",
-    path: "/cases-gallery/protruding-lower-teeth",
-  },
-  {
-    name: "Protruding Upper Teeth",
-    path: "/cases-gallery/protruding-upper-teeth",
-  },
-  { name: "Restorative", path: "/cases-gallery/restorative" },
-  { name: "Spaced Teeth", path: "/cases-gallery/spaced-teeth" },
-];
+export const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2YXRlamF2a3BqeHJ4dmJwdmRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE3NTk2OTcsImV4cCI6MjAwNzMzNTY5N30.O2EzJrZ56q9M_t4IWFyNtq1aA1sY3g-U9eH7rXVawKE";
+export const SUPABASE_URL = "https://svatejavkpjxrxvbpvdp.supabase.co";
 
 export const PatientStoriesData = [
   {

@@ -12,15 +12,25 @@ import Link from "next/link";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-
+import { supabase } from "../api/supabase";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { CardData } from "../../constants/Constant";
+import { useEffect } from "react";
 export default function Blog() {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  console.log("CardData", CardData);
+  useEffect(() => {
+    supabase
+      .from("blog")
+      .select()
+      .then((response) => {
+        console.log({ response });
+      });
+    // console.log("CardData", data);
+  }, []);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

@@ -11,7 +11,8 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
-
+import postData from "../api/services";
+import { supabase } from "../api/supabase";
 export default function AddBlog() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [items, setItems] = React.useState([]);
@@ -33,7 +34,7 @@ export default function AddBlog() {
     setAnchorEl(null);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // const CardData = {
     //   title: title,
     //   text: text,
@@ -41,7 +42,27 @@ export default function AddBlog() {
     //   url: url,
     // };
     console.log("CardData", items);
+
+    supabase
+      .from("blog")
+      .insert({ title: title, items: items })
+      .then((response) => {
+        console.log({ response });
+      });
+    // const { data, error } = await supabase
+    //   .from("products")
+    //   .insert([{ CardData: CardData }]);
+
+    // if (error) {
+    //   console.error("Error inserting data:", error);
+    // } else {
+    //   console.log("Data inserted successfully:", data);
+    //   // Clear form fields after successful insertion
+    //   setProductName("");
+    //   setProductPrice("");
+    // }
   };
+
   const handleValue = (e, x) => {
     console.log("e", e.target.value);
 
