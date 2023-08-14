@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Youtube } from "../component/Youtube";
 export const Field = (props) => {
   switch (props?.type) {
     case "text":
@@ -9,17 +9,7 @@ export const Field = (props) => {
       return <img src={props?.value}></img>;
 
     case "youtube":
-      return (
-        <iframe
-          width="560"
-          height="315"
-          src={props?.value}
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        ></iframe>
-      );
+      return <Youtube data={props?.value} />;
     default:
       <p></p>;
   }

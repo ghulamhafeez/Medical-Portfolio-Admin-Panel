@@ -22,7 +22,7 @@ import { useEffect } from "react";
 export default function Blog() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [bolgs, setBlogs] = React.useState();
-
+  const [id, setId] = React.useState();
   useEffect(() => {
     supabase
       .from("blog")
@@ -35,11 +35,17 @@ export default function Blog() {
   }, []);
 
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
+  const handleClick = (event, x) => {
+    setId(x?.id);
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleDelete = () => {
+    console.log("idd", id);
+
+    supabase.from("blog").delete().eq("id", id);
   };
 
   return (
@@ -72,7 +78,7 @@ export default function Blog() {
         }}
       >
         <MenuItem onClick={handleClose}>Edit</MenuItem>
-        <MenuItem onClick={handleClose}>Delete</MenuItem>
+        <MenuItem onClick={handleDelete}>Delete</MenuItem>
       </Menu>
 
       <Grid
@@ -88,7 +94,7 @@ export default function Blog() {
               <CardHeader
                 action={
                   <IconButton aria-label="settings">
-                    <MoreVertIcon onClick={handleClick} />
+                    <MoreVertIcon onClick={(event) => handleClick(event, x)} />
                   </IconButton>
                 }
                 sx={{ color: "#666666" }}

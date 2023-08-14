@@ -19,6 +19,7 @@ import { supabase } from "../api/supabase";
 export default function PatientStories() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [patientStories, setPatientStories] = React.useState([]);
+  const [id, setId] = React.useState();
 
   useEffect(() => {
     supabase
@@ -33,11 +34,18 @@ export default function PatientStories() {
 
   console.log("CardData", CardData);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
+  const handleClick = (event, x) => {
+    setId(x?.id);
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleDelete = () => {
+    console.log("idd", id);
+
+    supabase.from("blog").delete().eq("id", id);
   };
 
   return (
@@ -70,7 +78,7 @@ export default function PatientStories() {
         }}
       >
         <MenuItem onClick={handleClose}>Edit</MenuItem>
-        <MenuItem onClick={handleClose}>Delete</MenuItem>
+        <MenuItem onClick={handleDelete}>Delete</MenuItem>
       </Menu>
 
       <Grid
@@ -86,7 +94,7 @@ export default function PatientStories() {
               <CardHeader
                 action={
                   <IconButton aria-label="settings">
-                    <MoreVertIcon onClick={handleClick} />
+                    <MoreVertIcon onClick={(event) => handleClick(event, x)} />
                   </IconButton>
                 }
                 sx={{ color: "#666666" }}
@@ -96,9 +104,10 @@ export default function PatientStories() {
               {x.items.map((x) => {
                 return (
                   <CardContent key={x}>
-                    <Typography variant="body2" color="#666666">
+                    <Field type={x?.type} value={x?.value} />
+                    {/* <Typography variant="body2" color="#666666">
                       {x?.value}
-                    </Typography>
+                    </Typography> */}
                     {/* <img src={x?.value} alt="Img" /> */}
                   </CardContent>
                 );

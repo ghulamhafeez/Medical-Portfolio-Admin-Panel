@@ -22,10 +22,6 @@ export default function AddBlog() {
   const open = Boolean(anchorEl);
 
   const router = useRouter();
-  // let Url = "https://www.youtube.com/embed/_g9sAB0hn-E";
-
-  // let Id = Url.split("embed");
-  // console.log("id", Id[1]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -33,6 +29,15 @@ export default function AddBlog() {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleDelete = ({ id }) => {
+    console.log("delId", id);
+
+    const newitems = items.filter((item) => id !== item.id);
+
+    console.log("newsetitems", newitems);
+    setItems(newitems);
   };
 
   const handleSubmit = async () => {
@@ -200,6 +205,7 @@ export default function AddBlog() {
                     />
                   )}
                 </CardContent>
+                <Button onClick={() => handleDelete(x)}>D</Button>
               </Card>
             );
           })}

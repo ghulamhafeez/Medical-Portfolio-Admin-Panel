@@ -13,12 +13,13 @@ import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
+import { Field } from "../../component/Field";
 import { TransfoemationCardData } from "../../constants/Constant";
 import { supabase } from "../api/supabase";
 export default function Transformation() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [transformation, setTransformation] = React.useState();
-
+  const [id, setId] = React.useState();
   const open = Boolean(anchorEl);
 
   useEffect(() => {
@@ -31,11 +32,17 @@ export default function Transformation() {
       });
   }, []);
 
-  const handleClick = (event) => {
+  const handleClick = (event, x) => {
+    setId(x?.id);
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleDelete = () => {
+    console.log("idd", id);
+
+    supabase.from("blog").delete().eq("id", id);
   };
 
   console.log("TransfoemationCardData", TransfoemationCardData);
@@ -69,7 +76,7 @@ export default function Transformation() {
         }}
       >
         <MenuItem onClick={handleClose}>Edit</MenuItem>
-        <MenuItem onClick={handleClose}>Delete</MenuItem>
+        <MenuItem onClick={handleDelete}>Delete</MenuItem>
       </Menu>
 
       <Grid
@@ -89,7 +96,9 @@ export default function Transformation() {
                     <CardHeader
                       action={
                         <IconButton aria-label="settings">
-                          <MoreVertIcon onClick={handleClick} />
+                          <MoreVertIcon
+                            onClick={(event) => handleClick(event, x)}
+                          />
                         </IconButton>
                       }
                       sx={{ color: "#666666" }}
@@ -98,9 +107,10 @@ export default function Transformation() {
                       return (
                         <Grid key={x}>
                           {" "}
-                          <Typography variant="body1" color="#666666">
+                          {/* <Typography variant="body1" color="#666666">
                             {x.value}
-                          </Typography>
+                          </Typography> */}
+                          <Field type={x?.type} value={x?.value} />
                         </Grid>
                       );
                     })}
@@ -120,9 +130,10 @@ export default function Transformation() {
                       return (
                         <Grid key={x}>
                           {" "}
-                          <Typography variant="body1" color="#666666">
+                          {/* <Typography variant="body1" color="#666666">
                             {x.value}
-                          </Typography>
+                          </Typography> */}
+                          <Field type={x?.type} value={x?.value} />
                         </Grid>
                       );
                     })}
