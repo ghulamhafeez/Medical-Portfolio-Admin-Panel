@@ -12,7 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import { supabase } from "../api/supabase";
-
+import CancelIcon from "@mui/icons-material/Cancel";
 export default function AddPatientStories() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [items, setItems] = React.useState([]);
@@ -39,7 +39,12 @@ export default function AddPatientStories() {
     console.log("newsetitems", newsetitems);
     setItems(newsetitems);
   };
+  const handleDelete = ({ id }) => {
+    const newitems = items.filter((item) => id !== item.id);
 
+    console.log("newsetitems", newitems);
+    setItems(newitems);
+  };
   const handleSubmit = () => {
     console.log("Submit");
     // const CardData = {
@@ -51,7 +56,8 @@ export default function AddPatientStories() {
       .from("patient_stories")
       .insert({ title: title, items: items })
       .then((response) => {});
-    console.log("CardData", items);
+
+    setItems([]);
   };
 
   const handleAdd = (data) => {
@@ -152,6 +158,10 @@ export default function AddPatientStories() {
           {items?.map((x) => {
             return (
               <Card key={x} sx={{ width: "100%", boxShadow: 4, mb: 2 }}>
+                <CancelIcon
+                  sx={{ color: "grey", mt: 1, ml: 1 }}
+                  onClick={() => handleDelete(x)}
+                />
                 <CardContent>
                   {x.type === "text" && (
                     <TextField

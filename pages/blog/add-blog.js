@@ -12,7 +12,8 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
-import postData from "../api/services";
+
+import CancelIcon from "@mui/icons-material/Cancel";
 import { supabase } from "../api/supabase";
 export default function AddBlog() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -55,22 +56,24 @@ export default function AddBlog() {
       .then((response) => {
         console.log({ response });
       });
-    // const { data, error } = await supabase
-    //   .from("products")
-    //   .insert([{ CardData: CardData }]);
 
-    // if (error) {
-    //   console.error("Error inserting data:", error);
-    // } else {
-    //   console.log("Data inserted successfully:", data);
-    //   // Clear form fields after successful insertion
-    //   setProductName("");
-    //   setProductPrice("");
-    // }
+    setItems([]);
   };
 
   const handleValue = (e, x) => {
-    console.log("e", e.target.value);
+    console.log("e", e?.target?.files[0]);
+    console.log("et", e, x);
+
+    const file = e?.target?.files[0];
+
+    supabase.storage
+      .from("media")
+      .upload(file?.name, e?.target?.files[0], {
+        cacheControl: "3600",
+        upsert: false,
+      })
+      .then((res) => console.log("res", res))
+      .catch((err) => console.log(err));
 
     const newsetitems = items.map((item) =>
       item.id == x.id ? { ...item, value: e.target.value } : item
@@ -173,7 +176,18 @@ export default function AddBlog() {
         <Grid>
           {items?.map((x) => {
             return (
-              <Card key={x} sx={{ width: "100%", boxShadow: 4, mb: 2 }}>
+              <Card
+                key={x}
+                sx={{
+                  width: "100%",
+                  boxShadow: 4,
+                  mb: 2,
+                }}
+              >
+                <CancelIcon
+                  sx={{ color: "grey", mt: 1, ml: 1 }}
+                  onClick={() => handleDelete(x)}
+                />
                 <CardContent>
                   {x.type === "text" && (
                     <TextField
@@ -190,6 +204,7 @@ export default function AddBlog() {
                     <input
                       type="file"
                       value={x.value}
+                      accept=""
                       onChange={(e) => handleValue(e, x)}
                     ></input>
                   )}
@@ -205,7 +220,6 @@ export default function AddBlog() {
                     />
                   )}
                 </CardContent>
-                <Button onClick={() => handleDelete(x)}>D</Button>
               </Card>
             );
           })}

@@ -11,6 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import { supabase } from "../api/supabase";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 export default function AddBlog() {
   const [anchorElBefore, setAnchorElBefore] = React.useState(null);
@@ -34,6 +35,18 @@ export default function AddBlog() {
   const handleCloseAfter = () => {
     setAnchorElAfter(null);
   };
+  const handleDeleteBefore = ({ id }) => {
+    const newitems = itemsBefore.filter((item) => id !== item.id);
+
+    console.log("newsetitems", newitems);
+    setItemsBefore(newitems);
+  };
+  const handleDeleteAfter = ({ id }) => {
+    const newitems = itemsAfter.filter((item) => id !== item.id);
+
+    console.log("newsetitems", newitems);
+    setItemsAfter(newitems);
+  };
   const handleSubmit = () => {
     console.log("itemsAfter", itemsAfter);
     // const CardData = {
@@ -52,6 +65,7 @@ export default function AddBlog() {
         console.log({ response });
       });
     // console.log("CardData", CardData);
+    setItems([]);
   };
 
   const handleCancel = () => {
@@ -208,6 +222,11 @@ export default function AddBlog() {
                       direction={"row"}
                     >
                       <Card key={x} sx={{ width: "100%", boxShadow: 4, mb: 2 }}>
+                        <CancelIcon
+                          sx={{ color: "grey", mt: 1, ml: 1 }}
+                          onClick={() => handleDeleteBefore(x)}
+                        />
+
                         <CardContent>
                           {x.type === "text" && (
                             <TextField
@@ -264,6 +283,10 @@ export default function AddBlog() {
                       direction={"row"}
                     >
                       <Card key={x} sx={{ width: "100%", boxShadow: 4, mb: 2 }}>
+                        <CancelIcon
+                          sx={{ color: "grey", mt: 1, ml: 1 }}
+                          onClick={() => handleDeleteAfter(x)}
+                        />
                         <CardContent>
                           {x.type === "text" && (
                             <TextField

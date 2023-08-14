@@ -23,14 +23,17 @@ export default function Transformation() {
   const open = Boolean(anchorEl);
 
   useEffect(() => {
+    getTransformation();
+  }, []);
+
+  const getTransformation = () => {
     supabase
       .from("transformation")
       .select()
       .then((response) => {
         setTransformation(response?.data);
-        console.log({ response });
       });
-  }, []);
+  };
 
   const handleClick = (event, x) => {
     setId(x?.id);

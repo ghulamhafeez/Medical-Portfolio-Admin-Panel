@@ -22,6 +22,11 @@ export default function PatientStories() {
   const [id, setId] = React.useState();
 
   useEffect(() => {
+    getPatientStories();
+    // console.log("CardData", data);
+  }, []);
+
+  const getPatientStories = () => {
     supabase
       .from("patient_stories")
       .select()
@@ -29,8 +34,7 @@ export default function PatientStories() {
         setPatientStories(response?.data);
         console.log({ response });
       });
-    // console.log("CardData", data);
-  }, []);
+  };
 
   console.log("CardData", CardData);
   const open = Boolean(anchorEl);

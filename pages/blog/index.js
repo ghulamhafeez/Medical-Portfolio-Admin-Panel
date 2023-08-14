@@ -24,15 +24,17 @@ export default function Blog() {
   const [bolgs, setBlogs] = React.useState();
   const [id, setId] = React.useState();
   useEffect(() => {
+    getBlog();
+  }, []);
+
+  const getBlog = () => {
     supabase
       .from("blog")
       .select()
       .then((response) => {
         setBlogs(response?.data);
-        console.log({ response });
       });
-    // console.log("CardData", data);
-  }, []);
+  };
 
   const open = Boolean(anchorEl);
   const handleClick = (event, x) => {
@@ -45,7 +47,12 @@ export default function Blog() {
   const handleDelete = () => {
     console.log("idd", id);
 
-    supabase.from("blog").delete().eq("id", id);
+    supabase
+      .from("blog")
+      .delete()
+      .eq("id", id)
+      .then(() => getBlog());
+    setAnchorEl(null);
   };
 
   return (
