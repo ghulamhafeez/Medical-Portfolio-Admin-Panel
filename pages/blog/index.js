@@ -17,15 +17,18 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { CardData } from "../../constants/Constant";
+import { Field } from "../../component/Field";
 import { useEffect } from "react";
 export default function Blog() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [bolgs, setBlogs] = React.useState();
 
   useEffect(() => {
     supabase
       .from("blog")
       .select()
       .then((response) => {
+        setBlogs(response?.data);
         console.log({ response });
       });
     // console.log("CardData", data);
@@ -79,7 +82,7 @@ export default function Blog() {
         alignItems={"center"}
         gap={4}
       >
-        {CardData?.map((x) => {
+        {bolgs?.map((x) => {
           return (
             <Card key={x} sx={{ width: "100%", boxShadow: 4 }}>
               <CardHeader
@@ -89,7 +92,7 @@ export default function Blog() {
                   </IconButton>
                 }
                 sx={{ color: "#666666" }}
-                title={x.title}
+                title={x?.title}
               />
 
               {/* <CardMedia
@@ -99,12 +102,18 @@ export default function Blog() {
                 image={x.file}
                 alt="Paella dish"
               /> */}
-              <img src={x.file} alt="Img" />
-              <CardContent>
-                <Typography variant="body2" color="#666666">
-                  {x.text}
-                </Typography>
-              </CardContent>
+
+              {x.items.map((x) => {
+                return (
+                  <CardContent key={x}>
+                    <Field type={x?.type} value={x?.value} />
+                    {/* <Typography variant="body2" color="#666666">
+                      {x?.value}
+                    </Typography> */}
+                    {/* <img src={x?.value} alt="Img" /> */}
+                  </CardContent>
+                );
+              })}
             </Card>
           );
         })}

@@ -1,10 +1,12 @@
 import React from "react";
+import { useEffect } from "react";
 import { Button, Grid } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Card from "@mui/material/Card";
+import { Field } from "../../component/Field";
 import Link from "next/link";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -13,9 +15,21 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { CardData } from "../../constants/Constant";
-
+import { supabase } from "../api/supabase";
 export default function PatientStories() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [patientStories, setPatientStories] = React.useState([]);
+
+  useEffect(() => {
+    supabase
+      .from("patient_stories")
+      .select()
+      .then((response) => {
+        setPatientStories(response?.data);
+        console.log({ response });
+      });
+    // console.log("CardData", data);
+  }, []);
 
   console.log("CardData", CardData);
   const open = Boolean(anchorEl);
@@ -66,7 +80,7 @@ export default function PatientStories() {
         alignItems={"center"}
         gap={4}
       >
-        {CardData?.map((x) => {
+        {patientStories?.map((x) => {
           return (
             <Card key={x} sx={{ width: "100%", boxShadow: 4 }}>
               <CardHeader
@@ -79,17 +93,16 @@ export default function PatientStories() {
                 title={x.title}
               />
 
-              <CardMedia
-                component="img"
-                width={"100%"}
-                image={x.file}
-                alt="Paella dish"
-              />
-              <CardContent>
-                <Typography variant="body2" color="#666666">
-                  {x.text}
-                </Typography>
-              </CardContent>
+              {x.items.map((x) => {
+                return (
+                  <CardContent key={x}>
+                    <Typography variant="body2" color="#666666">
+                      {x?.value}
+                    </Typography>
+                    {/* <img src={x?.value} alt="Img" /> */}
+                  </CardContent>
+                );
+              })}
             </Card>
           );
         })}

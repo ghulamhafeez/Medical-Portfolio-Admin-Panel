@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
@@ -13,10 +14,23 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import { TransfoemationCardData } from "../../constants/Constant";
+import { supabase } from "../api/supabase";
 export default function Transformation() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [transformation, setTransformation] = React.useState();
 
   const open = Boolean(anchorEl);
+
+  useEffect(() => {
+    supabase
+      .from("transformation")
+      .select()
+      .then((response) => {
+        setTransformation(response?.data);
+        console.log({ response });
+      });
+  }, []);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -65,66 +79,54 @@ export default function Transformation() {
         alignItems={"center"}
         gap={4}
       >
-        {TransfoemationCardData?.map((x) => {
+        {transformation?.map((x) => {
           return (
             <Grid key={x} display={"flex"} direction={"column"}>
               <Typography variant="h6">{x.title}</Typography>
               <Grid key={x} display={"flex"} direction={"row"} gap={8}>
                 <Grid key={x} display={"flex"} direction={"row"}>
-                  {x.Before.map((x) => {
-                    return (
-                      <Card key={x} sx={{ Width: "100%", boxShadow: 4 }}>
-                        <CardHeader
-                          action={
-                            <IconButton aria-label="settings">
-                              <MoreVertIcon onClick={handleClick} />
-                            </IconButton>
-                          }
-                          sx={{ color: "#666666" }}
-                          title={x.title}
-                        />
-                        <CardMedia
-                          component="img"
-                          width={"100%"}
-                          image={x.fileBefore}
-                          alt="Paella dish"
-                        />
-                        <CardContent>
+                  <Card key={x} sx={{ width: "100%", boxShadow: 4 }}>
+                    <CardHeader
+                      action={
+                        <IconButton aria-label="settings">
+                          <MoreVertIcon onClick={handleClick} />
+                        </IconButton>
+                      }
+                      sx={{ color: "#666666" }}
+                    />
+                    {x.before_items.map((x) => {
+                      return (
+                        <Grid key={x}>
+                          {" "}
                           <Typography variant="body1" color="#666666">
-                            {x.textBefore}
+                            {x.value}
                           </Typography>
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
+                        </Grid>
+                      );
+                    })}
+                  </Card>
                 </Grid>
                 <Grid key={x} display={"flex"} direction={"row"}>
-                  {x.After.map((x) => {
-                    return (
-                      <Card key={x} sx={{ width: "100%", boxShadow: 4 }}>
-                        <CardHeader
-                          action={
-                            <IconButton aria-label="settings">
-                              <MoreVertIcon onClick={handleClick} />
-                            </IconButton>
-                          }
-                          sx={{ color: "#666666" }}
-                          title={x.title}
-                        />
-                        <CardMedia
-                          component="img"
-                          width={"100%"}
-                          image={x.fileAfter}
-                          alt="Paella dish"
-                        />
-                        <CardContent>
+                  <Card key={x} sx={{ width: "100%", boxShadow: 4 }}>
+                    <CardHeader
+                      action={
+                        <IconButton aria-label="settings">
+                          <MoreVertIcon onClick={handleClick} />
+                        </IconButton>
+                      }
+                      sx={{ color: "#666666" }}
+                    />
+                    {x.after_items.map((x) => {
+                      return (
+                        <Grid key={x}>
+                          {" "}
                           <Typography variant="body1" color="#666666">
-                            {x.textAfter}
+                            {x.value}
                           </Typography>
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
+                        </Grid>
+                      );
+                    })}
+                  </Card>
                 </Grid>
               </Grid>
             </Grid>

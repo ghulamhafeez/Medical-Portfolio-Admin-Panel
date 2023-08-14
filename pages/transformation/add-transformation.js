@@ -10,6 +10,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
+import { supabase } from "../api/supabase";
 
 export default function AddBlog() {
   const [anchorElBefore, setAnchorElBefore] = React.useState(null);
@@ -34,13 +35,28 @@ export default function AddBlog() {
     setAnchorElAfter(null);
   };
   const handleSubmit = () => {
-    console.log("Submit");
-    const CardData = {
-      title: title,
-      Before: itemsBefore,
-      After: itemsAfter,
-    };
-    console.log("CardData", CardData);
+    console.log("itemsAfter", itemsAfter);
+    // const CardData = {
+    //   title: title,
+    //   Before: itemsBefore,
+    //   After: itemsAfter,
+    // };
+    supabase
+      .from("transformation")
+      .insert({
+        title: title,
+        before_items: itemsBefore,
+        after_items: itemsAfter,
+      })
+      .then((response) => {
+        console.log({ response });
+      });
+    // console.log("CardData", CardData);
+  };
+
+  const handleCancel = () => {
+    setItemsAfter([]);
+    setItemsBefore([]);
   };
 
   const handleAfterValue = (e, x) => {
@@ -63,6 +79,7 @@ export default function AddBlog() {
     setItemsBefore(newItems);
   };
   const handleAddBefore = (data) => {
+    console.log("data1", data);
     const type = {
       type: data,
       value: "",
@@ -83,193 +100,217 @@ export default function AddBlog() {
   };
 
   return (
-    <Grid
-      display={"flex"}
-      mt={10}
-      direction={"column"}
-      px={{ xl: 30, lg: 20, md: 15, sm: 13 }}
-    >
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorElBefore}
-        open={openBefore}
-        onClose={handleCloseBefore}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuItem onClick={() => handleAddBefore("text")}>
-          <AbcIcon sx={{ mr: 1, fontSize: 30 }}></AbcIcon>
-          Text
-        </MenuItem>
-        <MenuItem onClick={() => handleAddBefore("file")}>
-          <ImageIcon sx={{ mr: 2 }}></ImageIcon>Image
-        </MenuItem>
-      </Menu>
-
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorElAfter}
-        open={openAfter}
-        onClose={handleCloseAfter}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuItem onClick={() => handleAddAfter("text")}>
-          <AbcIcon sx={{ mr: 1, fontSize: 30 }}></AbcIcon>
-          Text
-        </MenuItem>
-        <MenuItem onClick={() => handleAddAfter("file")}>
-          <ImageIcon sx={{ mr: 2 }}></ImageIcon>Image
-        </MenuItem>
-      </Menu>
-
-      <Grid mb={2}>
-        <Card sx={{ width: "100%", height: 100, boxShadow: 4 }}>
-          <CardContent>
-            <TextField
-              sx={{ width: "100%" }}
-              id="outlined-basic"
-              label="Title"
-              value={title}
-              variant="outlined"
-              onChange={(e) => setTitle(e.currentTarget.value)}
-            />
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid display={"flex"} gap={2} mb={2}>
-        <Grid sx={{ width: "100%" }}>
-          <Card sx={{ width: "100%" }}>
-            {" "}
-            <Grid display={"flex"} direction={"column"} mt={2} ml={3}>
-              <Typography variant="h6">Before</Typography>
-              <Button
-                id="demo-customized-button"
-                aria-controls={openBefore ? "demo-customized-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={openBefore ? "true" : undefined}
-                variant="contained"
-                disableElevation
-                onClick={handleClickBefore}
-                endIcon={<KeyboardArrowDownIcon />}
-                sx={{ width: 130, mb: 12, mt: 1 }}
-              >
-                Options
-              </Button>
-            </Grid>
-            <Grid>
-              {itemsBefore?.map((x) => {
-                return (
-                  <Grid
-                    key={x}
-                    sx={{ px: 2 }}
-                    display={"flex"}
-                    direction={"row"}
-                  >
-                    <Card key={x} sx={{ width: "100%", boxShadow: 4, mb: 2 }}>
-                      <CardContent>
-                        {x.type === "text" && (
-                          <TextField
-                            sx={{ width: "100%" }}
-                            id="outlined-basic"
-                            label="Text Before"
-                            variant="outlined"
-                            type={"text"}
-                            onChange={(e) => handleBeforeValue(e, x)}
-                            value={x.value}
-                          />
-                        )}
-                        {x.type === "file" && (
-                          <input
-                            type="file"
-                            onChange={(e) => handleBeforeValue(e, x)}
-                            value={x.value}
-                          ></input>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Card>
+    <Grid>
+      <Grid display={"flex"} direction={"column"} gap={1}>
+        <Grid
+          paddingTop={1}
+          paddingRight={3}
+          display={"flex"}
+          justifyContent={"end"}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => router.back()}
+          >
+            Back
+          </Button>
         </Grid>
-        <Grid sx={{ width: "100%" }}>
-          <Card sx={{ width: "100%" }}>
-            {" "}
-            <Grid display={"flex"} direction={"column"} mt={2} ml={3}>
-              <Typography variant="h6">After</Typography>
-              <Button
-                id="demo-customized-button"
-                aria-controls={openAfter ? "demo-customized-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={openAfter ? "true" : undefined}
-                variant="contained"
-                disableElevation
-                onClick={handleClickAfter}
-                endIcon={<KeyboardArrowDownIcon />}
-                sx={{ width: 130, mb: 12, mt: 1 }}
-              >
-                Options
-              </Button>
-            </Grid>
-            <Grid>
-              {itemsAfter?.map((x) => {
-                return (
-                  <Grid
-                    key={x}
-                    sx={{ px: 2 }}
-                    display={"flex"}
-                    direction={"row"}
-                  >
-                    <Card key={x} sx={{ width: "100%", boxShadow: 4, mb: 2 }}>
-                      <CardContent>
-                        {x.type === "text" && (
-                          <TextField
-                            sx={{ width: "100%" }}
-                            id="outlined-basic"
-                            label="Text After"
-                            variant="outlined"
-                            type={"text"}
-                            onChange={(e) => handleAfterValue(e, x)}
-                            value={x.value}
-                          />
-                        )}
-                        {x.type === "file" && (
-                          <input
-                            type="file"
-                            onChange={(e) => handleAfterValue(e, x)}
-                            value={x.value}
-                          ></input>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Card>
+        <Grid>
+          <hr color="gray"></hr>
         </Grid>
       </Grid>
+      <Grid
+        display={"flex"}
+        mt={10}
+        direction={"column"}
+        px={{ xl: 30, lg: 20, md: 15, sm: 13 }}
+      >
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorElBefore}
+          open={openBefore}
+          onClose={handleCloseBefore}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem onClick={() => handleAddBefore("text")}>
+            <AbcIcon sx={{ mr: 1, fontSize: 30 }}></AbcIcon>
+            Text
+          </MenuItem>
+          <MenuItem onClick={() => handleAddBefore("file")}>
+            <ImageIcon sx={{ mr: 2 }}></ImageIcon>Image
+          </MenuItem>
+        </Menu>
 
-      <Button
-        sx={{ mb: 2, width: 130 }}
-        variant="contained"
-        onClickCapture={() => handleSubmit()}
-      >
-        {" "}
-        submit
-      </Button>
-      <Button
-        sx={{ mb: 2, width: 130 }}
-        variant="contained"
-        onClick={() => router.back()}
-      >
-        {" "}
-        Cancel
-      </Button>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorElAfter}
+          open={openAfter}
+          onClose={handleCloseAfter}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem onClick={() => handleAddAfter("text")}>
+            <AbcIcon sx={{ mr: 1, fontSize: 30 }}></AbcIcon>
+            Text
+          </MenuItem>
+          <MenuItem onClick={() => handleAddAfter("file")}>
+            <ImageIcon sx={{ mr: 2 }}></ImageIcon>Image
+          </MenuItem>
+        </Menu>
+
+        <Grid mb={2}>
+          <Card sx={{ width: "100%", height: 100, boxShadow: 4 }}>
+            <CardContent>
+              <TextField
+                sx={{ width: "100%" }}
+                id="outlined-basic"
+                label="Title"
+                value={title}
+                variant="outlined"
+                onChange={(e) => setTitle(e.currentTarget.value)}
+              />
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid display={"flex"} gap={2} mb={2}>
+          <Grid sx={{ width: "100%" }}>
+            <Card sx={{ width: "100%" }}>
+              {" "}
+              <Grid display={"flex"} direction={"column"} mt={2} ml={3}>
+                <Typography variant="h6">Before</Typography>
+                <Button
+                  id="demo-customized-button"
+                  aria-controls={
+                    openBefore ? "demo-customized-menu" : undefined
+                  }
+                  aria-haspopup="true"
+                  aria-expanded={openBefore ? "true" : undefined}
+                  variant="contained"
+                  disableElevation
+                  onClick={handleClickBefore}
+                  endIcon={<KeyboardArrowDownIcon />}
+                  sx={{ width: 130, mb: 12, mt: 1 }}
+                >
+                  Options
+                </Button>
+              </Grid>
+              <Grid>
+                {itemsBefore?.map((x) => {
+                  return (
+                    <Grid
+                      key={x}
+                      sx={{ px: 2 }}
+                      display={"flex"}
+                      direction={"row"}
+                    >
+                      <Card key={x} sx={{ width: "100%", boxShadow: 4, mb: 2 }}>
+                        <CardContent>
+                          {x.type === "text" && (
+                            <TextField
+                              sx={{ width: "100%" }}
+                              id="outlined-basic"
+                              label="Text Before"
+                              variant="outlined"
+                              type={"text"}
+                              onChange={(e) => handleBeforeValue(e, x)}
+                              value={x.value}
+                            />
+                          )}
+                          {x.type === "file" && (
+                            <input
+                              type="file"
+                              onChange={(e) => handleBeforeValue(e, x)}
+                              value={x.value}
+                            ></input>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Card>
+          </Grid>
+          <Grid sx={{ width: "100%" }}>
+            <Card sx={{ width: "100%" }}>
+              {" "}
+              <Grid display={"flex"} direction={"column"} mt={2} ml={3}>
+                <Typography variant="h6">After</Typography>
+                <Button
+                  id="demo-customized-button"
+                  aria-controls={openAfter ? "demo-customized-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={openAfter ? "true" : undefined}
+                  variant="contained"
+                  disableElevation
+                  onClick={handleClickAfter}
+                  endIcon={<KeyboardArrowDownIcon />}
+                  sx={{ width: 130, mb: 12, mt: 1 }}
+                >
+                  Options
+                </Button>
+              </Grid>
+              <Grid>
+                {itemsAfter?.map((x) => {
+                  return (
+                    <Grid
+                      key={x}
+                      sx={{ px: 2 }}
+                      display={"flex"}
+                      direction={"row"}
+                    >
+                      <Card key={x} sx={{ width: "100%", boxShadow: 4, mb: 2 }}>
+                        <CardContent>
+                          {x.type === "text" && (
+                            <TextField
+                              sx={{ width: "100%" }}
+                              id="outlined-basic"
+                              label="Text After"
+                              variant="outlined"
+                              type={"text"}
+                              onChange={(e) => handleAfterValue(e, x)}
+                              value={x.value}
+                            />
+                          )}
+                          {x.type === "file" && (
+                            <input
+                              type="file"
+                              onChange={(e) => handleAfterValue(e, x)}
+                              value={x.value}
+                            ></input>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Card>
+          </Grid>
+        </Grid>
+
+        <Grid display={"flex"} justifyContent={"space-between"}>
+          <Button
+            sx={{ mb: 2, width: 130 }}
+            variant="contained"
+            onClickCapture={() => handleSubmit()}
+          >
+            submit
+          </Button>
+          <Button
+            sx={{ mb: 2, width: 130 }}
+            variant="contained"
+            // onClick={() => router.back()}
+            onClick={() => handleCancel()}
+          >
+            Cancel
+          </Button>
+        </Grid>
+      </Grid>
     </Grid>
   );
 }
