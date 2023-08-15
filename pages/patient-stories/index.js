@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { Button, Grid } from "@mui/material";
+import { Button, Divider, Grid } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
@@ -16,6 +16,7 @@ import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { CardData } from "../../constants/Constant";
 import { supabase } from "../api/supabase";
+import { Add } from "@mui/icons-material";
 export default function PatientStories() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [patientStories, setPatientStories] = React.useState([]);
@@ -62,13 +63,25 @@ export default function PatientStories() {
           justifyContent={"end"}
         >
           <Link href={"/patient-stories/add-patient-stories"}>
-            <Button variant="contained" color="primary">
-              + Add Patient Story
+            <Button
+              color="primary"
+              sx={{
+                color: "#fff",
+                background: "#212b36",
+                textTransform: "capitalize",
+                "&:hover": {
+                  background: "#212b36",
+                },
+              }}
+              startIcon={<Add />}
+            >
+              Add Patient Story
             </Button>
           </Link>
         </Grid>
+
         <Grid>
-          <hr color="gray"></hr>
+          <Divider />
         </Grid>
       </Grid>
 
@@ -94,7 +107,13 @@ export default function PatientStories() {
       >
         {patientStories?.map((x) => {
           return (
-            <Card key={x} sx={{ width: "100%", boxShadow: 4 }}>
+            <Card
+              key={x}
+              sx={{
+                width: "100%",
+                boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.7",
+              }}
+            >
               <CardHeader
                 action={
                   <IconButton aria-label="settings">
@@ -109,10 +128,6 @@ export default function PatientStories() {
                 return (
                   <CardContent key={x}>
                     <Field type={x?.type} value={x?.value} />
-                    {/* <Typography variant="body2" color="#666666">
-                      {x?.value}
-                    </Typography> */}
-                    {/* <img src={x?.value} alt="Img" /> */}
                   </CardContent>
                 );
               })}

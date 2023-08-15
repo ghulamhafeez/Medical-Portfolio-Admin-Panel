@@ -1,8 +1,9 @@
 import React from "react";
-import { Grid, Typography } from "@mui/material";
+
+import { Button, Divider, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
+
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AbcIcon from "@mui/icons-material/Abc";
 import ImageIcon from "@mui/icons-material/Image";
@@ -49,11 +50,7 @@ export default function AddBlog() {
   };
   const handleSubmit = () => {
     console.log("itemsAfter", itemsAfter);
-    // const CardData = {
-    //   title: title,
-    //   Before: itemsBefore,
-    //   After: itemsAfter,
-    // };
+
     supabase
       .from("transformation")
       .insert({
@@ -63,14 +60,12 @@ export default function AddBlog() {
       })
       .then((response) => {
         console.log({ response });
+        setItemsAfter([]);
+        setItemsBefore([]);
+        setTitle("");
       });
     // console.log("CardData", CardData);
     setItems([]);
-  };
-
-  const handleCancel = () => {
-    setItemsAfter([]);
-    setItemsBefore([]);
   };
 
   const handleAfterValue = (e, x) => {
@@ -116,22 +111,48 @@ export default function AddBlog() {
   return (
     <Grid>
       <Grid display={"flex"} direction={"column"} gap={1}>
-        <Grid
-          paddingTop={1}
-          paddingRight={3}
-          display={"flex"}
-          justifyContent={"end"}
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => router.back()}
+        <Grid>
+          <Grid
+            paddingTop={1}
+            paddingRight={3}
+            paddingLeft={6}
+            display={"flex"}
+            justifyContent={"space-between"}
           >
-            Back
-          </Button>
+            <Grid>
+              <Button
+                color="primary"
+                sx={{
+                  color: "#fff",
+                  background: "#212b36",
+                  textTransform: "capitalize",
+                  "&:hover": {
+                    background: "#212b36",
+                  },
+                }}
+                onClick={() => router.back()}
+              >
+                Back
+              </Button>
+            </Grid>
+            <Button
+              sx={{
+                width: 130,
+                color: "#fff",
+                background: "#212b36",
+                textTransform: "capitalize",
+                "&:hover": {
+                  background: "#212b36",
+                },
+              }}
+              onClickCapture={() => handleSubmit()}
+            >
+              submit
+            </Button>
+          </Grid>
         </Grid>
         <Grid>
-          <hr color="gray"></hr>
+          <Divider />
         </Grid>
       </Grid>
       <Grid
@@ -207,7 +228,15 @@ export default function AddBlog() {
                   disableElevation
                   onClick={handleClickBefore}
                   endIcon={<KeyboardArrowDownIcon />}
-                  sx={{ width: 130, mb: 12, mt: 1 }}
+                  sx={{
+                    width: 130,
+                    mb: 2,
+                    background: "#212b36",
+                    textTransform: "capitalize",
+                    "&:hover": {
+                      background: "#212b36",
+                    },
+                  }}
                 >
                   Options
                 </Button>
@@ -268,7 +297,15 @@ export default function AddBlog() {
                   disableElevation
                   onClick={handleClickAfter}
                   endIcon={<KeyboardArrowDownIcon />}
-                  sx={{ width: 130, mb: 12, mt: 1 }}
+                  sx={{
+                    width: 130,
+                    mb: 2,
+                    background: "#212b36",
+                    textTransform: "capitalize",
+                    "&:hover": {
+                      background: "#212b36",
+                    },
+                  }}
                 >
                   Options
                 </Button>
@@ -314,24 +351,6 @@ export default function AddBlog() {
               </Grid>
             </Card>
           </Grid>
-        </Grid>
-
-        <Grid display={"flex"} justifyContent={"space-between"}>
-          <Button
-            sx={{ mb: 2, width: 130 }}
-            variant="contained"
-            onClickCapture={() => handleSubmit()}
-          >
-            submit
-          </Button>
-          <Button
-            sx={{ mb: 2, width: 130 }}
-            variant="contained"
-            // onClick={() => router.back()}
-            onClick={() => handleCancel()}
-          >
-            Cancel
-          </Button>
         </Grid>
       </Grid>
     </Grid>

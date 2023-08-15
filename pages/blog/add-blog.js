@@ -1,8 +1,7 @@
 import React from "react";
-import { Grid } from "@mui/material";
+import { Button, Divider, Grid } from "@mui/material";
 import { useRouter } from "next/router";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AbcIcon from "@mui/icons-material/Abc";
 import ImageIcon from "@mui/icons-material/Image";
@@ -12,14 +11,14 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
-
+import { AddField } from "../../component/AddField";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { supabase } from "../api/supabase";
 export default function AddBlog() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [items, setItems] = React.useState([]);
   const [title, setTitle] = React.useState("");
-
+  const [file, setFile] = React.useState();
   const open = Boolean(anchorEl);
 
   const router = useRouter();
@@ -42,12 +41,6 @@ export default function AddBlog() {
   };
 
   const handleSubmit = async () => {
-    // const CardData = {
-    //   title: title,
-    //   text: text,
-    //   file: file,
-    //   url: url,
-    // };
     console.log("CardData", items);
 
     supabase
@@ -55,31 +48,40 @@ export default function AddBlog() {
       .insert({ title: title, items: items })
       .then((response) => {
         console.log({ response });
+        setItems([]);
+        setTitle("");
       });
 
     setItems([]);
   };
 
   const handleValue = (e, x) => {
-    console.log("e", e?.target?.files[0]);
-    console.log("et", e, x);
-
-    const file = e?.target?.files[0];
-
-    supabase.storage
-      .from("media")
-      .upload(file?.name, e?.target?.files[0], {
-        cacheControl: "3600",
-        upsert: false,
-      })
-      .then((res) => console.log("res", res))
-      .catch((err) => console.log(err));
-
     const newsetitems = items.map((item) =>
       item.id == x.id ? { ...item, value: e.target.value } : item
     );
     console.log("newsetitems", newsetitems);
     setItems(newsetitems);
+  };
+
+  const handleFile = (e, x) => {
+    console.log("e", e?.target?.files[0]);
+    const filedata = e?.target?.files[0];
+
+    supabase.storage
+      .from("media")
+      .upload(filedata?.name + Date.now(), filedata, {
+        cacheControl: "3600",
+        upsert: false,
+      })
+      .then((res) => {
+        console.log("res?.key", res);
+        const newsetitems = items.map((item) =>
+          item.id == x.id ? { ...item, value: res.data.path } : item
+        );
+        console.log("newsetitems", newsetitems);
+        setItems(newsetitems);
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleAdd = (data) => {
@@ -97,22 +99,48 @@ export default function AddBlog() {
   return (
     <Grid>
       <Grid display={"flex"} direction={"column"} gap={1}>
-        <Grid
-          paddingTop={1}
-          paddingRight={3}
-          display={"flex"}
-          justifyContent={"end"}
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => router.back()}
+        <Grid>
+          <Grid
+            paddingTop={1}
+            paddingRight={3}
+            paddingLeft={6}
+            display={"flex"}
+            justifyContent={"space-between"}
           >
-            Back
-          </Button>
+            <Grid>
+              <Button
+                color="primary"
+                sx={{
+                  color: "#fff",
+                  background: "#212b36",
+                  textTransform: "capitalize",
+                  "&:hover": {
+                    background: "#212b36",
+                  },
+                }}
+                onClick={() => router.back()}
+              >
+                Back
+              </Button>
+            </Grid>
+            <Button
+              sx={{
+                width: 130,
+                color: "#fff",
+                background: "#212b36",
+                textTransform: "capitalize",
+                "&:hover": {
+                  background: "#212b36",
+                },
+              }}
+              onClickCapture={() => handleSubmit()}
+            >
+              submit
+            </Button>
+          </Grid>
         </Grid>
         <Grid>
-          <hr color="gray"></hr>
+          <Divider />
         </Grid>
       </Grid>
 
@@ -144,7 +172,13 @@ export default function AddBlog() {
         </Menu>
 
         <Grid>
-          <Card sx={{ width: "100%", height: 100, boxShadow: 4 }}>
+          <Card
+            sx={{
+              width: "100%",
+              height: 100,
+              boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.7",
+            }}
+          >
             <CardContent>
               <TextField
                 sx={{ width: "100%" }}
@@ -158,7 +192,76 @@ export default function AddBlog() {
           </Card>
         </Grid>
 
-        <Grid display={"flex"} justifyContent={"start"} mt={4}>
+        <Grid direction="column" container mb={2} mt={2} spacing={2}>
+          {items?.map((x) => {
+            return (
+              <Grid item key={x}>
+                <Card
+                  sx={{
+                    width: "100%",
+                    boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.7",
+                    mb: 2,
+                  }}
+                >
+                  <Grid sx={{ display: "flex", justifyContent: "flex-end" }}>
+                    <CancelIcon
+                      sx={{
+                        color: "grey",
+                        mt: 1,
+                        mr: 1,
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleDelete(x)}
+                    />
+                  </Grid>
+
+                  <Grid sx={{ padding: "0 16px 16px" }}>
+                    <AddField
+                      key={x.id}
+                      field={x}
+                      handleFile={(e) => handleFile(e, x)}
+                      handleValue={(e) => handleValue(e, x)}
+                    />
+                  </Grid>
+
+                  {/* <CardContent>
+                    {x.type === "text" && (
+                      <TextField
+                        sx={{ width: "100%" }}
+                        id="outlined-basic"
+                        label="Text"
+                        variant="outlined"
+                        type={"text"}
+                        onChange={(e) => handleValue(e, x)}
+                        value={x.value}
+                      />
+                    )}
+                    {x.type === "file" && (
+                      <input
+                        type="file"
+                        value={file}
+                        // accept=""
+                        onChange={(e) => handleFile(e, x)}
+                      ></input>
+                    )}
+                    {x.type === "youtube" && (
+                      <TextField
+                        sx={{ width: "100%" }}
+                        id="outlined-basic"
+                        label="url"
+                        variant="outlined"
+                        type={"url"}
+                        onChange={(e) => handleValue(e, x)}
+                        value={x.value}
+                      />
+                    )}
+                  </CardContent> */}
+                </Card>
+              </Grid>
+            );
+          })}
+        </Grid>
+        <Grid display={"flex"} justifyContent={"center"} mt={4} mb={12}>
           <Button
             id="demo-customized-button"
             aria-controls={open ? "demo-customized-menu" : undefined}
@@ -168,88 +271,37 @@ export default function AddBlog() {
             disableElevation
             onClick={handleClick}
             endIcon={<KeyboardArrowDownIcon />}
-            sx={{ width: 130, mb: 12 }}
+            sx={{
+              width: 130,
+              mb: 2,
+              background: "#212b36",
+              textTransform: "capitalize",
+              "&:hover": {
+                background: "#212b36",
+              },
+            }}
           >
             Options
           </Button>
         </Grid>
-        <Grid>
-          {items?.map((x) => {
-            return (
-              <Card
-                key={x}
-                sx={{
-                  width: "100%",
-                  boxShadow: 4,
-                  mb: 2,
-                }}
-              >
-                <CancelIcon
-                  sx={{ color: "grey", mt: 1, ml: 1 }}
-                  onClick={() => handleDelete(x)}
-                />
-                <CardContent>
-                  {x.type === "text" && (
-                    <TextField
-                      sx={{ width: "100%" }}
-                      id="outlined-basic"
-                      label="Text"
-                      variant="outlined"
-                      type={"text"}
-                      onChange={(e) => handleValue(e, x)}
-                      value={x.value}
-                    />
-                  )}
-                  {x.type === "file" && (
-                    <input
-                      type="file"
-                      value={x.value}
-                      accept=""
-                      onChange={(e) => handleValue(e, x)}
-                    ></input>
-                  )}
-                  {x.type === "youtube" && (
-                    <TextField
-                      sx={{ width: "100%" }}
-                      id="outlined-basic"
-                      label="url"
-                      variant="outlined"
-                      type={"url"}
-                      onChange={(e) => handleValue(e, x)}
-                      value={x.value}
-                    />
-                  )}
-                </CardContent>
-              </Card>
-            );
-          })}
-        </Grid>
-        <Grid display={"flex"} justifyContent={"space-between"}>
+        {/* <Grid display={"flex"} justifyContent={"space-between"} mb={2}>
           <Button
-            sx={{ mb: 2, width: 130 }}
-            variant="contained"
-            onClickCapture={() => handleSubmit()}
-          >
-            submit
-          </Button>
-          <Button
-            sx={{ mb: 2, width: 130 }}
-            variant="contained"
+            sx={{
+              width: 130,
+              mb: 2,
+              color: "#fff",
+              background: "#212b36",
+              textTransform: "capitalize",
+              "&:hover": {
+                background: "#212b36",
+              },
+            }}
             // onClick={() => router.back()}
             onClick={() => setItems([])}
           >
             Cancel
           </Button>
-        </Grid>
-        {/* <iframe
-          width="560"
-          height="315"
-          src="https://www.youtube.com/embed/_g9sAB0hn-E"
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        ></iframe> */}
+        </Grid> */}
       </Grid>
     </Grid>
   );

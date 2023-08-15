@@ -1,8 +1,8 @@
 import React from "react";
-import { Button, Grid } from "@mui/material";
+import { Button, Divider, Grid } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
-import TextField from "@mui/material/TextField";
+
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -13,7 +13,7 @@ import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import { supabase } from "../api/supabase";
-import Avatar from "@mui/material/Avatar";
+
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { CardData } from "../../constants/Constant";
@@ -23,6 +23,7 @@ export default function Blog() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [bolgs, setBlogs] = React.useState();
   const [id, setId] = React.useState();
+  const [editValue, setEditValue] = React.useState();
   useEffect(() => {
     getBlog();
   }, []);
@@ -38,6 +39,7 @@ export default function Blog() {
 
   const open = Boolean(anchorEl);
   const handleClick = (event, x) => {
+    setEditValue(x);
     setId(x?.id);
     setAnchorEl(event.currentTarget);
   };
@@ -54,7 +56,9 @@ export default function Blog() {
       .then(() => getBlog());
     setAnchorEl(null);
   };
-
+  const handleEdit = () => {
+    console.log("idd", id);
+  };
   return (
     <Grid display={"flex"} container direction={"column"} gap={2} mb={2}>
       <Grid display={"flex"} direction={"column"} gap={1}>
@@ -65,13 +69,24 @@ export default function Blog() {
           justifyContent={"end"}
         >
           <Link href={"/blog/add-blog"}>
-            <Button variant="contained" color="primary">
-              + Add Blog
+            <Button
+              color="primary"
+              sx={{
+                color: "#fff",
+                background: "#212b36",
+                textTransform: "capitalize",
+                "&:hover": {
+                  background: "#212b36",
+                },
+              }}
+              startIcon={<AddIcon />}
+            >
+              Add Blog
             </Button>
           </Link>
         </Grid>
         <Grid>
-          <hr color="gray"></hr>
+          <Divider />
         </Grid>
       </Grid>
 
@@ -84,7 +99,7 @@ export default function Blog() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
+        <MenuItem onClick={handleEdit}>Edit</MenuItem>
         <MenuItem onClick={handleDelete}>Delete</MenuItem>
       </Menu>
 
@@ -97,14 +112,25 @@ export default function Blog() {
       >
         {bolgs?.map((x) => {
           return (
-            <Card key={x} sx={{ width: "100%", boxShadow: 4 }}>
+            <Card
+              key={x}
+              sx={{
+                width: "100%",
+                boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.7",
+              }}
+            >
               <CardHeader
                 action={
                   <IconButton aria-label="settings">
                     <MoreVertIcon onClick={(event) => handleClick(event, x)} />
                   </IconButton>
                 }
-                sx={{ color: "#666666" }}
+                sx={{
+                  color: "#666666",
+                  "& .MuiTypography-root": {
+                    fontWeight: 600,
+                  },
+                }}
                 title={x?.title}
               />
 
@@ -115,18 +141,11 @@ export default function Blog() {
                 image={x.file}
                 alt="Paella dish"
               /> */}
-
-              {x.items.map((x) => {
-                return (
-                  <CardContent key={x}>
-                    <Field type={x?.type} value={x?.value} />
-                    {/* <Typography variant="body2" color="#666666">
-                      {x?.value}
-                    </Typography> */}
-                    {/* <img src={x?.value} alt="Img" /> */}
-                  </CardContent>
-                );
-              })}
+              <Grid sx={{ padding: "0 16px 16px" }}>
+                {x.items.map((x) => {
+                  return <Field key={x} type={x?.type} value={x?.value} />;
+                })}
+              </Grid>
             </Card>
           );
         })}

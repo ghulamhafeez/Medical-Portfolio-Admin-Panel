@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 import { useRouter } from "next/router";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
@@ -55,9 +55,32 @@ export default function AddPatientStories() {
     supabase
       .from("patient_stories")
       .insert({ title: title, items: items })
-      .then((response) => {});
+      .then((response) => {
+        setItems([]);
+        setTitle("");
+      });
 
     setItems([]);
+  };
+  const handleFile = (e) => {
+    console.log("e", e?.target?.files[0]);
+    const file = e?.target?.files[0];
+
+    supabase.storage
+      .from("media")
+      .upload(file?.name, e?.target?.files[0], {
+        cacheControl: "3600",
+        upsert: false,
+      })
+      .then((res) => setFile(res?.key))
+      .then(() => {
+        const newsetitems = items.map((item) =>
+          item.id == x.id ? { ...item, file: res?.key } : item
+        );
+        console.log("newsetitems", newsetitems);
+        setItems(newsetitems);
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleAdd = (data) => {
@@ -65,6 +88,7 @@ export default function AddPatientStories() {
     const type = {
       type: data,
       value: "",
+      file: "",
       id: Math.random().toString(16).slice(-4),
     };
     setItems([...items, type]);
@@ -77,22 +101,48 @@ export default function AddPatientStories() {
   return (
     <Grid>
       <Grid display={"flex"} direction={"column"} gap={1}>
-        <Grid
-          paddingTop={1}
-          paddingRight={3}
-          display={"flex"}
-          justifyContent={"end"}
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => router.back()}
+        <Grid>
+          <Grid
+            paddingTop={1}
+            paddingRight={3}
+            paddingLeft={6}
+            display={"flex"}
+            justifyContent={"space-between"}
           >
-            Back
-          </Button>
+            <Grid>
+              <Button
+                color="primary"
+                sx={{
+                  color: "#fff",
+                  background: "#212b36",
+                  textTransform: "capitalize",
+                  "&:hover": {
+                    background: "#212b36",
+                  },
+                }}
+                onClick={() => router.back()}
+              >
+                Back
+              </Button>
+            </Grid>
+            <Button
+              sx={{
+                width: 130,
+                color: "#fff",
+                background: "#212b36",
+                textTransform: "capitalize",
+                "&:hover": {
+                  background: "#212b36",
+                },
+              }}
+              onClickCapture={() => handleSubmit()}
+            >
+              submit
+            </Button>
+          </Grid>
         </Grid>
         <Grid>
-          <hr color="gray"></hr>
+          <Divider />
         </Grid>
       </Grid>
 
@@ -123,7 +173,13 @@ export default function AddPatientStories() {
         </Menu>
 
         <Grid>
-          <Card sx={{ width: "100%", height: 100, boxShadow: 4 }}>
+          <Card
+            sx={{
+              width: "100%",
+              height: 100,
+              boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.7",
+            }}
+          >
             <CardContent>
               {/* <Grid display={"flex"} mt={2}> */}
               <TextField
@@ -139,7 +195,7 @@ export default function AddPatientStories() {
           </Card>
         </Grid>
 
-        <Grid display={"flex"} justifyContent={"start"} mt={4}>
+        <Grid display={"flex"} justifyContent={"center"} mt={4}>
           <Button
             id="demo-customized-button"
             aria-controls={open ? "demo-customized-menu" : undefined}
@@ -149,7 +205,15 @@ export default function AddPatientStories() {
             disableElevation
             onClick={handleClick}
             endIcon={<KeyboardArrowDownIcon />}
-            sx={{ width: 130, mb: 12 }}
+            sx={{
+              width: 130,
+              mb: 2,
+              background: "#212b36",
+              textTransform: "capitalize",
+              "&:hover": {
+                background: "#212b36",
+              },
+            }}
           >
             Options
           </Button>
@@ -158,10 +222,16 @@ export default function AddPatientStories() {
           {items?.map((x) => {
             return (
               <Card key={x} sx={{ width: "100%", boxShadow: 4, mb: 2 }}>
-                <CancelIcon
-                  sx={{ color: "grey", mt: 1, ml: 1 }}
-                  onClick={() => handleDelete(x)}
-                />
+                <Grid sx={{ display: "flex", justifyContent: "flex-end" }}>
+                  <CancelIcon
+                    sx={{
+                      color: "grey",
+                      mt: 1,
+                      mr: 1,
+                    }}
+                    onClick={() => handleDelete(x)}
+                  />
+                </Grid>
                 <CardContent>
                   {x.type === "text" && (
                     <TextField
@@ -177,31 +247,15 @@ export default function AddPatientStories() {
                   {x.type === "file" && (
                     <input
                       type="file"
-                      value={x.value}
-                      onChange={(e) => handleValue(e, x)}
+                      value={file}
+                      accept=""
+                      onChange={(e) => handleFile(e, x)}
                     ></input>
                   )}
                 </CardContent>
               </Card>
             );
           })}
-        </Grid>
-        <Grid display={"flex"} justifyContent={"space-between"}>
-          <Button
-            sx={{ mb: 2, width: 130 }}
-            variant="contained"
-            onClickCapture={() => handleSubmit()}
-          >
-            submit
-          </Button>
-          <Button
-            sx={{ mb: 2, width: 130 }}
-            variant="contained"
-            // onClick={() => router.back()}
-            onClick={() => setItems([])}
-          >
-            Cancel
-          </Button>
         </Grid>
       </Grid>
     </Grid>

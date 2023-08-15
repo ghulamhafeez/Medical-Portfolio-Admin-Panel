@@ -1,53 +1,8 @@
-export const CardData = [
-  {
-    file: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbg-57GR__o17OerEPudaBLOTcPvBdehAnow&usqp=CAU",
-    text: "Best in handling and road grip",
-    title: "Civic",
-    url: "https://www.youtube.com/watch?v=oIDdDBe_5zg",
-  },
-  {
-    file: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJi8EWrfoyh1zLDsW5dudo5TJLJHTQyOLITA&usqp=CAU",
-    text: "Best in suspension and comfortable ride",
-    title: "Crolla",
-    url: "https://www.youtube.com/watch?v=_g9sAB0hn-E",
-  },
-];
-export const TransfoemationCardData = [
-  {
-    title: "Difference",
-    Before: [
-      {
-        textBefore: "Before Car",
-        fileBefore:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbg-57GR__o17OerEPudaBLOTcPvBdehAnow&usqp=CAU",
-      },
-    ],
-    After: [
-      {
-        textAfter: "After Car",
-        fileAfter:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJi8EWrfoyh1zLDsW5dudo5TJLJHTQyOLITA&usqp=CAU",
-      },
-    ],
-  },
-  {
-    title: "Difference",
-    Before: [
-      {
-        textBefore: "Before Car",
-        fileBefore:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbg-57GR__o17OerEPudaBLOTcPvBdehAnow&usqp=CAU",
-      },
-    ],
-    After: [
-      {
-        textAfter: "After Car",
-        fileAfter:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJi8EWrfoyh1zLDsW5dudo5TJLJHTQyOLITA&usqp=CAU",
-      },
-    ],
-  },
-];
+export const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2YXRlamF2a3BqeHJ4dmJwdmRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE3NTk2OTcsImV4cCI6MjAwNzMzNTY5N30.O2EzJrZ56q9M_t4IWFyNtq1aA1sY3g-U9eH7rXVawKE";
+export const SUPABASE_URL = "https://svatejavkpjxrxvbpvdp.supabase.co";
+export const FIRST_PATH =
+  "https://svatejavkpjxrxvbpvdp.supabase.co/storage/v1/object/public/media/";
 
 export const TabsData = [
   { name: "Home", path: "/" },
@@ -56,9 +11,6 @@ export const TabsData = [
   { name: "Patient Stories", path: "/patient-stories" },
   { name: "Transformation", path: "/transformation" },
 ];
-export const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2YXRlamF2a3BqeHJ4dmJwdmRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE3NTk2OTcsImV4cCI6MjAwNzMzNTY5N30.O2EzJrZ56q9M_t4IWFyNtq1aA1sY3g-U9eH7rXVawKE";
-export const SUPABASE_URL = "https://svatejavkpjxrxvbpvdp.supabase.co";
 
 export const PatientStoriesData = [
   {
@@ -80,34 +32,5 @@ export const PatientStoriesData = [
     src: "https://www.ektorgrammatopoulos.com/wp-content/uploads/2020/04/iudnrvtw.jpeg",
     story:
       "Dr Ektor Grammatopoulos carried out my husband’s orthodontic treatment I have been so pleased with my orthodontic treatment from start to finish and the results are exactly what I was hoping for and more.",
-  },
-];
-
-export const Crowding = [
-  {
-    title: "Before",
-    src1: "https://www.ektorgrammatopoulos.com/wp-content/uploads/2021/01/website-3.jpg",
-    src2: "https://www.ektorgrammatopoulos.com/wp-content/uploads/2021/01/upper-website.jpg",
-    src3: "https://www.ektorgrammatopoulos.com/wp-content/uploads/2021/01/Website-1-.jpg",
-  },
-  {
-    title: "After",
-    src1: "https://www.ektorgrammatopoulos.com/wp-content/uploads/2021/01/website-3.jpg",
-    src2: "https://www.ektorgrammatopoulos.com/wp-content/uploads/2021/01/upper-website.jpg",
-    src3: "https://www.ektorgrammatopoulos.com/wp-content/uploads/2021/01/right-side-webiste.jpg",
-  },
-
-  {
-    title: "Before",
-    src1: "https://www.ektorgrammatopoulos.com/wp-content/uploads/2021/01/website-crop.jpg",
-    src2: "https://www.ektorgrammatopoulos.com/wp-content/uploads/2021/01/Website-Right-1.jpg",
-    src3: "https://www.ektorgrammatopoulos.com/wp-content/uploads/2021/01/Website-1-.jpg",
-  },
-
-  {
-    title: "After",
-    src1: "https://www.ektorgrammatopoulos.com/wp-content/uploads/2021/01/website-3.jpg",
-    src2: "https://www.ektorgrammatopoulos.com/wp-content/uploads/2021/01/upper-website.jpg",
-    src3: "https://www.ektorgrammatopoulos.com/wp-content/uploads/2021/01/right-side-webiste.jpg",
   },
 ];

@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { Grid } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import Link from "next/link";
@@ -16,6 +16,7 @@ import TextField from "@mui/material/TextField";
 import { Field } from "../../component/Field";
 import { TransfoemationCardData } from "../../constants/Constant";
 import { supabase } from "../api/supabase";
+import { Add } from "@mui/icons-material";
 export default function Transformation() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [transformation, setTransformation] = React.useState();
@@ -59,13 +60,24 @@ export default function Transformation() {
           justifyContent={"end"}
         >
           <Link href={"/transformation/add-transformation"}>
-            <Button variant="contained" color="primary">
-              + Add Transformation
+            <Button
+              color="primary"
+              sx={{
+                color: "#fff",
+                background: "#212b36",
+                textTransform: "capitalize",
+                "&:hover": {
+                  background: "#212b36",
+                },
+              }}
+              startIcon={<Add />}
+            >
+              Add Transformation
             </Button>
           </Link>
         </Grid>
         <Grid>
-          <hr color="gray"></hr>
+          <Divider />
         </Grid>
       </Grid>
 
@@ -95,7 +107,13 @@ export default function Transformation() {
               <Typography variant="h6">{x.title}</Typography>
               <Grid key={x} display={"flex"} direction={"row"} gap={8}>
                 <Grid key={x} display={"flex"} direction={"row"}>
-                  <Card key={x} sx={{ width: "100%", boxShadow: 4 }}>
+                  <Card
+                    key={x}
+                    sx={{
+                      width: "100%",
+                      boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.7",
+                    }}
+                  >
                     <CardHeader
                       action={
                         <IconButton aria-label="settings">
@@ -106,21 +124,29 @@ export default function Transformation() {
                       }
                       sx={{ color: "#666666" }}
                     />
-                    {x.before_items.map((x) => {
-                      return (
-                        <Grid key={x}>
-                          {" "}
-                          {/* <Typography variant="body1" color="#666666">
+                    <Grid p={2}>
+                      {x.before_items.map((x) => {
+                        return (
+                          <Grid key={x}>
+                            {" "}
+                            {/* <Typography variant="body1" color="#666666">
                             {x.value}
                           </Typography> */}
-                          <Field type={x?.type} value={x?.value} />
-                        </Grid>
-                      );
-                    })}
+                            <Field type={x?.type} value={x?.value} />
+                          </Grid>
+                        );
+                      })}
+                    </Grid>
                   </Card>
                 </Grid>
                 <Grid key={x} display={"flex"} direction={"row"}>
-                  <Card key={x} sx={{ width: "100%", boxShadow: 4 }}>
+                  <Card
+                    key={x}
+                    sx={{
+                      width: "100%",
+                      boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.7",
+                    }}
+                  >
                     <CardHeader
                       action={
                         <IconButton aria-label="settings">
@@ -129,17 +155,19 @@ export default function Transformation() {
                       }
                       sx={{ color: "#666666" }}
                     />
-                    {x.after_items.map((x) => {
-                      return (
-                        <Grid key={x}>
-                          {" "}
-                          {/* <Typography variant="body1" color="#666666">
+                    <Grid p={2}>
+                      {x.after_items.map((x) => {
+                        return (
+                          <Grid key={x}>
+                            {" "}
+                            {/* <Typography variant="body1" color="#666666">
                             {x.value}
                           </Typography> */}
-                          <Field type={x?.type} value={x?.value} />
-                        </Grid>
-                      );
-                    })}
+                            <Field type={x?.type} value={x?.value} />
+                          </Grid>
+                        );
+                      })}
+                    </Grid>
                   </Card>
                 </Grid>
               </Grid>
