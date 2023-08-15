@@ -45,10 +45,27 @@ export default function Transformation() {
   };
   const handleDelete = () => {
     console.log("idd", id);
+    setAnchorEl(null);
 
-    supabase.from("blog").delete().eq("id", id);
+    supabase
+      .from("transformation")
+      .delete()
+      .eq("id", id)
+      .then(() => getTransformation());
   };
+  // const handleDeleteBefore = ({ id }) => {
+  //   const newitems = itemsBefore.filter((item) => id !== item.id);
 
+  //   console.log("newsetitems", newitems);
+  //   setItemsBefore(newitems);
+  // };
+  // const handleDeleteAfter = ({ id }) => {
+  //   console.log("id", id);
+  //   const newitems = itemsAfter.filter((item) => id !== item.id);
+
+  //   console.log("newsetitems", newitems);
+  //   setItemsAfter(newitems);
+  // };
   console.log("TransfoemationCardData", TransfoemationCardData);
   return (
     <Grid display={"flex"} direction={"column"} gap={2} mb={2}>
@@ -104,73 +121,74 @@ export default function Transformation() {
         {transformation?.map((x) => {
           return (
             <Grid key={x} display={"flex"} direction={"column"}>
-              <Typography variant="h6">{x.title}</Typography>
-              <Grid key={x} display={"flex"} direction={"row"} gap={8}>
-                <Grid key={x} display={"flex"} direction={"row"}>
-                  <Card
-                    key={x}
-                    sx={{
-                      width: "100%",
-                      boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.7",
-                    }}
-                  >
-                    <CardHeader
-                      action={
-                        <IconButton aria-label="settings">
-                          <MoreVertIcon
-                            onClick={(event) => handleClick(event, x)}
-                          />
-                        </IconButton>
-                      }
-                      sx={{ color: "#666666" }}
-                    />
-                    <Grid p={2}>
-                      {x.before_items.map((x) => {
-                        return (
-                          <Grid key={x}>
-                            {" "}
-                            {/* <Typography variant="body1" color="#666666">
+              <Card sx={{ bgcolor: "#f8f9fb" }}>
+                <CardHeader
+                  action={
+                    <IconButton aria-label="settings">
+                      <MoreVertIcon
+                        onClick={(event) => handleClick(event, x)}
+                      />
+                    </IconButton>
+                  }
+                  sx={{ color: "#666666" }}
+                  title={x.title}
+                  // <Typography variant="h6">{x.title}</Typography>
+                />
+                <Grid key={x} display={"flex"} direction={"row"} gap={8}>
+                  <Grid key={x} display={"flex"} direction={"column"}>
+                    <Typography variant="body1" ml={2}>
+                      Before
+                    </Typography>
+                    <Card
+                      key={x}
+                      sx={{
+                        width: "100%",
+                        boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.7",
+                      }}
+                    >
+                      <Grid p={2}>
+                        {x.before_items.map((x) => {
+                          return (
+                            <Grid key={x}>
+                              {" "}
+                              {/* <Typography variant="body1" color="#666666">
                             {x.value}
                           </Typography> */}
-                            <Field type={x?.type} value={x?.value} />
-                          </Grid>
-                        );
-                      })}
-                    </Grid>
-                  </Card>
-                </Grid>
-                <Grid key={x} display={"flex"} direction={"row"}>
-                  <Card
-                    key={x}
-                    sx={{
-                      width: "100%",
-                      boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.7",
-                    }}
-                  >
-                    <CardHeader
-                      action={
-                        <IconButton aria-label="settings">
-                          <MoreVertIcon onClick={handleClick} />
-                        </IconButton>
-                      }
-                      sx={{ color: "#666666" }}
-                    />
-                    <Grid p={2}>
-                      {x.after_items.map((x) => {
-                        return (
-                          <Grid key={x}>
-                            {" "}
-                            {/* <Typography variant="body1" color="#666666">
+                              <Field type={x?.type} value={x?.value} />
+                            </Grid>
+                          );
+                        })}
+                      </Grid>
+                    </Card>
+                  </Grid>
+                  <Grid key={x} display={"flex"} direction={"column"}>
+                    <Typography variant="body1" ml={2}>
+                      After
+                    </Typography>
+                    <Card
+                      key={x}
+                      sx={{
+                        width: "100%",
+                        boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.7",
+                      }}
+                    >
+                      <Grid p={2}>
+                        {x.after_items.map((x) => {
+                          return (
+                            <Grid key={x}>
+                              {" "}
+                              {/* <Typography variant="body1" color="#666666">
                             {x.value}
                           </Typography> */}
-                            <Field type={x?.type} value={x?.value} />
-                          </Grid>
-                        );
-                      })}
-                    </Grid>
-                  </Card>
+                              <Field type={x?.type} value={x?.value} />
+                            </Grid>
+                          );
+                        })}
+                      </Grid>
+                    </Card>
+                  </Grid>
                 </Grid>
-              </Grid>
+              </Card>
             </Grid>
           );
         })}

@@ -3,7 +3,7 @@ import React from "react";
 import { Button, Divider, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import CardContent from "@mui/material/CardContent";
-
+import { AddField } from "../../component/AddField";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AbcIcon from "@mui/icons-material/Abc";
 import ImageIcon from "@mui/icons-material/Image";
@@ -64,8 +64,6 @@ export default function AddBlog() {
         setItemsBefore([]);
         setTitle("");
       });
-    // console.log("CardData", CardData);
-    setItems([]);
   };
 
   const handleAfterValue = (e, x) => {
@@ -78,6 +76,46 @@ export default function AddBlog() {
     setItemsAfter(newItems);
   };
 
+  const handleBeforeFile = (e, x) => {
+    console.log("e", e?.target?.files[0]);
+    const filedata = e?.target?.files[0];
+
+    supabase.storage
+      .from("media")
+      .upload(filedata?.name + Date.now(), filedata, {
+        cacheControl: "3600",
+        upsert: false,
+      })
+      .then((res) => {
+        console.log("res?.key", res);
+        const newsetitems = itemsBefore.map((item) =>
+          item.id == x.id ? { ...item, value: res.data.path } : item
+        );
+        console.log("newsetitems", newsetitems);
+        setItemsBefore(newsetitems);
+      })
+      .catch((err) => console.log(err));
+  };
+  const handleAfterFile = (e, x) => {
+    console.log("e", e?.target?.files[0]);
+    const filedata = e?.target?.files[0];
+
+    supabase.storage
+      .from("media")
+      .upload(filedata?.name + Date.now(), filedata, {
+        cacheControl: "3600",
+        upsert: false,
+      })
+      .then((res) => {
+        console.log("res?.key", res);
+        const newsetitems = itemsAfter.map((item) =>
+          item.id == x.id ? { ...item, value: res.data.path } : item
+        );
+        console.log("newsetitems", newsetitems);
+        setItemsAfter(newsetitems);
+      })
+      .catch((err) => console.log(err));
+  };
   const handleBeforeValue = (e, x) => {
     console.log("e", e.target.value);
 
@@ -256,26 +294,14 @@ export default function AddBlog() {
                           onClick={() => handleDeleteBefore(x)}
                         />
 
-                        <CardContent>
-                          {x.type === "text" && (
-                            <TextField
-                              sx={{ width: "100%" }}
-                              id="outlined-basic"
-                              label="Text Before"
-                              variant="outlined"
-                              type={"text"}
-                              onChange={(e) => handleBeforeValue(e, x)}
-                              value={x.value}
-                            />
-                          )}
-                          {x.type === "file" && (
-                            <input
-                              type="file"
-                              onChange={(e) => handleBeforeValue(e, x)}
-                              value={x.value}
-                            ></input>
-                          )}
-                        </CardContent>
+                        <Grid sx={{ padding: "0 16px 16px" }}>
+                          <AddField
+                            key={x.id}
+                            field={x}
+                            handleFile={(e) => handleBeforeFile(e, x)}
+                            handleValue={(e) => handleBeforeValue(e, x)}
+                          />
+                        </Grid>
                       </Card>
                     </Grid>
                   );
@@ -324,26 +350,15 @@ export default function AddBlog() {
                           sx={{ color: "grey", mt: 1, ml: 1 }}
                           onClick={() => handleDeleteAfter(x)}
                         />
-                        <CardContent>
-                          {x.type === "text" && (
-                            <TextField
-                              sx={{ width: "100%" }}
-                              id="outlined-basic"
-                              label="Text After"
-                              variant="outlined"
-                              type={"text"}
-                              onChange={(e) => handleAfterValue(e, x)}
-                              value={x.value}
-                            />
-                          )}
-                          {x.type === "file" && (
-                            <input
-                              type="file"
-                              onChange={(e) => handleAfterValue(e, x)}
-                              value={x.value}
-                            ></input>
-                          )}
-                        </CardContent>
+
+                        <Grid sx={{ padding: "0 16px 16px" }}>
+                          <AddField
+                            key={x.id}
+                            field={x}
+                            handleFile={(e) => handleAfterFile(e, x)}
+                            handleValue={(e) => handleAfterValue(e, x)}
+                          />
+                        </Grid>
                       </Card>
                     </Grid>
                   );

@@ -50,7 +50,12 @@ export default function PatientStories() {
   const handleDelete = () => {
     console.log("idd", id);
 
-    supabase.from("blog").delete().eq("id", id);
+    supabase
+      .from("patient_stories")
+      .delete()
+      .eq("id", id)
+      .then(() => getPatientStories());
+    setAnchorEl(null);
   };
 
   return (

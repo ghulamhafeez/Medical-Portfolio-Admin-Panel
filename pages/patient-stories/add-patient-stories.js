@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import AddIcon from "@mui/icons-material/Add";
+import { AddField } from "../../component/AddField";
 import AbcIcon from "@mui/icons-material/Abc";
 import ImageIcon from "@mui/icons-material/Image";
 import Menu from "@mui/material/Menu";
@@ -62,20 +62,20 @@ export default function AddPatientStories() {
 
     setItems([]);
   };
-  const handleFile = (e) => {
+  const handleFile = (e, x) => {
     console.log("e", e?.target?.files[0]);
-    const file = e?.target?.files[0];
+    const filedata = e?.target?.files[0];
 
     supabase.storage
       .from("media")
-      .upload(file?.name, e?.target?.files[0], {
+      .upload(filedata?.name + Date.now(), filedata, {
         cacheControl: "3600",
         upsert: false,
       })
-      .then((res) => setFile(res?.key))
-      .then(() => {
+      .then((res) => {
+        console.log("res?.key", res);
         const newsetitems = items.map((item) =>
-          item.id == x.id ? { ...item, file: res?.key } : item
+          item.id == x.id ? { ...item, value: res.data.path } : item
         );
         console.log("newsetitems", newsetitems);
         setItems(newsetitems);
@@ -232,27 +232,14 @@ export default function AddPatientStories() {
                     onClick={() => handleDelete(x)}
                   />
                 </Grid>
-                <CardContent>
-                  {x.type === "text" && (
-                    <TextField
-                      sx={{ width: "100%" }}
-                      id="outlined-basic"
-                      label="Text"
-                      variant="outlined"
-                      type={"text"}
-                      onChange={(e) => handleValue(e, x)}
-                      value={x.value}
-                    />
-                  )}
-                  {x.type === "file" && (
-                    <input
-                      type="file"
-                      value={file}
-                      accept=""
-                      onChange={(e) => handleFile(e, x)}
-                    ></input>
-                  )}
-                </CardContent>
+                <Grid sx={{ padding: "0 16px 16px" }}>
+                  <AddField
+                    key={x.id}
+                    field={x}
+                    handleFile={(e) => handleFile(e, x)}
+                    handleValue={(e) => handleValue(e, x)}
+                  />
+                </Grid>
               </Card>
             );
           })}

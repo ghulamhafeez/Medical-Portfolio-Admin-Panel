@@ -18,7 +18,6 @@ export default function AddBlog() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [items, setItems] = React.useState([]);
   const [title, setTitle] = React.useState("");
-  const [file, setFile] = React.useState();
   const open = Boolean(anchorEl);
 
   const router = useRouter();
@@ -223,39 +222,6 @@ export default function AddBlog() {
                       handleValue={(e) => handleValue(e, x)}
                     />
                   </Grid>
-
-                  {/* <CardContent>
-                    {x.type === "text" && (
-                      <TextField
-                        sx={{ width: "100%" }}
-                        id="outlined-basic"
-                        label="Text"
-                        variant="outlined"
-                        type={"text"}
-                        onChange={(e) => handleValue(e, x)}
-                        value={x.value}
-                      />
-                    )}
-                    {x.type === "file" && (
-                      <input
-                        type="file"
-                        value={file}
-                        // accept=""
-                        onChange={(e) => handleFile(e, x)}
-                      ></input>
-                    )}
-                    {x.type === "youtube" && (
-                      <TextField
-                        sx={{ width: "100%" }}
-                        id="outlined-basic"
-                        label="url"
-                        variant="outlined"
-                        type={"url"}
-                        onChange={(e) => handleValue(e, x)}
-                        value={x.value}
-                      />
-                    )}
-                  </CardContent> */}
                 </Card>
               </Grid>
             );
@@ -284,24 +250,6 @@ export default function AddBlog() {
             Options
           </Button>
         </Grid>
-        {/* <Grid display={"flex"} justifyContent={"space-between"} mb={2}>
-          <Button
-            sx={{
-              width: 130,
-              mb: 2,
-              color: "#fff",
-              background: "#212b36",
-              textTransform: "capitalize",
-              "&:hover": {
-                background: "#212b36",
-              },
-            }}
-            // onClick={() => router.back()}
-            onClick={() => setItems([])}
-          >
-            Cancel
-          </Button>
-        </Grid> */}
       </Grid>
     </Grid>
   );
