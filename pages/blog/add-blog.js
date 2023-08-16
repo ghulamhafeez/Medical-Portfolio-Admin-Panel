@@ -63,6 +63,8 @@ export default function AddBlog() {
         console.log({ response });
         setItems([]);
         setTitle("");
+        setHeaderFile("");
+        setDescription("");
       });
 
     setItems([]);
