@@ -249,136 +249,152 @@ export default function AddBlog() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid display={"flex"} gap={2} mb={2}>
-          <Grid sx={{ width: "100%" }}>
-            <Card sx={{ width: "100%" }}>
-              {" "}
-              <Grid display={"flex"} direction={"column"} mt={2} ml={3}>
-                <Typography variant="h6">Before</Typography>
-              </Grid>
-              <Grid>
-                {itemsBefore?.map((x) => {
-                  return (
-                    <Grid
-                      key={x}
-                      sx={{ px: 2 }}
-                      display={"flex"}
-                      direction={"row"}
-                    >
-                      <Card key={x} sx={{ width: "100%", boxShadow: 4, mb: 2 }}>
-                        <Grid
-                          sx={{ display: "flex", justifyContent: "flex-end" }}
+        <Grid container spacing={2}>
+          <Grid item xs={6} sx={{ width: "100%" }}>
+            <Card>
+              <Grid container direction={"column"} spacing={4}>
+                <Grid item display={"flex"} direction={"column"} mt={2} ml={3}>
+                  <Typography variant="h6">Before</Typography>
+                </Grid>
+                <Grid item>
+                  {itemsBefore?.map((x) => {
+                    return (
+                      <Grid
+                        key={x}
+                        sx={{ px: 2 }}
+                        display={"flex"}
+                        direction={"row"}
+                      >
+                        <Card
+                          key={x}
+                          sx={{ width: "100%", boxShadow: 4, mb: 2 }}
                         >
-                          <CancelIcon
-                            sx={{
-                              color: "grey",
-                              mt: 1,
-                              mr: 1,
-                              cursor: "pointer",
-                            }}
-                            onClick={() => handleDeleteBefore(x)}
-                          />
-                        </Grid>
-                        <Grid sx={{ padding: "0 16px 16px" }}>
-                          <AddField
-                            key={x.id}
-                            field={x}
-                            handleFile={(e) => handleBeforeFile(e, x)}
-                            handleValue={(e) => handleBeforeValue(e, x)}
-                          />
-                        </Grid>
-                      </Card>
-                    </Grid>
-                  );
-                })}
+                          <Grid
+                            sx={{ display: "flex", justifyContent: "flex-end" }}
+                          >
+                            <CancelIcon
+                              sx={{
+                                color: "grey",
+                                mt: 1,
+                                mr: 1,
+                                cursor: "pointer",
+                              }}
+                              onClick={() => handleDeleteBefore(x)}
+                            />
+                          </Grid>
+                          <Grid sx={{ padding: "0 16px 16px" }}>
+                            <AddField
+                              key={x.id}
+                              field={x}
+                              handleFile={(e) => handleBeforeFile(e, x)}
+                              handleValue={(e) => handleBeforeValue(e, x)}
+                            />
+                          </Grid>
+                        </Card>
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+                <Grid item container justifyContent={"center"}>
+                  <Button
+                    id="demo-customized-button"
+                    aria-controls={
+                      openBefore ? "demo-customized-menu" : undefined
+                    }
+                    aria-haspopup="true"
+                    aria-expanded={openBefore ? "true" : undefined}
+                    variant="contained"
+                    disableElevation
+                    onClick={handleClickBefore}
+                    endIcon={<KeyboardArrowDownIcon />}
+                    sx={{
+                      width: 130,
+                      mb: 2,
+                      background: "#212b36",
+                      textTransform: "capitalize",
+                      "&:hover": {
+                        background: "#212b36",
+                      },
+                    }}
+                  >
+                    Options
+                  </Button>
+                </Grid>
               </Grid>
-              <Button
-                id="demo-customized-button"
-                aria-controls={openBefore ? "demo-customized-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={openBefore ? "true" : undefined}
-                variant="contained"
-                disableElevation
-                onClick={handleClickBefore}
-                endIcon={<KeyboardArrowDownIcon />}
-                sx={{
-                  width: 130,
-                  mb: 2,
-                  background: "#212b36",
-                  textTransform: "capitalize",
-                  "&:hover": {
-                    background: "#212b36",
-                  },
-                }}
-              >
-                Options
-              </Button>
             </Card>
           </Grid>
-          <Grid sx={{ width: "100%" }}>
-            <Card sx={{ width: "100%" }}>
-              {" "}
-              <Grid display={"flex"} direction={"column"} mt={2} ml={3}>
-                <Typography variant="h6">After</Typography>
-              </Grid>
-              <Grid>
-                {itemsAfter?.map((x) => {
-                  return (
-                    <Grid
-                      key={x}
-                      sx={{ px: 2 }}
-                      display={"flex"}
-                      direction={"row"}
-                    >
-                      <Card key={x} sx={{ width: "100%", boxShadow: 4, mb: 2 }}>
-                        <Grid
-                          sx={{ display: "flex", justifyContent: "flex-end" }}
+          <Grid item xs={6} sx={{ width: "100%" }}>
+            <Card>
+              <Grid container direction={"column"} spacing={4}>
+                <Grid item display={"flex"} direction={"column"} mt={2} ml={3}>
+                  <Typography variant="h6">After</Typography>
+                </Grid>
+                <Grid item>
+                  {itemsAfter?.map((x) => {
+                    return (
+                      <Grid
+                        key={x}
+                        sx={{ px: 2 }}
+                        display={"flex"}
+                        direction={"row"}
+                      >
+                        <Card
+                          key={x}
+                          sx={{ width: "100%", boxShadow: 4, mb: 2 }}
                         >
-                          <CancelIcon
-                            sx={{
-                              color: "grey",
-                              mt: 1,
-                              mr: 1,
-                              cursor: "pointer",
-                            }}
-                            onClick={() => handleDeleteAfter(x)}
-                          />
-                        </Grid>
+                          <Grid
+                            sx={{ display: "flex", justifyContent: "flex-end" }}
+                          >
+                            <CancelIcon
+                              sx={{
+                                color: "grey",
+                                mt: 1,
+                                mr: 1,
+                                cursor: "pointer",
+                              }}
+                              onClick={() => handleDeleteAfter(x)}
+                            />
+                          </Grid>
 
-                        <Grid sx={{ padding: "0 16px 16px" }}>
-                          <AddField
-                            key={x.id}
-                            field={x}
-                            handleFile={(e) => handleAfterFile(e, x)}
-                            handleValue={(e) => handleAfterValue(e, x)}
-                          />
-                        </Grid>
-                      </Card>
-                    </Grid>
-                  );
-                })}
+                          <Grid sx={{ padding: "0 16px 16px" }}>
+                            <AddField
+                              key={x.id}
+                              field={x}
+                              handleFile={(e) => handleAfterFile(e, x)}
+                              handleValue={(e) => handleAfterValue(e, x)}
+                            />
+                          </Grid>
+                        </Card>
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+                <Grid item container justifyContent={"center"}>
+                  <Button
+                    id="demo-customized-button"
+                    aria-controls={
+                      openAfter ? "demo-customized-menu" : undefined
+                    }
+                    aria-haspopup="true"
+                    aria-expanded={openAfter ? "true" : undefined}
+                    variant="contained"
+                    disableElevation
+                    onClick={handleClickAfter}
+                    endIcon={<KeyboardArrowDownIcon />}
+                    sx={{
+                      width: 130,
+                      mb: 2,
+                      background: "#212b36",
+                      textTransform: "capitalize",
+                      "&:hover": {
+                        background: "#212b36",
+                      },
+                    }}
+                  >
+                    Options
+                  </Button>
+                </Grid>
               </Grid>
-              <Button
-                id="demo-customized-button"
-                aria-controls={openAfter ? "demo-customized-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={openAfter ? "true" : undefined}
-                variant="contained"
-                disableElevation
-                onClick={handleClickAfter}
-                endIcon={<KeyboardArrowDownIcon />}
-                sx={{
-                  width: 130,
-                  mb: 2,
-                  background: "#212b36",
-                  textTransform: "capitalize",
-                  "&:hover": {
-                    background: "#212b36",
-                  },
-                }}
-              >
-                Options
-              </Button>
             </Card>
           </Grid>
         </Grid>

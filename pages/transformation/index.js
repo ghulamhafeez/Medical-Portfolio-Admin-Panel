@@ -134,8 +134,8 @@ export default function Transformation() {
                   title={x.title}
                   // <Typography variant="h6">{x.title}</Typography>
                 />
-                <Grid key={x} display={"flex"} direction={"row"} gap={8}>
-                  <Grid key={x} display={"flex"} direction={"column"}>
+                <Grid container spacing={4} padding={2}>
+                  <Grid item xs={6} display={"flex"} direction={"column"}>
                     <Typography variant="body1" ml={2}>
                       Before
                     </Typography>
@@ -150,10 +150,6 @@ export default function Transformation() {
                         {x.before_items.map((x) => {
                           return (
                             <Grid key={x}>
-                              {" "}
-                              {/* <Typography variant="body1" color="#666666">
-                            {x.value}
-                          </Typography> */}
                               <Field type={x?.type} value={x?.value} />
                             </Grid>
                           );
@@ -161,7 +157,7 @@ export default function Transformation() {
                       </Grid>
                     </Card>
                   </Grid>
-                  <Grid key={x} display={"flex"} direction={"column"}>
+                  <Grid item xs={6} display={"flex"} direction={"column"}>
                     <Typography variant="body1" ml={2}>
                       After
                     </Typography>

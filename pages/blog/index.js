@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Divider, Grid } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
-
+import { FIRST_PATH } from "../../constants/Constant";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -21,7 +21,7 @@ import { Field } from "../../component/Field";
 import { useEffect } from "react";
 export default function Blog() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [bolgs, setBlogs] = React.useState();
+  const [blogs, setBlogs] = React.useState();
   const [id, setId] = React.useState();
   const [editValue, setEditValue] = React.useState();
   useEffect(() => {
@@ -110,13 +110,16 @@ export default function Blog() {
         alignItems={"center"}
         gap={4}
       >
-        {bolgs?.map((x) => {
+        {blogs?.map((x) => {
+          const textDescription = x.items.find((x) => x.type === "text");
+          console.log("textDescription", textDescription);
           return (
             <Card
               key={x}
               sx={{
                 width: "100%",
                 boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.7",
+                padding: 2,
               }}
             >
               <CardHeader
@@ -134,18 +137,17 @@ export default function Blog() {
                 title={x?.title}
               />
 
-              {/* <CardMedia
-                component="img"
-                width={"100%"}
-                height={"100%"}
-                image={x.file}
-                alt="Paella dish"
-              /> */}
-              <Grid sx={{ padding: "0 16px 16px" }}>
-                {x.items.map((x) => {
-                  return <Field key={x} type={x?.type} value={x?.value} />;
-                })}
-              </Grid>
+              <CardContent>
+                <Typography variant="body1" color={"#333333"}>
+                  {textDescription?.value ?? ""}
+                </Typography>
+                <img
+                  loading="lazy"
+                  src={`${FIRST_PATH}${x.headerFile}`}
+                  alt="iamge"
+                  width={"100%"}
+                ></img>
+              </CardContent>
             </Card>
           );
         })}

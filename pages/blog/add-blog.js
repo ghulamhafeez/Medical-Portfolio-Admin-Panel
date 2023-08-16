@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Divider, Grid } from "@mui/material";
+import { Button, Divider, Grid, InputLabel } from "@mui/material";
 import { useRouter } from "next/router";
 import CardContent from "@mui/material/CardContent";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -19,7 +19,7 @@ export default function AddBlog() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [items, setItems] = React.useState([]);
   const [title, setTitle] = React.useState("");
-  const [description, setDescription] = React.useState("");
+
   const [headerFile, setHeaderFile] = React.useState();
   const open = Boolean(anchorEl);
 
@@ -55,7 +55,7 @@ export default function AddBlog() {
       .from("blog")
       .insert({
         title: title,
-        description: description,
+
         headerFile: headerFile,
         items: items,
       })
@@ -64,7 +64,6 @@ export default function AddBlog() {
         setItems([]);
         setTitle("");
         setHeaderFile("");
-        setDescription("");
       });
 
     setItems([]);
@@ -166,7 +165,7 @@ export default function AddBlog() {
               }}
               onClickCapture={() => handleSubmit()}
             >
-              submit
+              Submit
             </Button>
           </Grid>
         </Grid>
@@ -220,7 +219,7 @@ export default function AddBlog() {
                 onChange={(e) => setTitle(e.currentTarget.value)}
               />
 
-              <p>Header File</p>
+              <InputLabel sx={{ pb: 2 }}>Header Image</InputLabel>
               {headerFile ? (
                 <img
                   width={"100%"}
@@ -234,15 +233,6 @@ export default function AddBlog() {
                   onChange={(e) => handleheaderFile(e)}
                 ></input>
               )}
-
-              <TextField
-                sx={{ width: "100%", mt: 2 }}
-                id="outlined-basic"
-                label="Description"
-                value={description}
-                variant="outlined"
-                onChange={(e) => setDescription(e.currentTarget.value)}
-              />
             </CardContent>
           </Card>
         </Grid>
