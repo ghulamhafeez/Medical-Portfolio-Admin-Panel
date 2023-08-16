@@ -14,10 +14,13 @@ import TextField from "@mui/material/TextField";
 import { AddField } from "../../component/AddField";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { supabase } from "../api/supabase";
+import { FIRST_PATH } from "../../constants/Constant";
 export default function AddBlog() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [items, setItems] = React.useState([]);
   const [title, setTitle] = React.useState("");
+  const [description, setDescription] = React.useState("");
+  const [headerFile, setHeaderFile] = React.useState();
   const open = Boolean(anchorEl);
 
   const router = useRouter();
@@ -30,7 +33,13 @@ export default function AddBlog() {
     setAnchorEl(null);
   };
 
-  const handleDelete = ({ id }) => {
+  const handleDelete = async ({ id, value }) => {
+    if (value) {
+      supabase.storage
+        .from("media")
+        .remove("WhatsApp Image 2023-08-08 at 6.38.10 PM.jpeg1692188714984");
+    }
+
     console.log("delId", id);
 
     const newitems = items.filter((item) => id !== item.id);
@@ -44,7 +53,12 @@ export default function AddBlog() {
 
     supabase
       .from("blog")
-      .insert({ title: title, items: items })
+      .insert({
+        title: title,
+        description: description,
+        headerFile: headerFile,
+        items: items,
+      })
       .then((response) => {
         console.log({ response });
         setItems([]);
@@ -62,6 +76,22 @@ export default function AddBlog() {
     setItems(newsetitems);
   };
 
+  const handleheaderFile = (e) => {
+    console.log("e", e?.target?.files[0]);
+    const filedata = e?.target?.files[0];
+
+    supabase.storage
+      .from("media")
+      .upload(filedata?.name + Date.now(), filedata, {
+        cacheControl: "3600",
+        upsert: false,
+      })
+      .then((res) => {
+        console.log("res?.key", res.data.path);
+        setHeaderFile(res?.data?.path);
+      })
+      .catch((err) => console.log(err));
+  };
   const handleFile = (e, x) => {
     console.log("e", e?.target?.files[0]);
     const filedata = e?.target?.files[0];
@@ -174,18 +204,42 @@ export default function AddBlog() {
           <Card
             sx={{
               width: "100%",
-              height: 100,
+              height: "100%",
               boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.7",
             }}
           >
             <CardContent>
               <TextField
-                sx={{ width: "100%" }}
+                sx={{ width: "100%", mb: 2 }}
                 id="outlined-basic"
                 label="Title"
                 value={title}
                 variant="outlined"
                 onChange={(e) => setTitle(e.currentTarget.value)}
+              />
+
+              <p>Header File</p>
+              {headerFile ? (
+                <img
+                  width={"100%"}
+                  alt={"Image"}
+                  object-fit="cover"
+                  src={`${FIRST_PATH}${headerFile}`}
+                ></img>
+              ) : (
+                <input
+                  type="file"
+                  onChange={(e) => handleheaderFile(e)}
+                ></input>
+              )}
+
+              <TextField
+                sx={{ width: "100%", mt: 2 }}
+                id="outlined-basic"
+                label="Description"
+                value={description}
+                variant="outlined"
+                onChange={(e) => setDescription(e.currentTarget.value)}
               />
             </CardContent>
           </Card>

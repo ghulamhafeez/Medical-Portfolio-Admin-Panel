@@ -255,29 +255,6 @@ export default function AddBlog() {
               {" "}
               <Grid display={"flex"} direction={"column"} mt={2} ml={3}>
                 <Typography variant="h6">Before</Typography>
-                <Button
-                  id="demo-customized-button"
-                  aria-controls={
-                    openBefore ? "demo-customized-menu" : undefined
-                  }
-                  aria-haspopup="true"
-                  aria-expanded={openBefore ? "true" : undefined}
-                  variant="contained"
-                  disableElevation
-                  onClick={handleClickBefore}
-                  endIcon={<KeyboardArrowDownIcon />}
-                  sx={{
-                    width: 130,
-                    mb: 2,
-                    background: "#212b36",
-                    textTransform: "capitalize",
-                    "&:hover": {
-                      background: "#212b36",
-                    },
-                  }}
-                >
-                  Options
-                </Button>
               </Grid>
               <Grid>
                 {itemsBefore?.map((x) => {
@@ -289,11 +266,19 @@ export default function AddBlog() {
                       direction={"row"}
                     >
                       <Card key={x} sx={{ width: "100%", boxShadow: 4, mb: 2 }}>
-                        <CancelIcon
-                          sx={{ color: "grey", mt: 1, ml: 1 }}
-                          onClick={() => handleDeleteBefore(x)}
-                        />
-
+                        <Grid
+                          sx={{ display: "flex", justifyContent: "flex-end" }}
+                        >
+                          <CancelIcon
+                            sx={{
+                              color: "grey",
+                              mt: 1,
+                              mr: 1,
+                              cursor: "pointer",
+                            }}
+                            onClick={() => handleDeleteBefore(x)}
+                          />
+                        </Grid>
                         <Grid sx={{ padding: "0 16px 16px" }}>
                           <AddField
                             key={x.id}
@@ -307,6 +292,27 @@ export default function AddBlog() {
                   );
                 })}
               </Grid>
+              <Button
+                id="demo-customized-button"
+                aria-controls={openBefore ? "demo-customized-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={openBefore ? "true" : undefined}
+                variant="contained"
+                disableElevation
+                onClick={handleClickBefore}
+                endIcon={<KeyboardArrowDownIcon />}
+                sx={{
+                  width: 130,
+                  mb: 2,
+                  background: "#212b36",
+                  textTransform: "capitalize",
+                  "&:hover": {
+                    background: "#212b36",
+                  },
+                }}
+              >
+                Options
+              </Button>
             </Card>
           </Grid>
           <Grid sx={{ width: "100%" }}>
@@ -314,27 +320,6 @@ export default function AddBlog() {
               {" "}
               <Grid display={"flex"} direction={"column"} mt={2} ml={3}>
                 <Typography variant="h6">After</Typography>
-                <Button
-                  id="demo-customized-button"
-                  aria-controls={openAfter ? "demo-customized-menu" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={openAfter ? "true" : undefined}
-                  variant="contained"
-                  disableElevation
-                  onClick={handleClickAfter}
-                  endIcon={<KeyboardArrowDownIcon />}
-                  sx={{
-                    width: 130,
-                    mb: 2,
-                    background: "#212b36",
-                    textTransform: "capitalize",
-                    "&:hover": {
-                      background: "#212b36",
-                    },
-                  }}
-                >
-                  Options
-                </Button>
               </Grid>
               <Grid>
                 {itemsAfter?.map((x) => {
@@ -346,10 +331,19 @@ export default function AddBlog() {
                       direction={"row"}
                     >
                       <Card key={x} sx={{ width: "100%", boxShadow: 4, mb: 2 }}>
-                        <CancelIcon
-                          sx={{ color: "grey", mt: 1, ml: 1 }}
-                          onClick={() => handleDeleteAfter(x)}
-                        />
+                        <Grid
+                          sx={{ display: "flex", justifyContent: "flex-end" }}
+                        >
+                          <CancelIcon
+                            sx={{
+                              color: "grey",
+                              mt: 1,
+                              mr: 1,
+                              cursor: "pointer",
+                            }}
+                            onClick={() => handleDeleteAfter(x)}
+                          />
+                        </Grid>
 
                         <Grid sx={{ padding: "0 16px 16px" }}>
                           <AddField
@@ -364,6 +358,27 @@ export default function AddBlog() {
                   );
                 })}
               </Grid>
+              <Button
+                id="demo-customized-button"
+                aria-controls={openAfter ? "demo-customized-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={openAfter ? "true" : undefined}
+                variant="contained"
+                disableElevation
+                onClick={handleClickAfter}
+                endIcon={<KeyboardArrowDownIcon />}
+                sx={{
+                  width: 130,
+                  mb: 2,
+                  background: "#212b36",
+                  textTransform: "capitalize",
+                  "&:hover": {
+                    background: "#212b36",
+                  },
+                }}
+              >
+                Options
+              </Button>
             </Card>
           </Grid>
         </Grid>
