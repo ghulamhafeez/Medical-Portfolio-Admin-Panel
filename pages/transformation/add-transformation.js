@@ -3,6 +3,8 @@ import React from "react";
 import { Button, Divider, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import CardContent from "@mui/material/CardContent";
+import CardHeader from "@mui/material/CardHeader";
+
 import { AddField } from "../../component/AddField";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AbcIcon from "@mui/icons-material/Abc";
@@ -19,7 +21,16 @@ export default function AddBlog() {
   const [anchorElAfter, setAnchorElAfter] = React.useState(null);
   const [itemsBefore, setItemsBefore] = React.useState([]);
   const [itemsAfter, setItemsAfter] = React.useState([]);
-  const [title, setTitle] = React.useState("");
+  // const [title, setTitle] = React.useState("");
+
+  const [beforeFile, setBeforeFile] = React.useState();
+  const [beforeText, setBeforeText] = React.useState();
+  const [beforeTitle, setBeforeTitle] = React.useState();
+
+  const [afterFile, setAfterFile] = React.useState();
+  const [afterText, setAfterText] = React.useState();
+  const [afterTitle, setAfterTitle] = React.useState();
+
   const openBefore = Boolean(anchorElBefore);
   const openAfter = Boolean(anchorElAfter);
   const router = useRouter();
@@ -76,26 +87,6 @@ export default function AddBlog() {
     setItemsAfter(newItems);
   };
 
-  const handleBeforeFile = (e, x) => {
-    console.log("e", e?.target?.files[0]);
-    const filedata = e?.target?.files[0];
-
-    supabase.storage
-      .from("media")
-      .upload(filedata?.name + Date.now(), filedata, {
-        cacheControl: "3600",
-        upsert: false,
-      })
-      .then((res) => {
-        console.log("res?.key", res);
-        const newsetitems = itemsBefore.map((item) =>
-          item.id == x.id ? { ...item, value: res.data.path } : item
-        );
-        console.log("newsetitems", newsetitems);
-        setItemsBefore(newsetitems);
-      })
-      .catch((err) => console.log(err));
-  };
   const handleAfterFile = (e, x) => {
     console.log("e", e?.target?.files[0]);
     const filedata = e?.target?.files[0];
@@ -146,6 +137,22 @@ export default function AddBlog() {
     setAnchorElAfter(null);
   };
 
+  const handleBeforeFile = (e) => {
+    console.log("e", e?.target?.files[0]);
+    const filedata = e?.target?.files[0];
+
+    supabase.storage
+      .from("media")
+      .upload(filedata?.name + Date.now(), filedata, {
+        cacheControl: "3600",
+        upsert: false,
+      })
+      .then((res) => {
+        console.log("res?.key", res.data.path);
+        setBeforeFile(res?.data?.path);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <Grid>
       <Grid display={"flex"} direction={"column"} gap={1}>
@@ -235,21 +242,122 @@ export default function AddBlog() {
           </MenuItem>
         </Menu>
 
-        <Grid mb={2}>
-          <Card sx={{ width: "100%", height: 100, boxShadow: 4 }}>
-            <CardContent>
-              <TextField
-                sx={{ width: "100%" }}
-                id="outlined-basic"
-                label="Title"
-                value={title}
-                variant="outlined"
-                onChange={(e) => setTitle(e.currentTarget.value)}
+        <Grid container xs={12} spacing={2}>
+          <Grid item xs={6} mb={2}>
+            <Card sx={{ width: "100%", boxShadow: 4 }}>
+              <CardHeader
+                sx={{ color: "#666666" }}
+                title={"Before"}
+                // <Typography variant="h6">{x.title}</Typography>
               />
-            </CardContent>
-          </Card>
+              <CardContent>
+                <TextField
+                  sx={{ width: "100%", mb: 2 }}
+                  id="outlined-basic"
+                  label="Title"
+                  value={beforeTitle}
+                  variant="outlined"
+                  onChange={(e) => setBeforeTitle(e.currentTarget.value)}
+                />
+
+                {beforeFile ? (
+                  <Grid>
+                    <Grid sx={{ display: "flex", justifyContent: "flex-end" }}>
+                      <CancelIcon
+                        sx={{
+                          color: "grey",
+                          mt: 1,
+                          mr: 1,
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handleBeforeDelete(beforeFile)}
+                      />
+                    </Grid>
+                    <img
+                      width={"100%"}
+                      alt={"Image"}
+                      object-fit="cover"
+                      src={`${FIRST_PATH}${beforeFile}`}
+                    ></img>
+                  </Grid>
+                ) : (
+                  <input
+                    type="file"
+                    onChange={(e) => handleBeforeFile(e)}
+                    multiple
+                  ></input>
+                )}
+                <TextField
+                  sx={{ width: "100%", mt: 2 }}
+                  id="outlined-basic"
+                  label="Text"
+                  variant="outlined"
+                  type={"text"}
+                  onChange={(e) => setBeforeText(e.currentTarget.value)}
+                  value={beforeText}
+                />
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={6} mb={2}>
+            <Card sx={{ width: "100%", boxShadow: 4 }}>
+              <CardHeader
+                sx={{ color: "#666666" }}
+                title={"After"}
+                // <Typography variant="h6">{x.title}</Typography>
+              />
+              <CardContent>
+                <TextField
+                  sx={{ width: "100%", mb: 2 }}
+                  id="outlined-basic"
+                  label="Title"
+                  value={afterTitle}
+                  variant="outlined"
+                  onChange={(e) => setAfterTitle(e.currentTarget.value)}
+                />
+
+                {afterFile ? (
+                  <Grid>
+                    <Grid sx={{ display: "flex", justifyContent: "flex-end" }}>
+                      <CancelIcon
+                        sx={{
+                          color: "grey",
+                          mt: 1,
+                          mr: 1,
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handleAfterDelete(afterFile)}
+                      />
+                    </Grid>
+                    <img
+                      width={"100%"}
+                      alt={"Image"}
+                      object-fit="cover"
+                      src={`${FIRST_PATH}${afterFile}`}
+                    ></img>
+                  </Grid>
+                ) : (
+                  <input
+                    type="file"
+                    onChange={(e) => setAfterFile(e)}
+                    multiple
+                  ></input>
+                )}
+                <TextField
+                  sx={{ width: "100%", mt: 2 }}
+                  id="outlined-basic"
+                  label="Text"
+                  variant="outlined"
+                  type={"text"}
+                  onChange={(e) => setAfterTextText(e.currentTarget.value)}
+                  value={afterText}
+                />
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
-        <Grid container spacing={2}>
+        {/* <Grid container spacing={2}>
           <Grid item xs={6} sx={{ width: "100%" }}>
             <Card>
               <Grid container direction={"column"} spacing={4}>
@@ -397,7 +505,7 @@ export default function AddBlog() {
               </Grid>
             </Card>
           </Grid>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Grid>
   );

@@ -12,6 +12,7 @@ export const Field = (props) => {
           width={"100%"}
           object-fit="cover"
           src={`${FIRST_PATH}${props?.value}`}
+          multiple
         ></img>
       );
 

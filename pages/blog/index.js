@@ -13,7 +13,8 @@ import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import { supabase } from "../api/supabase";
-
+import Router from "next/router";
+import { useRouter } from "next/router";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { CardData } from "../../constants/Constant";
@@ -24,6 +25,9 @@ export default function Blog() {
   const [blogs, setBlogs] = React.useState();
   const [id, setId] = React.useState();
   const [editValue, setEditValue] = React.useState();
+
+  const router = useRouter();
+
   useEffect(() => {
     getBlog();
   }, []);
@@ -58,6 +62,7 @@ export default function Blog() {
   };
   const handleEdit = () => {
     console.log("idd", id);
+    router.push(`/blog/edit-blog/${id}`);
   };
   return (
     <Grid display={"flex"} container direction={"column"} gap={2} mb={2}>

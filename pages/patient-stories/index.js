@@ -11,7 +11,7 @@ import Link from "next/link";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-import Avatar from "@mui/material/Avatar";
+import { useRouter } from "next/router";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { CardData } from "../../constants/Constant";
@@ -22,6 +22,8 @@ export default function PatientStories() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [patientStories, setPatientStories] = React.useState([]);
   const [id, setId] = React.useState();
+
+  const router = useRouter();
 
   useEffect(() => {
     getPatientStories();
@@ -57,6 +59,10 @@ export default function PatientStories() {
       .eq("id", id)
       .then(() => getPatientStories());
     setAnchorEl(null);
+  };
+  const handleEdit = () => {
+    console.log("idd", id);
+    router.push(`/patient-stories/edit-patient-stories/${id}`);
   };
 
   return (
@@ -100,7 +106,7 @@ export default function PatientStories() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
+        <MenuItem onClick={handleEdit}>Edit</MenuItem>
         <MenuItem onClick={handleDelete}>Delete</MenuItem>
       </Menu>
 
