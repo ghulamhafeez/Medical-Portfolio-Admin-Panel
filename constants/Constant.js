@@ -7,9 +7,12 @@ export const FIRST_PATH =
 export const TabsData = [
   { name: "Home", path: "/" },
   { name: "About", path: "/about" },
-  { name: "Blog", path: "/blog" },
   { name: "Patient Stories", path: "/patient-stories" },
   { name: "Transformation", path: "/transformation" },
+  { name: "Cases Gallery", path: "/cases-gallery" },
+  { name: "Treatment Option", path: "/treatment-option" },
+  { name: "Blog", path: "/blog" },
+  { name: "Contact", path: "/contact" },
 ];
 
 export const PatientStoriesData = [
