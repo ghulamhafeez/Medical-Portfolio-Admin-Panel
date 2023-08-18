@@ -13,7 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
-import { Field } from "../../component/Field";
+import { FIRST_PATH } from "../../constants/Constant";
 import { TransfoemationCardData } from "../../constants/Constant";
 import { supabase } from "../api/supabase";
 import { Add } from "@mui/icons-material";
@@ -117,8 +117,10 @@ export default function Transformation() {
         direction={"column"}
         alignItems={"center"}
         gap={4}
+        mb={4}
       >
         {transformation?.map((x) => {
+          console.log("x", x);
           return (
             <Grid key={x} display={"flex"} direction={"column"}>
               <Card sx={{ bgcolor: "#f8f9fb" }}>
@@ -131,7 +133,7 @@ export default function Transformation() {
                     </IconButton>
                   }
                   sx={{ color: "#666666" }}
-                  title={x.title}
+                  title={x.beforeTitle}
                   // <Typography variant="h6">{x.title}</Typography>
                 />
                 <Grid container spacing={4} padding={2}>
@@ -147,13 +149,23 @@ export default function Transformation() {
                       }}
                     >
                       <Grid p={2}>
-                        {x.before_items.map((x) => {
+                        {x.beforeFile.map((x) => {
                           return (
                             <Grid key={x}>
-                              <Field type={x?.type} value={x?.value} />
+                              {/* <Field type={x?.type} value={x?.value} /> */}
+                              <img
+                                width={"100%"}
+                                height={200}
+                                object-fit="cover"
+                                src={`${FIRST_PATH}${x}`}
+                                multiple
+                              ></img>
                             </Grid>
                           );
                         })}
+                      </Grid>
+                      <Grid ml={2}>
+                        <Typography variant="body1">{x.beforeText}</Typography>
                       </Grid>
                     </Card>
                   </Grid>
@@ -169,17 +181,25 @@ export default function Transformation() {
                       }}
                     >
                       <Grid p={2}>
-                        {x.after_items.map((x) => {
+                        {x.afterFile.map((x) => {
                           return (
                             <Grid key={x}>
-                              {" "}
-                              {/* <Typography variant="body1" color="#666666">
-                            {x.value}
-                          </Typography> */}
-                              <Field type={x?.type} value={x?.value} />
+                              {/* <Field type={x?.type} value={x?.value} /> */}
+                              <img
+                                width={"100%"}
+                                height={200}
+                                object-fit="cover"
+                                src={`${FIRST_PATH}${x}`}
+                                multiple
+                              ></img>
                             </Grid>
                           );
                         })}
+                      </Grid>
+                      <Grid>
+                        <Typography ml={2} variant="body1">
+                          {x.afterText}
+                        </Typography>
                       </Grid>
                     </Card>
                   </Grid>
