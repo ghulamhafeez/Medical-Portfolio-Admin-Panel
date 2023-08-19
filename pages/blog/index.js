@@ -115,7 +115,7 @@ export default function Blog() {
         alignItems={"center"}
         gap={4}
       >
-        {blogs?.map((x) => {
+        {blogs?.toReversed().map((x) => {
           const textDescription = x.items.find((x) => x.type === "text");
           console.log("textDescription", textDescription);
           return (

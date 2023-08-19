@@ -3,26 +3,26 @@ import { useEffect } from "react";
 import { Divider, Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import Link from "next/link";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import CardHeader from "@mui/material/CardHeader";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import { FIRST_PATH } from "../../constants/Constant";
 import { TransfoemationCardData } from "../../constants/Constant";
 import { supabase } from "../api/supabase";
+import { useRouter } from "next/router";
 import { Add } from "@mui/icons-material";
+
 export default function Transformation() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [transformation, setTransformation] = React.useState();
   const [id, setId] = React.useState();
   const open = Boolean(anchorEl);
-
+  const router = useRouter();
   useEffect(() => {
     getTransformation();
   }, []);
@@ -32,10 +32,14 @@ export default function Transformation() {
       .from("transformation")
       .select()
       .then((response) => {
+        console.log("response123", response);
         setTransformation(response?.data);
       });
   };
-
+  const handleEdit = () => {
+    console.log("idd", id);
+    router.push(`transformation/edit-transformation/${id}`);
+  };
   const handleClick = (event, x) => {
     setId(x?.id);
     setAnchorEl(event.currentTarget);
@@ -53,19 +57,7 @@ export default function Transformation() {
       .eq("id", id)
       .then(() => getTransformation());
   };
-  // const handleDeleteBefore = ({ id }) => {
-  //   const newitems = itemsBefore.filter((item) => id !== item.id);
 
-  //   console.log("newsetitems", newitems);
-  //   setItemsBefore(newitems);
-  // };
-  // const handleDeleteAfter = ({ id }) => {
-  //   console.log("id", id);
-  //   const newitems = itemsAfter.filter((item) => id !== item.id);
-
-  //   console.log("newsetitems", newitems);
-  //   setItemsAfter(newitems);
-  // };
   console.log("TransfoemationCardData", TransfoemationCardData);
   return (
     <Grid display={"flex"} direction={"column"} gap={2} mb={2}>
@@ -107,7 +99,7 @@ export default function Transformation() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
+        <MenuItem onClick={handleEdit}>Edit</MenuItem>
         <MenuItem onClick={handleDelete}>Delete</MenuItem>
       </Menu>
 
@@ -119,7 +111,7 @@ export default function Transformation() {
         gap={4}
         mb={4}
       >
-        {transformation?.map((x) => {
+        {transformation?.toReversed().map((x) => {
           console.log("x", x);
           return (
             <Grid key={x} display={"flex"} direction={"column"}>
@@ -133,7 +125,7 @@ export default function Transformation() {
                     </IconButton>
                   }
                   sx={{ color: "#666666" }}
-                  title={x.beforeTitle}
+                  title={x.title}
                   // <Typography variant="h6">{x.title}</Typography>
                 />
                 <Grid container spacing={4} padding={2}>

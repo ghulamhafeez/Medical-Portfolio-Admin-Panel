@@ -20,14 +20,10 @@ export default function CasesGalleryFields() {
   const [anchorElAfter, setAnchorElAfter] = React.useState(null);
 
   const [beforeFile, setBeforeFile] = React.useState([]);
-  const [beforeText, setBeforeText] = React.useState();
+
   const [title, setTitle] = React.useState();
 
   const [afterFile, setAfterFile] = React.useState([]);
-  const [afterText, setAfterText] = React.useState();
-
-  const openBefore = Boolean(anchorElBefore);
-  const openAfter = Boolean(anchorElAfter);
 
   const router = useRouter();
   const { id } = router.query;
@@ -35,7 +31,7 @@ export default function CasesGalleryFields() {
   useEffect(() => {
     if (id) {
       supabase
-        .from("transformation")
+        .from("cases_gallery")
         .select()
         .eq("id", id)
         .single()
@@ -44,9 +40,7 @@ export default function CasesGalleryFields() {
 
           setTitle(response?.data?.title);
           setBeforeFile(response?.data?.beforeFile),
-            setBeforeText(response?.data?.beforeText),
-            setAfterFile(response?.data?.afterFile),
-            setAfterText(response?.data?.afterText);
+            setAfterFile(response?.data?.afterFile);
         });
     }
   }, []);
@@ -72,43 +66,31 @@ export default function CasesGalleryFields() {
   };
   const handleSubmit = () => {
     supabase
-      .from("transformation")
+      .from("cases_gallery")
       .insert({
         beforeFile: beforeFile,
-        beforeText: beforeText,
+
         title: title,
         afterFile: afterFile,
-        afterText: afterText,
       })
       .then((response) => {
         console.log({ response });
-        setBeforeFile([]),
-          setBeforeText(""),
-          setTitle(""),
-          setAfterFile([]),
-          setAfterText("");
-        router.back();
+        setBeforeFile([]), setTitle(""), setAfterFile([]), router.back();
       });
   };
   const handleUpdate = () => {
     supabase
-      .from("transformation")
+      .from("cases_gallery")
       .update({
         beforeFile: beforeFile,
-        beforeText: beforeText,
+
         title: title,
         afterFile: afterFile,
-        afterText: afterText,
       })
       .eq("id", id)
       .then((response) => {
         console.log("response", response);
-        setBeforeFile([]),
-          setBeforeText(""),
-          setTitle(""),
-          setAfterFile([]),
-          setAfterText("");
-        router.back();
+        setBeforeFile([]), setTitle(""), setAfterFile([]), router.back();
       })
       .catch((err) => console.log("err", err));
   };
@@ -275,16 +257,6 @@ export default function CasesGalleryFields() {
                   //   value={beforeFile}
                   multiple
                 ></input>
-
-                <TextField
-                  sx={{ width: "100%", mt: 2 }}
-                  id="outlined-basic"
-                  label="Text"
-                  variant="outlined"
-                  type={"text"}
-                  onChange={(e) => setBeforeText(e.currentTarget.value)}
-                  value={beforeText}
-                />
               </CardContent>
             </Card>
           </Grid>
@@ -335,16 +307,6 @@ export default function CasesGalleryFields() {
                   //   value={afterFile}
                   multiple
                 ></input>
-
-                <TextField
-                  sx={{ width: "100%", mt: 2 }}
-                  id="outlined-basic"
-                  label="Text"
-                  variant="outlined"
-                  type={"text"}
-                  onChange={(e) => setAfterText(e.currentTarget.value)}
-                  value={afterText}
-                />
               </CardContent>
             </Card>
           </Grid>

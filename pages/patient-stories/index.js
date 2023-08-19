@@ -117,7 +117,7 @@ export default function PatientStories() {
         alignItems={"center"}
         gap={4}
       >
-        {patientStories?.map((x) => {
+        {patientStories?.toReversed().map((x) => {
           return (
             <Card
               key={x}
