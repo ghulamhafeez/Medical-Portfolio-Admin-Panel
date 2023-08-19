@@ -6,7 +6,6 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AbcIcon from "@mui/icons-material/Abc";
 import ImageIcon from "@mui/icons-material/Image";
 import Link from "next/link";
-import YouTubeIcon from "@mui/icons-material/YouTube";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Card from "@mui/material/Card";
@@ -265,9 +264,6 @@ export default function TreatmentOptionFields() {
           </MenuItem>
           <MenuItem onClick={() => handleAdd("file")}>
             <ImageIcon sx={{ mr: 2 }}></ImageIcon>Image
-          </MenuItem>
-          <MenuItem onClick={() => handleAdd("youtube")}>
-            <YouTubeIcon sx={{ mr: 2 }}></YouTubeIcon>Youtube
           </MenuItem>
         </Menu>
 
