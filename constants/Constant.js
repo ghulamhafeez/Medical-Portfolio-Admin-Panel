@@ -12,7 +12,7 @@ export const TabsData = [
   { name: "Cases Gallery", path: "/cases-gallery" },
   { name: "Treatment Option", path: "/treatment-option" },
   { name: "Blog", path: "/blog" },
-  { name: "Contact", path: "/contact" },
+  { name: "Enquiry", path: "/enquiry" },
 ];
 
 export const PatientStoriesData = [
