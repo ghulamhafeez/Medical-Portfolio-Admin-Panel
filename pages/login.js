@@ -5,13 +5,26 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
+import { supabase } from "./api/supabase";
+import { useRouter } from "next/router";
 
 export default function Login() {
-  const [email, seEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const router = useRouter();
+
   const handleLogin = () => {
-    supabase.from("authentication");
-    // .insert({})
+    supabase
+      .from("authentication")
+      .insert({ email: email, password: password })
+      .then((res) => {
+        console.log("res", res);
+
+        localStorage.setItem("login", true);
+
+        router.push(`/about`);
+      });
   };
 
   return (
@@ -24,14 +37,14 @@ export default function Login() {
               label="Email"
               value={email}
               variant="outlined"
-              onChange={(e) => seEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               id="outlined-basic"
               label="Passwod"
               value={password}
               variant="outlined"
-              onChange={(e) => sePassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </Grid>
         </CardContent>
