@@ -36,6 +36,7 @@ export default function Blog() {
     supabase
       .from("blog")
       .select()
+      .order("id", { ascending: false })
       .then((response) => {
         setBlogs(response?.data);
       });
@@ -115,7 +116,7 @@ export default function Blog() {
         alignItems={"center"}
         gap={4}
       >
-        {blogs?.toReversed().map((x) => {
+        {blogs?.map((x) => {
           const textDescription = x.items.find((x) => x.type === "text");
           console.log("textDescription", textDescription);
           return (

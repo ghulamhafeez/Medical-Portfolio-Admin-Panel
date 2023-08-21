@@ -36,6 +36,7 @@ export default function TreatmentOption() {
     supabase
       .from("treatment_option")
       .select()
+      .order("id", { ascending: false })
       .then((response) => {
         console.log("rs", response?.data);
         setTreatmentOption(response?.data);
@@ -116,7 +117,7 @@ export default function TreatmentOption() {
         alignItems={"center"}
         gap={4}
       >
-        {treatmentOption?.toReversed().map((x) => {
+        {treatmentOption?.map((x) => {
           const textDescription = x.items.find((x) => x.type === "text");
           console.log("textDescription", textDescription);
           return (

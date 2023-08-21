@@ -14,7 +14,6 @@ import CardContent from "@mui/material/CardContent";
 import { useRouter } from "next/router";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { CardData } from "../../constants/Constant";
 import { supabase } from "../api/supabase";
 import { Add } from "@mui/icons-material";
 
@@ -27,20 +26,19 @@ export default function PatientStories() {
 
   useEffect(() => {
     getPatientStories();
-    // console.log("CardData", data);
   }, []);
 
   const getPatientStories = () => {
     supabase
       .from("patient_stories")
       .select()
+      .order("id", { ascending: false })
       .then((response) => {
         setPatientStories(response?.data);
         console.log({ response });
       });
   };
 
-  console.log("CardData", CardData);
   const open = Boolean(anchorEl);
   const handleClick = (event, x) => {
     setId(x?.id);
@@ -117,7 +115,7 @@ export default function PatientStories() {
         alignItems={"center"}
         gap={4}
       >
-        {patientStories?.toReversed().map((x) => {
+        {patientStories?.map((x) => {
           return (
             <Card
               key={x}

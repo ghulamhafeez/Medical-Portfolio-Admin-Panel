@@ -10,9 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
-import TextField from "@mui/material/TextField";
 import { FIRST_PATH } from "../../constants/Constant";
-import { TransfoemationCardData } from "../../constants/Constant";
 import { supabase } from "../api/supabase";
 import { useRouter } from "next/router";
 import { Add } from "@mui/icons-material";
@@ -31,6 +29,7 @@ export default function Transformation() {
     supabase
       .from("transformation")
       .select()
+      .order("id", { ascending: false })
       .then((response) => {
         console.log("response123", response);
         setTransformation(response?.data);
@@ -58,7 +57,6 @@ export default function Transformation() {
       .then(() => getTransformation());
   };
 
-  console.log("TransfoemationCardData", TransfoemationCardData);
   return (
     <Grid display={"flex"} direction={"column"} gap={2} mb={2}>
       <Grid display={"flex"} direction={"column"} gap={1}>
@@ -111,7 +109,7 @@ export default function Transformation() {
         gap={4}
         mb={4}
       >
-        {transformation?.toReversed().map((x) => {
+        {transformation?.map((x) => {
           console.log("x", x);
           return (
             <Grid key={x} display={"flex"} direction={"column"}>

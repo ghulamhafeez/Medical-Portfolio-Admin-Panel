@@ -27,6 +27,7 @@ export default function CasesGallery() {
     supabase
       .from("cases_gallery")
       .select()
+      .order("id", { ascending: false })
       .then((response) => {
         console.log("response123", response);
         setCasesGallery(response?.data);
@@ -105,7 +106,7 @@ export default function CasesGallery() {
         gap={4}
         mb={4}
       >
-        {casesGallery?.toReversed().map((x) => {
+        {casesGallery?.map((x) => {
           console.log("x", x);
           return (
             <Grid key={x} display={"flex"} direction={"column"}>
