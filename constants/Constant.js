@@ -13,7 +13,6 @@ export const TabsData = [
   { name: "Treatment Option", path: "/treatment-option" },
   { name: "Blog", path: "/blog" },
   { name: "Enquiry", path: "/enquiry" },
-  { name: "Log Out", path: "/logout" },
 ];
 
 export const PatientStoriesData = [

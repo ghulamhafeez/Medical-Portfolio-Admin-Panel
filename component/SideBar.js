@@ -4,8 +4,15 @@ import { Divider, Grid } from "@mui/material";
 import Link from "next/link";
 import { TabsData } from "../constants/Constant";
 import Typography from "@mui/material/Typography";
+import { Button } from "@mui/joy";
+import LogoutModal from "../component/LogoutModal";
 
-export default function About() {
+export default function Sidebar() {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <Grid
       pt={4}
@@ -38,6 +45,21 @@ export default function About() {
           </>
         );
       })}
+      <LogoutModal open={open} handleClose={() => handleClose()} />
+      <Button
+        onClick={() => setOpen(true)}
+        sx={{
+          ml: 1,
+          color: "#666666",
+          background: "none",
+          "&:hover": {
+            background: "none",
+          },
+          fontSize: "15px",
+        }}
+      >
+        <b>Log Out</b>
+      </Button>
     </Grid>
   );
 }

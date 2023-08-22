@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Grid } from "@mui/material";
 import Card from "@mui/material/Card";
@@ -11,19 +11,31 @@ import { useRouter } from "next/router";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  // const [checkLogin, setCheckLogin] = useState();
   const router = useRouter();
 
   const handleLogin = () => {
+    // supabase
+    //   .from("authentication")
+    //   .insert({ email: email, password: password })
+    //   .then((res) => {
+    //     console.log("res", res);
+
+    //     localStorage.setItem("login", true);
+
+    //     router.push(`/about`);
+    //   });
     supabase
       .from("authentication")
-      .insert({ email: email, password: password })
+      .select("email, password")
+      .eq("email", email)
+      .eq("password", password)
       .then((res) => {
-        console.log("res", res);
+        console.log("resl", res?.data);
 
-        localStorage.setItem("login", true);
-
-        router.push(`/about`);
+        if (res?.data.length) {
+          localStorage.setItem("login", true);
+        }
       });
   };
 
