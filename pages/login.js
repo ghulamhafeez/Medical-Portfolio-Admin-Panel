@@ -19,11 +19,9 @@ export default function Login() {
     //   .from("authentication")
     //   .insert({ email: email, password: password })
     //   .then((res) => {
-    //     console.log("res", res);
-
-    //     localStorage.setItem("login", true);
-
-    //     router.push(`/about`);
+    //     // console.log("res", res);
+    //     // localStorage.setItem("login", true);
+    //     // router.push(`/about`);
     //   });
     supabase
       .from("authentication")
@@ -35,6 +33,10 @@ export default function Login() {
 
         if (res?.data.length) {
           localStorage.setItem("login", true);
+          const event = new Event("userLoggedIn");
+          window.dispatchEvent(event);
+
+          router.push(`/about`);
         }
       });
   };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 import { Divider, Grid } from "@mui/material";
 import Link from "next/link";
@@ -10,9 +10,32 @@ import LogoutModal from "../component/LogoutModal";
 export default function Sidebar() {
   const [open, setOpen] = React.useState(false);
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    const loginStatus = localStorage.getItem("login");
+    setIsLoggedIn(loginStatus === "true");
+
+    const userLoggedInHandler = () => {
+      const isLogin = localStorage.getItem("login");
+      setIsLoggedIn(isLogin);
+    };
+    window.addEventListener("userLoggedIn", userLoggedInHandler);
+
+    return () => {
+      window.removeEventListener("userLoggedIn", userLoggedInHandler);
+    };
+  }, []);
+
+  // Only render the sidebar if the user is logged in
+  if (!isLoggedIn) {
+    return null;
+  }
+
   return (
     <Grid
       pt={4}
