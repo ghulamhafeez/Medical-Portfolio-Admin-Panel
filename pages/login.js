@@ -33,9 +33,6 @@ export default function Login() {
 
         if (res?.data.length) {
           localStorage.setItem("login", true);
-          const event = new Event("userLoggedIn");
-          window.dispatchEvent(event);
-
           router.push(`/about`);
         }
       });

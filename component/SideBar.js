@@ -6,33 +6,19 @@ import { TabsData } from "../constants/Constant";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/joy";
 import LogoutModal from "../component/LogoutModal";
+import { useRouter } from "next/router";
 
 export default function Sidebar() {
   const [open, setOpen] = React.useState(false);
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  useEffect(() => {
-    const loginStatus = localStorage.getItem("login");
-    setIsLoggedIn(loginStatus === "true");
-
-    const userLoggedInHandler = () => {
-      const isLogin = localStorage.getItem("login");
-      setIsLoggedIn(isLogin);
-    };
-    window.addEventListener("userLoggedIn", userLoggedInHandler);
-
-    return () => {
-      window.removeEventListener("userLoggedIn", userLoggedInHandler);
-    };
-  }, []);
+  const router = useRouter();
 
   // Only render the sidebar if the user is logged in
-  if (!isLoggedIn) {
+  if (router.pathname === "/login") {
     return null;
   }
 

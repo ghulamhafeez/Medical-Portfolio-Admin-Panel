@@ -14,8 +14,6 @@ export default function LogoutModal({ open, handleClose }) {
 
   const handleLogout = () => {
     localStorage.setItem("login", false);
-    const event = new Event("userLoggedIn");
-    window.dispatchEvent(event);
     router.push("/login");
     handleClose();
   };
