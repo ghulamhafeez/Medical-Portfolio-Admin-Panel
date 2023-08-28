@@ -12,6 +12,9 @@ export default function About() {
   const [bio, setBio] = useState("");
   const [avatarImg, setAvatarImg] = useState("");
 
+  useEffect(() => {
+    getAboutData();
+  }, []);
   const handleFile = (e) => {
     const filedata = e?.target?.files[0];
     supabase.storage
@@ -24,6 +27,18 @@ export default function About() {
         setAvatarImg(res?.data?.path);
       })
       .catch((err) => console.log(err));
+  };
+  const getAboutData = () => {
+    supabase
+      .from("authentication")
+      .select()
+      .eq("email", "drharis@test.com")
+      .single()
+      .then((response) => {
+        console.log("response", response?.data);
+        setBio(response?.data?.bio);
+        setAvatarImg(response?.data?.avatarImg);
+      });
   };
 
   const handleSubmit = () => {
