@@ -81,6 +81,7 @@ export default function PatientStoriesFields() {
       .then((response) => {
         setItems([]);
         setTitle("");
+        router.back();
       });
 
     setItems([]);

@@ -47,7 +47,7 @@ export default function About() {
           value={password}
           type="password"
         />
-        {/* <TextareaAutosize ></TextareaAutosize> */}
+
         <Textarea
           placeholder="Type in here…"
           required

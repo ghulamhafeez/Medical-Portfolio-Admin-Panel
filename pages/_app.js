@@ -3,6 +3,7 @@ import MainLayout from "../component/MainLayout";
 import Login from "./login";
 import { useEffect, useState } from "react";
 import { supabase } from "./api/supabase";
+import { RouteGuard } from "../component/RouterGuard";
 
 function MyApp({ Component, pageProps }) {
   const [checkLogin, setCheckLogin] = useState();
@@ -22,9 +23,11 @@ function MyApp({ Component, pageProps }) {
   });
 
   return (
-    <MainLayout>
-      <Component {...pageProps} />
-    </MainLayout>
+    <RouteGuard>
+      <MainLayout>
+        <Component {...pageProps} />
+      </MainLayout>
+    </RouteGuard>
   );
 }
 

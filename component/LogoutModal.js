@@ -13,7 +13,7 @@ export default function LogoutModal({ open, handleClose }) {
   const router = useRouter();
 
   const handleLogout = () => {
-    localStorage.setItem("login", false);
+    localStorage.removeItem("login");
     router.push("/login");
     handleClose();
   };

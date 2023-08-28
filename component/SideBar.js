@@ -6,7 +6,6 @@ import { TabsData } from "../constants/Constant";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/joy";
 import LogoutModal from "../component/LogoutModal";
-import { useRouter } from "next/router";
 
 export default function Sidebar() {
   const [open, setOpen] = React.useState(false);
@@ -14,13 +13,6 @@ export default function Sidebar() {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const router = useRouter();
-
-  // Only render the sidebar if the user is logged in
-  if (router.pathname === "/login") {
-    return null;
-  }
 
   return (
     <Grid

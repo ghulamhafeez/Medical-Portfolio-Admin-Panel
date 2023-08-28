@@ -112,7 +112,7 @@ export default function TreatmentOption() {
 
       <Grid
         display={"flex"}
-        px={{ xl: 30, lg: 20, md: 12, sm: 10 }}
+        px={{ xl: 40, lg: 20, md: 12, sm: 10 }}
         direction={"column"}
         alignItems={"center"}
         gap={4}
