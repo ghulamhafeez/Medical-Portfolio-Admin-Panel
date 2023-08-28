@@ -1,15 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
-import TextareaAutosize from "@mui/base/TextareaAutosize";
+import { FIRST_PATH } from "../constants/Constant";
 import Textarea from "@mui/joy/Textarea";
+import { supabase } from "../pages/api/supabase";
+import Button from "@mui/material/Button";
+
 export default function About() {
-  const [email] = useState("drharis22@gmail.com");
-  const [password] = useState("haris123@gmail.com");
-  const [mySefl] = useState(
-    "Dr Grammatopoulos attended secondary school in Athens and completed his ultimate two years at Dulwich College under the Ishigaki Scholarship. He gained his Dental Degree from the University of Newcastle in 2004. Following further training in Restorative Dentistry, Paediatric Dentistry and Oral and Maxillofacial Surgery, he qualified as a Specialist Orthodontist in 2010 and Consultant Orthodontist in 2012. He was appointed Consultant in Orthodontics at Guy’s and St Thomas’ Hospitals and Honorary Senior Specialist Clinical Teacher at King’s College London in 2012, remaining in the post until 2020. For over a decade he has trained Dentists, Specialists in Orthodontics and Consultants in Orthodontics."
-  );
+  const [email] = useState(localStorage.getItem("login") || "");
+  const [bio, setBio] = useState("");
+  const [avatarImg, setAvatarImg] = useState("");
+
+  const handleFile = (e) => {
+    const filedata = e?.target?.files[0];
+    supabase.storage
+      .from("media")
+      .upload("bio/" + filedata?.name + Date.now(), filedata, {
+        cacheControl: "3600",
+        upsert: false,
+      })
+      .then((res) => {
+        setAvatarImg(res?.data?.path);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleSubmit = () => {
+    supabase
+      .from("authentication")
+      .update({ bio: bio, avatarImg: avatarImg })
+      .eq("email", "drharis@test.com")
+      .then((res) => console.log("res", res));
+  };
+
   return (
     <Grid
       display={"flex"}
@@ -23,12 +47,15 @@ export default function About() {
       gap={3}
     >
       <Grid>
-        {" "}
-        <Avatar
-          alt="Travis Howard"
-          src="/static/images/avatar/1.jpg"
-          sx={{ width: 140, height: 140 }}
-        />
+        <label for="file">
+          <Avatar
+            alt="Travis Howard"
+            src={`${FIRST_PATH}${avatarImg}`}
+            sx={{ width: 140, height: 140 }}
+            value={avatarImg}
+          />
+        </label>
+        <input id="file" type="file" onChange={(e) => handleFile(e)} hidden />
       </Grid>
 
       <Grid display={"flex"} direction={"column"} gap={2}>
@@ -38,23 +65,38 @@ export default function About() {
           variant="outlined"
           value={email}
           sx={{ width: "100%" }}
+          disabled
         />
-        <TextField
+        {/* <TextField
           id="outlined-basic"
           label="Password"
           variant="outlined"
           sx={{ width: "100%" }}
           value={password}
           type="password"
-        />
+        /> */}
 
         <Textarea
           placeholder="Type in here…"
           required
           minRows={10}
-          value={mySefl}
+          value={bio}
           sx={{ mb: 1, width: "100%" }}
+          onChange={(e) => setBio(e.target.value)}
         />
+        <Button
+          sx={{
+            color: "#fff",
+            background: "#212b36",
+            textTransform: "capitalize",
+            "&:hover": {
+              background: "#212b36",
+            },
+          }}
+          onClickCapture={() => handleSubmit()}
+        >
+          Submit
+        </Button>
       </Grid>
     </Grid>
   );

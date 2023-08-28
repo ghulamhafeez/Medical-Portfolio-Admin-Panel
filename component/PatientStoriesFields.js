@@ -33,11 +33,9 @@ export default function PatientStoriesFields() {
         .eq("id", id)
         .single()
         .then((response) => {
-          console.log("res", response?.data);
           setItems(response?.data?.items);
 
           setTitle(response?.data?.title);
-          //   setBlogs(response?.data);
         });
     }
   }, [id]);
@@ -51,12 +49,10 @@ export default function PatientStoriesFields() {
   };
 
   const handleValue = (e, x) => {
-    console.log("e", e.target.value);
-
     const newsetitems = items.map((item) =>
       item.id == x.id ? { ...item, value: e.target.value } : item
     );
-    console.log("newsetitems", newsetitems);
+
     setItems(newsetitems);
   };
   const handleDelete = ({ id, value }) => {
@@ -64,17 +60,10 @@ export default function PatientStoriesFields() {
 
     const newitems = items.filter((item) => id !== item.id);
 
-    console.log("newsetitems", newitems);
     setItems(newitems);
   };
 
   const handleSubmit = () => {
-    console.log("Submit");
-    // const CardData = {
-    //   title: title,
-    //   text: text,
-    //   file: file,
-    // };
     supabase
       .from("patient_stories")
       .insert({ title: title, items: items })
@@ -100,7 +89,6 @@ export default function PatientStoriesFields() {
   };
 
   const handleFile = (e, x) => {
-    console.log("e", e?.target?.files[0]);
     const filedata = e?.target?.files[0];
 
     supabase.storage
@@ -110,18 +98,16 @@ export default function PatientStoriesFields() {
         upsert: false,
       })
       .then((res) => {
-        console.log("res?.key", res);
         const newsetitems = items.map((item) =>
           item.id == x.id ? { ...item, value: res.data.path } : item
         );
-        console.log("newsetitems", newsetitems);
+
         setItems(newsetitems);
       })
       .catch((err) => console.log(err));
   };
 
   const handleAdd = (data) => {
-    console.log("called", data);
     const type = {
       type: data,
       value: "",
@@ -130,9 +116,6 @@ export default function PatientStoriesFields() {
     };
     setItems([...items, type]);
     setAnchorEl(null);
-    // const newItems = items.slice();
-    // newItems.push(type);
-    // setItems(newItems);
   };
 
   return (
@@ -202,8 +185,6 @@ export default function PatientStoriesFields() {
 
       <Grid
         display={"flex"}
-        // justifyContent={"center"}
-        // alignItems={"center"}
         mt={10}
         direction={"column"}
         px={{ xl: 30, lg: 20, md: 15, sm: 13 }}
@@ -235,7 +216,6 @@ export default function PatientStoriesFields() {
             }}
           >
             <CardContent>
-              {/* <Grid display={"flex"} mt={2}> */}
               <TextField
                 sx={{ width: "100%" }}
                 id="outlined-basic"
@@ -244,7 +224,6 @@ export default function PatientStoriesFields() {
                 variant="outlined"
                 onChange={(e) => setTitle(e.currentTarget.value)}
               />
-              {/* </Grid> */}
             </CardContent>
           </Card>
         </Grid>

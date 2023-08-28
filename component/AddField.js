@@ -4,7 +4,6 @@ import TextField from "@mui/material/TextField";
 import { FIRST_PATH } from "../constants/Constant";
 
 export const AddField = ({ field, handleFile, handleValue }) => {
-  console.log({ field });
   switch (field?.type) {
     case "text":
       return (

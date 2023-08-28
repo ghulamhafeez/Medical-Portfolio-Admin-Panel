@@ -4,27 +4,15 @@ import { useRouter } from "next/router";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import { FIRST_PATH } from "../constants/Constant";
-import { AddField } from "./AddField";
-
-import AbcIcon from "@mui/icons-material/Abc";
-import ImageIcon from "@mui/icons-material/Image";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import { supabase } from "../pages/api/supabase";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 export default function CasesGalleryFields() {
-  const [anchorElBefore, setAnchorElBefore] = React.useState(null);
-  const [anchorElAfter, setAnchorElAfter] = React.useState(null);
-
   const [beforeFile, setBeforeFile] = React.useState([]);
-
-  const [title, setTitle] = React.useState();
-
+  const [title, setTitle] = React.useState("");
   const [afterFile, setAfterFile] = React.useState([]);
-
   const router = useRouter();
   const { id } = router.query;
 
@@ -36,8 +24,6 @@ export default function CasesGalleryFields() {
         .eq("id", id)
         .single()
         .then((response) => {
-          console.log("res", response?.data);
-
           setTitle(response?.data?.title);
           setBeforeFile(response?.data?.beforeFile),
             setAfterFile(response?.data?.afterFile);
@@ -45,23 +31,16 @@ export default function CasesGalleryFields() {
     }
   }, [id]);
 
-  const handleCloseBefore = () => {
-    setAnchorElBefore(null);
-  };
-  const handleCloseAfter = () => {
-    setAnchorElAfter(null);
-  };
   const handleDeleteBefore = (x) => {
-    console.log("beforeFile", x);
     supabase.storage.from("media").remove(x);
     const newitems = beforeFile.filter((item) => x !== item);
-    console.log("newitems", newitems);
+
     setBeforeFile(newitems);
   };
   const handleDeleteAfter = (x) => {
     supabase.storage.from("media").remove(x);
     const newitems = afterFile.filter((item) => x !== item);
-    console.log("newitems", newitems);
+
     setAfterFile(newitems);
   };
   const handleSubmit = () => {
@@ -111,10 +90,7 @@ export default function CasesGalleryFields() {
   };
 
   const handleBeforeFile = async (e) => {
-    // console.log("e", e?.target?.files[0]);
     const filedata = e?.target?.files;
-
-    console.log("filedata", filedata);
 
     const files = [];
     for (const file of filedata) {
@@ -125,10 +101,9 @@ export default function CasesGalleryFields() {
           upsert: false,
         });
 
-      console.log("metadata", metadata);
       files.push(metadata.data.path);
     }
-    console.log({ files });
+
     setBeforeFile(files);
   };
   return (

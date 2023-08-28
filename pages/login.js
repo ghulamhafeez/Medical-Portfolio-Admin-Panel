@@ -11,18 +11,9 @@ import { useRouter } from "next/router";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [checkLogin, setCheckLogin] = useState();
   const router = useRouter();
 
   const handleLogin = () => {
-    // supabase
-    //   .from("authentication")
-    //   .insert({ email: email, password: password })
-    //   .then((res) => {
-    //     // console.log("res", res);
-    //     // localStorage.setItem("login", true);
-    //     // router.push(`/about`);
-    //   });
     supabase
       .from("authentication")
       .select("email, password")
@@ -32,7 +23,7 @@ export default function Login() {
         console.log("resl", res?.data);
 
         if (res?.data.length) {
-          localStorage.setItem("login", true);
+          localStorage.setItem("login", res.data[0].email);
           router.push(`/about`);
         }
       });
@@ -46,6 +37,7 @@ export default function Login() {
             <TextField
               id="outlined-basic"
               label="Email"
+              type="email"
               value={email}
               variant="outlined"
               onChange={(e) => setEmail(e.target.value)}
@@ -53,6 +45,7 @@ export default function Login() {
             <TextField
               id="outlined-basic"
               label="Passwod"
+              type="password"
               value={password}
               variant="outlined"
               onChange={(e) => setPassword(e.target.value)}

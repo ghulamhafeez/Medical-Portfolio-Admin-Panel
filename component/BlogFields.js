@@ -19,12 +19,10 @@ export default function BlogFields() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [items, setItems] = React.useState([]);
   const [title, setTitle] = React.useState("");
-
   const [headerFile, setHeaderFile] = React.useState();
+
   const open = Boolean(anchorEl);
-
   const router = useRouter();
-
   const { id } = router.query;
 
   useEffect(() => {
@@ -35,7 +33,6 @@ export default function BlogFields() {
         .eq("id", id)
         .single()
         .then((response) => {
-          console.log("res", response?.data);
           setItems(response?.data?.items);
           setHeaderFile(response?.data?.headerFile);
           setTitle(response?.data?.title);
@@ -52,33 +49,20 @@ export default function BlogFields() {
 
   const handleDelete = ({ id, value }) => {
     supabase.storage.from("media").remove(value);
-
     const newitems = items.filter((item) => id !== item.id);
-
-    console.log("newsetitems", newitems);
     setItems(newitems);
   };
 
   const handleHeaderDelete = (headerFile) => {
-    console.log("headerFile", headerFile);
     if (headerFile) {
       supabase.storage
         .from("media")
         .remove(headerFile)
         .then(() => setHeaderFile(""));
     }
-
-    // console.log("delId", id);
-
-    // const newitems = items.filter((item) => id !== item.id);
-
-    // console.log("newsetitems", newitems);
-    // setItems(newitems);
   };
 
   const handleSubmit = async () => {
-    console.log("CardData", items);
-
     supabase
       .from("blog")
       .insert({
@@ -98,8 +82,6 @@ export default function BlogFields() {
   };
 
   const handleUpdate = async () => {
-    console.log("CardData", items);
-
     supabase
       .from("blog")
       .update({
@@ -119,16 +101,14 @@ export default function BlogFields() {
       });
   };
   const handleValue = (e, x) => {
-    console.log("ent", e.target.value);
     const newsetitems = items.map((item) =>
       item.id == x.id ? { ...item, value: e.target.value } : item
     );
-    console.log("newsetitems", newsetitems);
+
     setItems(newsetitems);
   };
 
   const handleheaderFile = (e) => {
-    console.log("e", e?.target?.files[0]);
     const filedata = e?.target?.files[0];
 
     supabase.storage
@@ -138,13 +118,11 @@ export default function BlogFields() {
         upsert: false,
       })
       .then((res) => {
-        console.log("res?.key", res.data.path);
         setHeaderFile(res?.data?.path);
       })
       .catch((err) => console.log(err));
   };
   const handleFile = (e, x) => {
-    console.log("e", e?.target?.files[0]);
     const filedata = e?.target?.files[0];
 
     supabase.storage
@@ -154,24 +132,22 @@ export default function BlogFields() {
         upsert: false,
       })
       .then((res) => {
-        console.log("res?.key", res);
         const newsetitems = items.map((item) =>
           item.id == x.id ? { ...item, value: res.data.path } : item
         );
-        console.log("newsetitems", newsetitems);
+
         setItems(newsetitems);
       })
       .catch((err) => console.log(err));
   };
 
   const handleAdd = (data) => {
-    console.log("called", data);
     const type = {
       type: data,
       value: "",
       id: Math.random().toString(16).slice(-4),
     };
-    console.log("type", type);
+
     setItems([...items, type]);
     setAnchorEl(null);
   };

@@ -16,20 +16,11 @@ import { supabase } from "../pages/api/supabase";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 export default function TransformationFields() {
-  const [anchorElBefore, setAnchorElBefore] = React.useState(null);
-  const [anchorElAfter, setAnchorElAfter] = React.useState(null);
-  const [itemsBefore, setItemsBefore] = React.useState([]);
-  const [itemsAfter, setItemsAfter] = React.useState([]);
-
   const [beforeFile, setBeforeFile] = React.useState([]);
-  const [beforeText, setBeforeText] = React.useState();
-  const [title, setTitle] = React.useState();
-
+  const [beforeText, setBeforeText] = React.useState("");
+  const [title, setTitle] = React.useState("");
   const [afterFile, setAfterFile] = React.useState([]);
-  const [afterText, setAfterText] = React.useState();
-
-  const openBefore = Boolean(anchorElBefore);
-  const openAfter = Boolean(anchorElAfter);
+  const [afterText, setAfterText] = React.useState("");
 
   const router = useRouter();
   const { id } = router.query;
@@ -42,8 +33,6 @@ export default function TransformationFields() {
         .eq("id", id)
         .single()
         .then((response) => {
-          console.log("res", response?.data);
-
           setTitle(response?.data?.title);
           setBeforeFile(response?.data?.beforeFile),
             setBeforeText(response?.data?.beforeText),
@@ -53,23 +42,16 @@ export default function TransformationFields() {
     }
   }, [id]);
 
-  const handleCloseBefore = () => {
-    setAnchorElBefore(null);
-  };
-  const handleCloseAfter = () => {
-    setAnchorElAfter(null);
-  };
   const handleDeleteBefore = (x) => {
-    console.log("beforeFile", x);
     supabase.storage.from("media").remove(x);
     const newitems = beforeFile.filter((item) => x !== item);
-    console.log("newitems", newitems);
+
     setBeforeFile(newitems);
   };
   const handleDeleteAfter = (x) => {
     supabase.storage.from("media").remove(x);
     const newitems = afterFile.filter((item) => x !== item);
-    console.log("newitems", newitems);
+
     setAfterFile(newitems);
   };
   const handleSubmit = () => {
@@ -131,10 +113,7 @@ export default function TransformationFields() {
   };
 
   const handleBeforeFile = async (e) => {
-    // console.log("e", e?.target?.files[0]);
     const filedata = e?.target?.files;
-
-    console.log("filedata", filedata);
 
     const files = [];
     for (const file of filedata) {
@@ -145,10 +124,9 @@ export default function TransformationFields() {
           upsert: false,
         });
 
-      console.log("metadata", metadata);
       files.push(metadata.data.path);
     }
-    console.log({ files });
+
     setBeforeFile(files);
   };
   return (

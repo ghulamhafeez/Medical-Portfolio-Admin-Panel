@@ -67,13 +67,6 @@ export default function TreatmentOptionFields() {
         .remove(headerFile)
         .then(() => setHeaderFile(""));
     }
-
-    // console.log("delId", id);
-
-    // const newitems = items.filter((item) => id !== item.id);
-
-    // console.log("newsetitems", newitems);
-    // setItems(newitems);
   };
 
   const handleSubmit = async () => {
