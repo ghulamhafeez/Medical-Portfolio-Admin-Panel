@@ -41,7 +41,7 @@ export default function TreatmentOptionFields() {
           //   setBlogs(response?.data);
         });
     }
-  }, []);
+  }, [id]);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -52,8 +52,6 @@ export default function TreatmentOptionFields() {
 
   const handleDelete = ({ id, value }) => {
     supabase.storage.from("media").remove(value);
-
-    // console.log("delId", value);
 
     const newitems = items.filter((item) => id !== item.id);
 
@@ -301,6 +299,7 @@ export default function TreatmentOptionFields() {
                   </Grid>
                   <img
                     width={"100%"}
+                    height={400}
                     alt={"Image"}
                     object-fit="cover"
                     src={`${FIRST_PATH}${headerFile}`}
@@ -315,7 +314,29 @@ export default function TreatmentOptionFields() {
             </CardContent>
           </Card>
         </Grid>
-
+        <Grid display={"flex"} justifyContent={"center"} mt={4} mb={2}>
+          <Button
+            id="demo-customized-button"
+            aria-controls={open ? "demo-customized-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            variant="contained"
+            disableElevation
+            onClick={handleClick}
+            endIcon={<KeyboardArrowDownIcon />}
+            sx={{
+              width: 130,
+              mb: 2,
+              background: "#212b36",
+              textTransform: "capitalize",
+              "&:hover": {
+                background: "#212b36",
+              },
+            }}
+          >
+            Options
+          </Button>
+        </Grid>
         <Grid direction="column" container mb={2} mt={2} spacing={2}>
           {items?.map((x) => {
             console.log("x", x);
@@ -352,29 +373,6 @@ export default function TreatmentOptionFields() {
               </Grid>
             );
           })}
-        </Grid>
-        <Grid display={"flex"} justifyContent={"center"} mt={4} mb={12}>
-          <Button
-            id="demo-customized-button"
-            aria-controls={open ? "demo-customized-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            variant="contained"
-            disableElevation
-            onClick={handleClick}
-            endIcon={<KeyboardArrowDownIcon />}
-            sx={{
-              width: 130,
-              mb: 2,
-              background: "#212b36",
-              textTransform: "capitalize",
-              "&:hover": {
-                background: "#212b36",
-              },
-            }}
-          >
-            Options
-          </Button>
         </Grid>
       </Grid>
     </Grid>

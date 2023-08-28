@@ -24,6 +24,7 @@ export const AddField = ({ field, handleFile, handleValue }) => {
         return (
           <img
             width={"100%"}
+            height={400}
             alt={"Image"}
             object-fit="cover"
             src={`${FIRST_PATH}${field?.value}`}

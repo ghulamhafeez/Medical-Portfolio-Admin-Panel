@@ -43,7 +43,7 @@ export default function CasesGalleryFields() {
             setAfterFile(response?.data?.afterFile);
         });
     }
-  }, []);
+  }, [id]);
 
   const handleCloseBefore = () => {
     setAnchorElBefore(null);

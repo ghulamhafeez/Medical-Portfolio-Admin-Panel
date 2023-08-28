@@ -152,6 +152,7 @@ export default function Blog() {
                   src={`${FIRST_PATH}${x.headerFile}`}
                   alt="iamge"
                   width={"100%"}
+                  height={400}
                 ></img>
               </CardContent>
             </Card>

@@ -152,6 +152,7 @@ export default function TreatmentOption() {
                   loading="lazy"
                   src={`${FIRST_PATH}${x.headerFile}`}
                   alt="iamge"
+                  height={400}
                   width={"100%"}
                 ></img>
               </CardContent>

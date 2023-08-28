@@ -51,7 +51,7 @@ export default function TransformationFields() {
             setAfterText(response?.data?.afterText);
         });
     }
-  }, []);
+  }, [id]);
 
   const handleCloseBefore = () => {
     setAnchorElBefore(null);

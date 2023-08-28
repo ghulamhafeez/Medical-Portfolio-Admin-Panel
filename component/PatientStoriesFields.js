@@ -40,7 +40,7 @@ export default function PatientStoriesFields() {
           //   setBlogs(response?.data);
         });
     }
-  }, []);
+  }, [id]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

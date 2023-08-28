@@ -26,13 +26,6 @@ function MyApp({ Component, pageProps }) {
       <Component {...pageProps} />
     </MainLayout>
   );
-  // checkLogin ? (
-  // <MainLayout>
-  //   <Component {...pageProps} />
-  // </MainLayout>;
-  // ) : (
-  //   router.push(`/login`)
-  // );
 }
 
 export default MyApp;
