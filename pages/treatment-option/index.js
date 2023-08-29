@@ -88,7 +88,7 @@ export default function TreatmentOption() {
               }}
               startIcon={<AddIcon />}
             >
-              Add TreatmentOption
+              Add Treatment Option
             </Button>
           </Link>
         </Grid>

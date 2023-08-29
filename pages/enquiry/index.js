@@ -29,10 +29,11 @@ export default function Enquiry() {
 
   const handleDelete = (id) => {
     console.log("del", id);
-    supabase.from("contact").delete().eq("id", id);
-    const newitems = enquiry.filter((item) => id !== item.id);
-    console.log("newitems", newitems);
-    setEnquiry(newitems);
+    supabase
+      .from("contact")
+      .delete()
+      .eq("id", id)
+      .then(() => getEnquiry());
   };
 
   return (
