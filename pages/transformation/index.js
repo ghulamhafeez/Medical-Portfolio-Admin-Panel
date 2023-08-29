@@ -31,12 +31,10 @@ export default function Transformation() {
       .select()
       .order("id", { ascending: false })
       .then((response) => {
-        console.log("response123", response);
         setTransformation(response?.data);
       });
   };
   const handleEdit = () => {
-    console.log("idd", id);
     router.push(`transformation/edit-transformation/${id}`);
   };
   const handleClick = (event, x) => {
@@ -47,7 +45,6 @@ export default function Transformation() {
     setAnchorEl(null);
   };
   const handleDelete = () => {
-    console.log("idd", id);
     setAnchorEl(null);
 
     supabase
@@ -110,7 +107,6 @@ export default function Transformation() {
         mb={4}
       >
         {transformation?.map((x) => {
-          console.log("x", x);
           return (
             <Grid key={x} display={"flex"} direction={"column"}>
               <Card sx={{ bgcolor: "#f8f9fb" }}>

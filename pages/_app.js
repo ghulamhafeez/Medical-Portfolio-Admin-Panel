@@ -18,8 +18,6 @@ function MyApp({ Component, pageProps }) {
 
         setCheckLogin(localStorage.getItem("login"));
       });
-
-    // console.log(asd, "asd");
   });
 
   return (

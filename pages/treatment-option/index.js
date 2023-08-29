@@ -7,19 +7,15 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Card from "@mui/material/Card";
-import Box from "@mui/material/Box";
 import Link from "next/link";
 import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import { supabase } from "../api/supabase";
-import Router from "next/router";
 import { useRouter } from "next/router";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { CardData } from "../../constants/Constant";
-import { Field } from "../../component/Field";
 import { useEffect } from "react";
+
 export default function TreatmentOption() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [treatmentOption, setTreatmentOption] = React.useState();
@@ -38,7 +34,6 @@ export default function TreatmentOption() {
       .select()
       .order("id", { ascending: false })
       .then((response) => {
-        console.log("rs", response?.data);
         setTreatmentOption(response?.data);
       });
   };
@@ -53,8 +48,6 @@ export default function TreatmentOption() {
     setAnchorEl(null);
   };
   const handleDelete = () => {
-    console.log("idd", id);
-
     supabase
       .from("treatment_option")
       .delete()
@@ -63,7 +56,6 @@ export default function TreatmentOption() {
     setAnchorEl(null);
   };
   const handleEdit = () => {
-    console.log("idd", id);
     router.push(`/treatment-option/edit-treatment-option/${id}`);
   };
   return (

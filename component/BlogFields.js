@@ -319,7 +319,6 @@ export default function BlogFields() {
 
         <Grid direction="column" container mb={2} mt={2} spacing={2}>
           {items?.map((x) => {
-            console.log("x", x);
             return (
               <Grid item key={x}>
                 <Card

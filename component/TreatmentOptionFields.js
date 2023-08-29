@@ -38,7 +38,6 @@ export default function TreatmentOptionFields() {
           setItems(response?.data?.items);
           setHeaderFile(response?.data?.headerFile);
           setTitle(response?.data?.title);
-          //   setBlogs(response?.data);
         });
     }
   }, [id]);
@@ -137,7 +136,6 @@ export default function TreatmentOptionFields() {
       .catch((err) => console.log(err));
   };
   const handleFile = (e, x) => {
-    console.log("e", e?.target?.files[0]);
     const filedata = e?.target?.files[0];
 
     supabase.storage
@@ -147,7 +145,6 @@ export default function TreatmentOptionFields() {
         upsert: false,
       })
       .then((res) => {
-        console.log("res?.key", res);
         const newsetitems = items.map((item) =>
           item.id == x.id ? { ...item, value: res.data.path } : item
         );
@@ -158,13 +155,12 @@ export default function TreatmentOptionFields() {
   };
 
   const handleAdd = (data) => {
-    console.log("called", data);
     const type = {
       type: data,
       value: "",
       id: Math.random().toString(16).slice(-4),
     };
-    console.log("type", type);
+
     setItems([...items, type]);
     setAnchorEl(null);
   };
@@ -332,7 +328,6 @@ export default function TreatmentOptionFields() {
         </Grid>
         <Grid direction="column" container mb={2} mt={2} spacing={2}>
           {items?.map((x) => {
-            console.log("x", x);
             return (
               <Grid item key={x}>
                 <Card

@@ -28,7 +28,6 @@ export default function Enquiry() {
   };
 
   const handleDelete = (id) => {
-    console.log("del", id);
     supabase
       .from("contact")
       .delete()

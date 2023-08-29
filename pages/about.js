@@ -54,10 +54,7 @@ export default function About() {
       display={"flex"}
       direction={"column"}
       justifyContent={"center"}
-      // alignItems={"center"}
-      // ml={20}
       mt={10}
-      // textAlign={"center"}
       px={{ xl: 45, lg: 40, md: 20, sm: 10, xs: 2 }}
       gap={3}
     >

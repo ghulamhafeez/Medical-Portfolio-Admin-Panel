@@ -42,11 +42,9 @@ export default function CasesGallery() {
     setAnchorEl(null);
   };
   const handleEdit = () => {
-    console.log("idd", id);
     router.push(`cases-gallery/edit-cases-gallery/${id}`);
   };
   const handleDelete = () => {
-    console.log("idd", id);
     setAnchorEl(null);
 
     supabase
@@ -107,7 +105,6 @@ export default function CasesGallery() {
         mb={4}
       >
         {casesGallery?.map((x) => {
-          console.log("x", x);
           return (
             <Grid key={x} display={"flex"} direction={"column"}>
               <Card sx={{ bgcolor: "#f8f9fb" }}>

@@ -17,10 +17,6 @@ export default function Sidebar() {
   return (
     <Grid
       pt={4}
-      // boxShadow="0px 0px 24px rgba(0, 0, 0, 0.7"
-      //   sx={{ display: { sm: "none", xs: "none", md: "block", lg: "block" } }}
-      //   px={{ sm: 2, md: 5, lg: 22, xl: 26 }}
-      //   className={styles.tabs}
       bgcolor={"#f8f9fb"}
       width={260}
       height={"100vh"}
@@ -36,7 +32,6 @@ export default function Sidebar() {
                 ml={3}
                 color={"#666666"}
                 fontSize={"15px"}
-                // mb={3}
                 py={1}
               >
                 <b>{x.name}</b>
