@@ -9,6 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { FIRST_PATH } from "../constants/Constant";
 export default function SecuredReferral() {
   const [securedData, setSecuredData] = useState();
 
@@ -87,7 +88,9 @@ export default function SecuredReferral() {
               <TableCell sx={{ color: "#666666" }}>
                 <b>Notes</b>
               </TableCell>
-
+              <TableCell sx={{ color: "#666666" }}>
+                <b>Records File</b>
+              </TableCell>
               <TableCell sx={{ color: "#666666" }}>
                 <b>Delete</b>
               </TableCell>
@@ -115,6 +118,16 @@ export default function SecuredReferral() {
                 <TableCell>{x.dentistName}</TableCell>
                 <TableCell>{x.dentistPhone}</TableCell>
                 <TableCell>{x.notes}</TableCell>
+                <TableCell>
+                  {" "}
+                  <img
+                    loading="lazy"
+                    src={`${FIRST_PATH}${x.recordsFile}`}
+                    alt="iamge"
+                    width={50}
+                    height={50}
+                  ></img>
+                </TableCell>
 
                 <TableCell>
                   <DeleteIcon onClick={() => handleDelete(x.id)} />
