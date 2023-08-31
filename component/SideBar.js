@@ -27,35 +27,57 @@ export default function Sidebar() {
         return (
           <>
             <Link href={x.path} key={x}>
-              <Typography
-                gutterBottom
-                ml={3}
-                color={"#666666"}
-                fontSize={"15px"}
-                py={1}
-              >
-                <b>{x.name}</b>
-              </Typography>
+              <Grid display={"flex"}>
+                <Grid ml={2} mt={1}>
+                  <img
+                    width={22}
+                    height={22}
+                    alt={"Image"}
+                    object-fit="cover"
+                    src={x.src}
+                  ></img>
+                </Grid>
+                <Typography
+                  gutterBottom
+                  ml={2}
+                  color={"#666666"}
+                  fontSize={"15px"}
+                  py={1}
+                >
+                  <b>{x.name}</b>
+                </Typography>
+              </Grid>
             </Link>
             <Divider />
           </>
         );
       })}
+
       <LogoutModal open={open} handleClose={() => handleClose()} />
-      <Button
-        onClick={() => setOpen(true)}
-        sx={{
-          ml: 1,
-          color: "#666666",
-          background: "none",
-          "&:hover": {
+      <Grid display={"flex"}>
+        <Grid ml={2} mt={1}>
+          <img
+            width={22}
+            height={22}
+            alt={"Image"}
+            object-fit="cover"
+            src={"/assets/icons/logout.svg"}
+          ></img>
+        </Grid>
+        <Button
+          onClick={() => setOpen(true)}
+          sx={{
+            color: "#666666",
             background: "none",
-          },
-          fontSize: "15px",
-        }}
-      >
-        <b>Log Out</b>
-      </Button>
+            "&:hover": {
+              background: "none",
+            },
+            fontSize: "15px",
+          }}
+        >
+          <b>Log Out</b>
+        </Button>
+      </Grid>
     </Grid>
   );
 }

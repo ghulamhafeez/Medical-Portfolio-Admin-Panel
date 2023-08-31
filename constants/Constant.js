@@ -5,15 +5,31 @@ export const FIRST_PATH =
   "https://svatejavkpjxrxvbpvdp.supabase.co/storage/v1/object/public/media/";
 
 export const TabsData = [
-  { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
-  { name: "Patient Stories", path: "/patient-stories" },
-  { name: "Transformation", path: "/transformation" },
-  { name: "Cases Gallery", path: "/cases-gallery" },
-  { name: "Treatment Option", path: "/treatment-option" },
-  { name: "Blog", path: "/blog" },
-  { name: "Enquiry", path: "/enquiry" },
-  { name: "Secured Referral", path: "/secured-referral" },
+  { name: "Home", path: "/", src: "/assets/icons/home.svg" },
+  { name: "About", path: "/about", src: "/assets/icons/about.svg" },
+  {
+    name: "Stories",
+    path: "/patient-stories",
+    src: "/assets/icons/stories.svg",
+  },
+  {
+    name: "Transformation",
+    path: "/transformation",
+    src: "/assets/icons/transformation.svg",
+  },
+  { name: "Cases", path: "/cases-gallery", src: "/assets/icons/cases.svg" },
+  {
+    name: "Treatments",
+    path: "/treatment-option",
+    src: "/assets/icons/treatment.svg",
+  },
+  { name: "Blog", path: "/blog", src: "/assets/icons/blog.svg" },
+  { name: "Enquiry", path: "/enquiry", src: "/assets/icons/enquire.svg" },
+  {
+    name: "Referral",
+    path: "/secured-referral",
+    src: "/assets/icons/referral.svg",
+  },
 ];
 
 export const PatientStoriesData = [
