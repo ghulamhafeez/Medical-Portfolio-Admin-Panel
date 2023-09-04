@@ -239,9 +239,9 @@ export default function BlogFields() {
           <MenuItem onClick={() => handleAdd("file")}>
             <ImageIcon sx={{ mr: 2 }}></ImageIcon>Image
           </MenuItem>
-          <MenuItem onClick={() => handleAdd("youtube")}>
+          {/* <MenuItem onClick={() => handleAdd("youtube")}>
             <YouTubeIcon sx={{ mr: 2 }}></YouTubeIcon>Youtube
-          </MenuItem>
+          </MenuItem> */}
         </Menu>
 
         <Grid>

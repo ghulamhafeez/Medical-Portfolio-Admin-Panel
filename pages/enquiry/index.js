@@ -9,24 +9,20 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-export default function Enquiry() {
-  const [enquiry, setEnquiry] = useState();
 
-  useEffect(() => {
-    getEnquiry();
-  }, []);
+export const getServerSideProps = async () => {
+  const res = await supabase
+    .from("contact")
+    .select()
+    .order("id", { ascending: false });
 
-  const getEnquiry = () => {
-    supabase
-      .from("contact")
-      .select()
-      .order("id", { ascending: false })
-      .then((response) => {
-        console.log("response123", response.data);
-        setEnquiry(response?.data);
-      });
-  };
+  console.log("res", res.data);
+  const enquiry = res.data;
 
+  return { props: { enquiry } };
+};
+
+export default function Enquiry({ enquiry }) {
   const handleDelete = (id) => {
     supabase
       .from("contact")

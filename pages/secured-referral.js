@@ -10,26 +10,20 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { FIRST_PATH } from "../constants/Constant";
-export default function SecuredReferral() {
-  const [securedData, setSecuredData] = useState();
 
-  useEffect(() => {
-    getSecuredData();
-  }, []);
+export const getServerSideProps = async () => {
+  const res = await supabase
+    .from("secured_referral")
+    .select()
+    .order("id", { ascending: false });
 
-  const getSecuredData = () => {
-    supabase
-      .from("secured_referral")
-      .select()
-      .order("id", { ascending: false })
-      .then((response) => {
-        console.log("response123", response.data);
-        setSecuredData(response?.data);
-      });
-  };
+  const securedData = res.data;
 
+  return { props: { securedData } };
+};
+
+export default function SecuredReferral({ securedData }) {
   const handleDelete = (id) => {
-    console.log("del", id);
     supabase
       .from("secured_referral")
       .delete()
