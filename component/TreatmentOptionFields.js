@@ -117,7 +117,6 @@ export default function TreatmentOptionFields() {
       });
   };
   const handleValue = (e, x) => {
-    console.log("ent", e.target.value);
     const newsetitems = values.items.map((item) =>
       item.id == x.id ? { ...item, value: e.target.value } : item
     );

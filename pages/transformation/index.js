@@ -120,7 +120,6 @@ export default function Transformation() {
                   }
                   sx={{ color: "#666666" }}
                   title={x.title}
-                  // <Typography variant="h6">{x.title}</Typography>
                 />
                 <Grid container spacing={4} padding={2}>
                   <Grid item xs={6} display={"flex"} direction={"column"}>

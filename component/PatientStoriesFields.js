@@ -85,7 +85,6 @@ export default function PatientStoriesFields() {
         title: values.title,
         items: values.items,
       };
-      console.log("data", data);
       supabase
         .from("patient_stories")
         .insert(data)

@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, Divider, Grid } from "@mui/material";
-import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import { FIRST_PATH } from "../../constants/Constant";
 import Typography from "@mui/material/Typography";
@@ -21,7 +20,6 @@ export default function TreatmentOption() {
   const [treatmentOption, setTreatmentOption] = React.useState();
   const [id, setId] = React.useState();
   const [editValue, setEditValue] = React.useState();
-
   const router = useRouter();
 
   useEffect(() => {
@@ -111,7 +109,7 @@ export default function TreatmentOption() {
       >
         {treatmentOption?.map((x) => {
           const textDescription = x.items.find((x) => x.type === "text");
-          console.log("textDescription", textDescription);
+
           return (
             <Card
               key={x}

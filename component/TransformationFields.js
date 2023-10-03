@@ -4,13 +4,8 @@ import { useRouter } from "next/router";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import { FIRST_PATH } from "../constants/Constant";
-import { AddField } from "../component/AddField";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import AbcIcon from "@mui/icons-material/Abc";
-import ImageIcon from "@mui/icons-material/Image";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import { supabase } from "../pages/api/supabase";
@@ -129,7 +124,7 @@ export default function TransformationFields() {
         });
       files.push(metadata.data.path);
     }
-    // setAfterFile(files);
+
     setFieldValue("afterFile", files);
   };
 

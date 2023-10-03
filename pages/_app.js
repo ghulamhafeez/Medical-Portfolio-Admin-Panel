@@ -7,7 +7,7 @@ import { RouteGuard } from "../component/RouterGuard";
 
 function MyApp({ Component, pageProps }) {
   const [checkLogin, setCheckLogin] = useState();
-  // localStorage.getItem("login");
+
   useEffect(() => {
     supabase
       .from("authentication")

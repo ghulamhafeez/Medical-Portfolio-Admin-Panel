@@ -6,11 +6,6 @@ import { useRouter } from "next/router";
 export default function MainLayout({ children }) {
   const router = useRouter();
 
-  // Only render the sidebar if the user is logged in
-  // if (router.pathname === "/login") {
-  //   return null;
-  // }
-
   return (
     <Grid container display={"flex"} direction={"row"}>
       {router.pathname !== "/login" && (
