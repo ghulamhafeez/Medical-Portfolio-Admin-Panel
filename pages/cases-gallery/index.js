@@ -103,6 +103,7 @@ export default function CasesGallery() {
         alignItems={"center"}
         gap={4}
         mb={4}
+        mt={2}
       >
         {casesGallery?.map((x) => {
           return (
@@ -118,7 +119,6 @@ export default function CasesGallery() {
                   }
                   sx={{ color: "#666666" }}
                   title={x.title}
-                  // <Typography variant="h6">{x.title}</Typography>
                 />
                 <Grid container spacing={4} padding={2}>
                   <Grid item xs={6} display={"flex"} direction={"column"}>
@@ -136,7 +136,6 @@ export default function CasesGallery() {
                         {x.beforeFile.map((x) => {
                           return (
                             <Grid key={x}>
-                              {/* <Field type={x?.type} value={x?.value} /> */}
                               <img
                                 width={"100%"}
                                 height={200}
@@ -165,7 +164,6 @@ export default function CasesGallery() {
                         {x.afterFile.map((x) => {
                           return (
                             <Grid key={x}>
-                              {/* <Field type={x?.type} value={x?.value} /> */}
                               <img
                                 width={"100%"}
                                 height={200}
