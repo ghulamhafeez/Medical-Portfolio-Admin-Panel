@@ -5,7 +5,6 @@ export const FIRST_PATH =
   "https://svatejavkpjxrxvbpvdp.supabase.co/storage/v1/object/public/media/";
 
 export const TabsData = [
-  { name: "Home", path: "/", src: "/assets/icons/home.svg" },
   { name: "About", path: "/about", src: "/assets/icons/about.svg" },
   {
     name: "Stories",
