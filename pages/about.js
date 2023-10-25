@@ -6,7 +6,7 @@ import { FIRST_PATH } from "../constants/Constant";
 import Textarea from "@mui/joy/Textarea";
 import { supabase } from "../pages/api/supabase";
 import Button from "@mui/material/Button";
-import Cropper from "react-easy-crop";
+// import Cropper from "react-easy-crop";
 import { AddField } from "../component/AddField";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
