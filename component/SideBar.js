@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import styles from "../styles/Home.module.css";
 import { Divider, Grid } from "@mui/material";
 import Link from "next/link";
 import { TabsData } from "../constants/Constant";

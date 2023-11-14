@@ -226,23 +226,6 @@ export default function About() {
               </MenuItem>
             </Card>
           </Grid>
-          {/* <Dialog onClose={handleClose} open={open}>
-            <DialogTitle>Cropper</DialogTitle>
-            <Box sx={{ width: 600, height: 500 }}>
-              <Cropper
-                // image="https://i.brecorder.com/primary/2021/06/60d48302d4a99.jpg"
-
-                image={`${FIRST_PATH}${img}`}
-                crop={crop}
-                zoom={zoom}
-                aspect={1200 / 600}
-                onCropChange={setCrop}
-                onCropComplete={onCropComplete}
-                onZoomChange={setZoom}
-              />
-            </Box>
-            <Button onClick={() => handleSave()}>Save</Button>
-          </Dialog> */}
 
           <Grid direction="column" container mb={2} mt={2} spacing={2}>
             {values?.items?.map((x, index) => {
