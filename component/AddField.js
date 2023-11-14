@@ -32,7 +32,7 @@ export const AddField = ({ field, handleFile, handleValue }) => {
       }
       return <input type="file" onChange={(e) => handleFile(e)}></input>;
 
-    case "youtube":
+    case "url":
       return (
         <TextField
           sx={{ width: "100%" }}

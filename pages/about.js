@@ -67,7 +67,8 @@ export default function About() {
       });
   };
 
-  const handleFile = (e, x) => {
+  const handleFile = (e, x, i) => {
+    console.log("asd", x, i);
     const filedata = e?.target?.files[0];
     supabase.storage
       .from("media")
@@ -81,6 +82,10 @@ export default function About() {
         const newsetitems = values?.items.map((item) =>
           item.id == x.id ? { ...item, value: res?.data?.path } : item
         );
+
+        // const newsetitems = values?.items.map((item, i) =>
+        //   i === index ? { ...item, value: res?.data?.path } : item
+        // );
         console.log("newsetitems", newsetitems);
         setFieldValue("items", newsetitems);
       })
@@ -101,14 +106,16 @@ export default function About() {
       })
       .catch((err) => console.log(err));
   };
-  const handleAdd = (data) => {
+  const handleAdd = () => {
     const type = {
-      type: data,
+      type: "file",
       value: "",
+      url: "",
       id: Math.random().toString(16).slice(-4),
     };
 
     setFieldValue("items", [...values?.items, type]);
+
     setAnchorEl(null);
   };
 
@@ -120,6 +127,9 @@ export default function About() {
     console.log("newitems", newitems);
     setFieldValue("items", newitems);
   };
+  // const schema = Yup.object().shape({
+  //   url: Yup.string().required("Url is required"),
+  // });
   const {
     handleBlur,
     handleChange,
@@ -132,12 +142,15 @@ export default function About() {
       avatarImg: "",
       bio: "",
       items: [],
+      // url: [],
     },
 
     validateOnBlur: false,
     validateOnChange: false,
+    // validationSchema: schema,
 
     onSubmit: (values, { resetForm }) => {
+      console.log("called", values);
       const data = {
         avatarImg: values.avatarImg,
         bio: values.bio,
@@ -149,7 +162,7 @@ export default function About() {
         .update(data)
         .eq("email", "drharis@test.com")
         .then((res) => console.log("res", res));
-      // resetForm({ title: "", headerFile: "", items: [] });
+      resetForm({ url: "" });
     },
   });
 
@@ -203,9 +216,12 @@ export default function About() {
             <Card sx={{ width: "100%", boxShadow: 4 }}>
               <CardHeader
                 sx={{ color: "#666666" }}
-                title={"Home Slider Images"}
+                title={"Add Home Slider Image"}
               />
-              <MenuItem onClick={() => handleAdd("file")}>
+              <Typography sx={{ ml: "18px", color: "grey" }}>
+                Image ratio 1200 x 600
+              </Typography>
+              <MenuItem onClick={() => handleAdd()}>
                 <ImageIcon sx={{ mr: 2 }}></ImageIcon>Image
               </MenuItem>
             </Card>
@@ -229,8 +245,7 @@ export default function About() {
           </Dialog> */}
 
           <Grid direction="column" container mb={2} mt={2} spacing={2}>
-            {values?.items?.map((x) => {
-              console.log("x", x);
+            {values?.items?.map((x, index) => {
               return (
                 <Grid item key={x}>
                   <Card
@@ -258,6 +273,17 @@ export default function About() {
                         field={x}
                         handleFile={(e) => handleFile(e, x)}
                       />
+                      <TextField
+                        sx={{ width: "100%", mb: 2, mt: 2 }}
+                        id="outlined-basic"
+                        label="Url"
+                        name={`items[${index}].url`} // Use a unique name for each input
+                        value={x.url} // Access the value using the unique name
+                        onChange={handleChange} // Pass the unique name to handleChange
+                        onBlur={handleBlur}
+                        // error={errors[x.url]} // Handle errors similarly
+                        // helperText={errors[x.url] ?? ""}
+                      />
                     </Grid>
                   </Card>
                 </Grid>
@@ -275,7 +301,7 @@ export default function About() {
                 background: "#212b36",
               },
             }}
-            onClickCapture={() => handleSubmit()}
+            type="submit"
           >
             Submit
           </Button>
