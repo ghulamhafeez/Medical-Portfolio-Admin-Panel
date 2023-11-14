@@ -181,7 +181,7 @@ export default function About() {
             <Avatar
               alt="Travis Howard"
               src={`${FIRST_PATH}${values?.avatarImg}`}
-              sx={{ width: 140, height: 140 }}
+              sx={{ width: 140, height: 140, mb: 2 }}
               value={values?.avatarImg}
             />
           </label>
