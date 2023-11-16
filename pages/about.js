@@ -20,23 +20,10 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import Card from "@mui/material/Card";
 import CancelIcon from "@mui/icons-material/Cancel";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 export default function About() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [email] = useState(localStorage.getItem("login") || "");
-  // const [crop, setCrop] = useState({ x: 0, y: 0 });
-  // const [zoom, setZoom] = useState(1);
-  // const [open, setOpen] = React.useState(false);
-  // const [img, setImg] = useState();
-
-  // const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-  //   console.log("croppedArea", croppedArea, croppedAreaPixels);
-  // }, []);
-
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
 
   useEffect(() => {
     getAboutData();
@@ -67,15 +54,10 @@ export default function About() {
         upsert: false,
       })
       .then((res) => {
-        // setOpen(true);
-        // setImg(res?.data?.path);
         const newsetitems = values?.items.map((item) =>
           item.id == x.id ? { ...item, value: res?.data?.path } : item
         );
 
-        // const newsetitems = values?.items.map((item, i) =>
-        //   i === index ? { ...item, value: res?.data?.path } : item
-        // );
         console.log("newsetitems", newsetitems);
         setFieldValue("items", newsetitems);
       })
@@ -117,9 +99,6 @@ export default function About() {
     console.log("newitems", newitems);
     setFieldValue("items", newitems);
   };
-  // const schema = Yup.object().shape({
-  //   url: Yup.string().required("Url is required"),
-  // });
   const {
     handleBlur,
     handleChange,
@@ -138,7 +117,6 @@ export default function About() {
 
     validateOnBlur: false,
     validateOnChange: false,
-    // validationSchema: schema,
 
     onSubmit: (values, { resetForm }) => {
       console.log("called", values);
@@ -282,8 +260,6 @@ export default function About() {
                         value={x.url} // Access the value using the unique name
                         onChange={handleChange} // Pass the unique name to handleChange
                         onBlur={handleBlur}
-                        // error={errors[x.url]} // Handle errors similarly
-                        // helperText={errors[x.url] ?? ""}
                       />
                     </Grid>
                   </Card>
