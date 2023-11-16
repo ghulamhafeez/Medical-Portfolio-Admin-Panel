@@ -41,17 +41,7 @@ export default function About() {
   useEffect(() => {
     getAboutData();
   }, []);
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
+
   const getAboutData = () => {
     supabase
       .from("authentication")
@@ -142,7 +132,8 @@ export default function About() {
       avatarImg: "",
       bio: "",
       items: [],
-      // url: [],
+      phoneNo: "",
+      address: "",
     },
 
     validateOnBlur: false,
@@ -155,6 +146,8 @@ export default function About() {
         avatarImg: values.avatarImg,
         bio: values.bio,
         items: values.items,
+        phoneNo: values.phoneNo,
+        address: values.address,
       };
 
       supabase
@@ -224,6 +217,31 @@ export default function About() {
               <MenuItem onClick={() => handleAdd()}>
                 <ImageIcon sx={{ mr: 2 }}></ImageIcon>Image
               </MenuItem>
+            </Card>
+          </Grid>
+
+          <Grid item xs={6} mb={2}>
+            <Card sx={{ width: "100%", boxShadow: 4 }}>
+              <CardHeader sx={{ color: "#666666" }} title={"Contact Info"} />
+
+              <TextField
+                sx={{ width: { lg: "95%", xs: "90%" }, mb: 2, mt: 2, mx: 2 }}
+                id="outlined-basic"
+                label="Phone"
+                name="phoneNo"
+                value={values.phoneNo}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <TextField
+                sx={{ width: { lg: "95%", xs: "90%" }, mb: 2, mt: 2, mx: 2 }}
+                id="outlined-basic"
+                label="Address"
+                name="address"
+                value={values.address}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
             </Card>
           </Grid>
 
