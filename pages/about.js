@@ -41,6 +41,8 @@ export default function About() {
         setFieldValue("bio", response?.data?.bio);
         setFieldValue("avatarImg", response?.data?.avatarImg);
         setFieldValue("items", response?.data?.items);
+        setFieldValue("address", response?.data?.address);
+        setFieldValue("phoneNo", response?.data?.phoneNo);
       });
   };
 
