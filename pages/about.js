@@ -198,31 +198,6 @@ export default function About() {
             </Card>
           </Grid>
 
-          <Grid item xs={6} mb={2}>
-            <Card sx={{ width: "100%", boxShadow: 4 }}>
-              <CardHeader sx={{ color: "#666666" }} title={"Contact Info"} />
-
-              <TextField
-                sx={{ width: { lg: "95%", xs: "90%" }, mb: 2, mt: 2, mx: 2 }}
-                id="outlined-basic"
-                label="Phone"
-                name="phoneNo"
-                value={values.phoneNo}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              <TextField
-                sx={{ width: { lg: "95%", xs: "90%" }, mb: 2, mt: 2, mx: 2 }}
-                id="outlined-basic"
-                label="Address"
-                name="address"
-                value={values.address}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </Card>
-          </Grid>
-
           <Grid direction="column" container mb={2} mt={2} spacing={2}>
             {values?.items?.map((x, index) => {
               return (
@@ -267,7 +242,30 @@ export default function About() {
               );
             })}
           </Grid>
+          <Grid item xs={6} mb={2}>
+            <Card sx={{ width: "100%", boxShadow: 4 }}>
+              <CardHeader sx={{ color: "#666666" }} title={"Contact Info"} />
 
+              <TextField
+                sx={{ width: { lg: "95%", xs: "90%" }, mb: 2, mt: 2, mx: 2 }}
+                id="outlined-basic"
+                label="Phone"
+                name="phoneNo"
+                value={values.phoneNo}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <TextField
+                sx={{ width: { lg: "95%", xs: "90%" }, mb: 2, mt: 2, mx: 2 }}
+                id="outlined-basic"
+                label="Address"
+                name="address"
+                value={values.address}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </Card>
+          </Grid>
           <Button
             sx={{
               mb: 6,
