@@ -1,6 +1,5 @@
 import "../styles/globals.css";
 import MainLayout from "../component/MainLayout";
-import Login from "./login";
 import { useEffect, useState } from "react";
 import { supabase } from "./api/supabase";
 import { RouteGuard } from "../component/RouterGuard";

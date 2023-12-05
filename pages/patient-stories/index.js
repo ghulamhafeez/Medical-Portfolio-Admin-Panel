@@ -1,15 +1,12 @@
 import React from "react";
 import { useEffect } from "react";
 import { Button, Divider, Grid } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Card from "@mui/material/Card";
 import { Field } from "../../component/Field";
 import Link from "next/link";
 import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import { useRouter } from "next/router";
 import IconButton from "@mui/material/IconButton";
@@ -49,8 +46,6 @@ export default function PatientStories() {
   };
 
   const handleDelete = () => {
-    console.log("idd", id);
-
     supabase
       .from("patient_stories")
       .delete()
@@ -59,7 +54,6 @@ export default function PatientStories() {
     setAnchorEl(null);
   };
   const handleEdit = () => {
-    console.log("idd", id);
     router.push(`/patient-stories/edit-patient-stories/${id}`);
   };
 

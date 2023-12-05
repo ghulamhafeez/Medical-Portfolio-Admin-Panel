@@ -1,7 +1,6 @@
-import { Grid, Button, Divider } from "@mui/material";
+import { Grid } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { supabase } from "./api/supabase";
-import { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";

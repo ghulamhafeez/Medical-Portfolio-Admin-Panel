@@ -6,17 +6,10 @@ import { FIRST_PATH } from "../constants/Constant";
 import Textarea from "@mui/joy/Textarea";
 import { supabase } from "../pages/api/supabase";
 import Button from "@mui/material/Button";
-// import Cropper from "react-easy-crop";
 import { AddField } from "../component/AddField";
-import DialogTitle from "@mui/material/DialogTitle";
-import Dialog from "@mui/material/Dialog";
 import MenuItem from "@mui/material/MenuItem";
-import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
-import Box from "@mui/material/Box";
-import AbcIcon from "@mui/icons-material/Abc";
 import ImageIcon from "@mui/icons-material/Image";
-import * as Yup from "yup";
 import { useFormik } from "formik";
 import Card from "@mui/material/Card";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -47,7 +40,6 @@ export default function About() {
   };
 
   const handleFile = (e, x, i) => {
-    console.log("asd", x, i);
     const filedata = e?.target?.files[0];
     supabase.storage
       .from("media")
@@ -98,46 +90,38 @@ export default function About() {
 
     const newitems = values.items.filter((item) => id !== item.id);
 
-    console.log("newitems", newitems);
     setFieldValue("items", newitems);
   };
-  const {
-    handleBlur,
-    handleChange,
-    values,
-    setFieldValue,
-    handleSubmit,
-    errors,
-  } = useFormik({
-    initialValues: {
-      avatarImg: "",
-      bio: "",
-      items: [],
-      phoneNo: "",
-      address: "",
-    },
+  const { handleBlur, handleChange, values, setFieldValue, handleSubmit } =
+    useFormik({
+      initialValues: {
+        avatarImg: "",
+        bio: "",
+        items: [],
+        phoneNo: "",
+        address: "",
+      },
 
-    validateOnBlur: false,
-    validateOnChange: false,
+      validateOnBlur: false,
+      validateOnChange: false,
 
-    onSubmit: (values, { resetForm }) => {
-      console.log("called", values);
-      const data = {
-        avatarImg: values.avatarImg,
-        bio: values.bio,
-        items: values.items,
-        phoneNo: values.phoneNo,
-        address: values.address,
-      };
+      onSubmit: (values, { resetForm }) => {
+        const data = {
+          avatarImg: values.avatarImg,
+          bio: values.bio,
+          items: values.items,
+          phoneNo: values.phoneNo,
+          address: values.address,
+        };
 
-      supabase
-        .from("authentication")
-        .update(data)
-        .eq("email", "drharis@test.com")
-        .then((res) => console.log("res", res));
-      resetForm({ url: "" });
-    },
-  });
+        supabase
+          .from("authentication")
+          .update(data)
+          .eq("email", "drharis@test.com")
+          .then((res) => console.log("res", res));
+        resetForm({ url: "" });
+      },
+    });
 
   return (
     <Grid

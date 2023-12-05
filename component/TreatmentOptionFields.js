@@ -69,7 +69,6 @@ export default function TreatmentOptionFields() {
         .eq("id", id)
         .single()
         .then((response) => {
-          console.log("res", response?.data);
           setFieldValue("items", response?.data?.items);
           setFieldValue("headerFile", response?.data?.headerFile);
           setFieldValue("title", response?.data?.title);

@@ -346,8 +346,6 @@ export default function TransformationFields() {
                     value={values.afterText}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    // error={errors.title}
-                    // helperText={errors.title ?? ""}
                     variant="outlined"
                   />
                 </CardContent>
