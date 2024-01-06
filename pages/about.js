@@ -34,8 +34,10 @@ export default function About() {
         setFieldValue("bio", response?.data?.bio);
         setFieldValue("avatarImg", response?.data?.avatarImg);
         setFieldValue("items", response?.data?.items);
-        setFieldValue("address", response?.data?.address);
-        setFieldValue("phoneNo", response?.data?.phoneNo);
+        setFieldValue("pAddress", response?.data?.pAddress);
+        setFieldValue("pPhoneNo", response?.data?.pPhoneNo);
+        setFieldValue("sAddress", response?.data?.sAddress);
+        setFieldValue("sPhoneNo", response?.data?.sPhoneNo);
       });
   };
 
@@ -98,8 +100,10 @@ export default function About() {
         avatarImg: "",
         bio: "",
         items: [],
-        phoneNo: "",
-        address: "",
+        pPhoneNo: "",
+        pAddress: "",
+        sPhoneNo: "",
+        sAddress: "",
       },
 
       validateOnBlur: false,
@@ -110,8 +114,10 @@ export default function About() {
           avatarImg: values.avatarImg,
           bio: values.bio,
           items: values.items,
-          phoneNo: values.phoneNo,
-          address: values.address,
+          pPhoneNo: values.pPhoneNo,
+          pAddress: values.pAddress,
+          sPhoneNo: values.sPhoneNo,
+          sAddress: values.sAddress,
         };
 
         supabase
@@ -230,14 +236,17 @@ export default function About() {
           </Grid>
           <Grid item xs={6} mb={2}>
             <Card sx={{ width: "100%", boxShadow: 4 }}>
-              <CardHeader sx={{ color: "#666666" }} title={"Contact Info"} />
+              <CardHeader
+                sx={{ color: "#666666" }}
+                title={"Primary Contact Info"}
+              />
 
               <TextField
                 sx={{ width: { lg: "95%", xs: "90%" }, mb: 2, mt: 2, mx: 2 }}
                 id="outlined-basic"
                 label="Phone"
-                name="phoneNo"
-                value={values.phoneNo}
+                name="pPhoneNo"
+                value={values.pPhoneNo}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
@@ -245,8 +254,35 @@ export default function About() {
                 sx={{ width: { lg: "95%", xs: "90%" }, mb: 2, mt: 2, mx: 2 }}
                 id="outlined-basic"
                 label="Address"
-                name="address"
-                value={values.address}
+                name="pAddress"
+                value={values.pAddress}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </Card>
+          </Grid>
+          <Grid item xs={6} mb={2}>
+            <Card sx={{ width: "100%", boxShadow: 4 }}>
+              <CardHeader
+                sx={{ color: "#666666" }}
+                title={"Secondary Contact Info"}
+              />
+
+              <TextField
+                sx={{ width: { lg: "95%", xs: "90%" }, mb: 2, mt: 2, mx: 2 }}
+                id="outlined-basic"
+                label="Phone"
+                name="sPhoneNo"
+                value={values.sPhoneNo}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <TextField
+                sx={{ width: { lg: "95%", xs: "90%" }, mb: 2, mt: 2, mx: 2 }}
+                id="outlined-basic"
+                label="Address"
+                name="sAddress"
+                value={values.sAddress}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
