@@ -109,7 +109,7 @@ export default function About() {
       validateOnBlur: false,
       validateOnChange: false,
 
-      onSubmit: (values, { resetForm }) => {
+      onSubmit: (values) => {
         const data = {
           avatarImg: values.avatarImg,
           bio: values.bio,
@@ -125,7 +125,8 @@ export default function About() {
           .update(data)
           .eq("email", "drharis@test.com")
           .then((res) => console.log("res", res));
-        resetForm({ url: "" });
+
+        getAboutData();
       },
     });
 
