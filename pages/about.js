@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Grid, Typography } from "@mui/material";
+import { Grid, InputLabel, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import { FIRST_PATH } from "../constants/Constant";
@@ -13,7 +13,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import { useFormik } from "formik";
 import Card from "@mui/material/Card";
 import CancelIcon from "@mui/icons-material/Cancel";
-
+import CardContent from "@mui/material/CardContent";
 export default function About() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [email] = useState(localStorage.getItem("login") || "");
@@ -32,12 +32,16 @@ export default function About() {
         console.log("Fretresponse", response?.data);
 
         setFieldValue("bio", response?.data?.bio);
+        setFieldValue("name", response?.data?.name);
+        setFieldValue("specialty", response?.data?.specialty);
         setFieldValue("avatarImg", response?.data?.avatarImg);
         setFieldValue("items", response?.data?.items);
+        // setFieldValue("newItems", response?.data?.newItems);
         setFieldValue("pAddress", response?.data?.pAddress);
         setFieldValue("pPhoneNo", response?.data?.pPhoneNo);
         setFieldValue("sAddress", response?.data?.sAddress);
         setFieldValue("sPhoneNo", response?.data?.sPhoneNo);
+        // setFieldValue("headerFile", response?.data?.headerFile);
       });
   };
 
@@ -59,6 +63,24 @@ export default function About() {
       })
       .catch((err) => console.log(err));
   };
+  // const handleFiled = (e, x, i) => {
+  //   const filedata = e?.target?.files[0];
+  //   supabase.storage
+  //     .from("media")
+  //     .upload("bio/" + filedata?.name + Date.now(), filedata, {
+  //       cacheControl: "3600",
+  //       upsert: false,
+  //     })
+  //     .then((res) => {
+  //       const newsetitems = values?.newItems.map((item) =>
+  //         item.id == x.id ? { ...item, value: res?.data?.path } : item
+  //       );
+
+  //       console.log("newsetitems", newsetitems);
+  //       setFieldValue("newitems", newsetitems);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   const handAvatarFile = (e) => {
     const filedata = e?.target?.files[0];
@@ -86,6 +108,18 @@ export default function About() {
 
     setAnchorEl(null);
   };
+  // const handleAdded = () => {
+  //   const type = {
+  //     type: "file",
+  //     value: "",
+  //     title: "",
+  //     id: Math.random().toString(16).slice(-4),
+  //   };
+  //   console.log("call", values);
+  //   setFieldValue("newItems", [...values?.newItems, type]);
+
+  //   setAnchorEl(null);
+  // };
 
   const handleDelete = ({ id, value }) => {
     supabase.storage.from("media").remove(value);
@@ -94,16 +128,28 @@ export default function About() {
 
     setFieldValue("items", newitems);
   };
+  // const handleDeleted = ({ id, value }) => {
+  //   supabase.storage.from("media").remove(value);
+
+  //   const newitems = values.newItems.filter((item) => id !== item.id);
+
+  //   setFieldValue("newItems", newitems);
+  // };
   const { handleBlur, handleChange, values, setFieldValue, handleSubmit } =
     useFormik({
       initialValues: {
         avatarImg: "",
         bio: "",
+        name: "",
+        specialty: "",
         items: [],
+        // newItems: [],
         pPhoneNo: "",
         pAddress: "",
         sPhoneNo: "",
         sAddress: "",
+        // title: "",
+        // headerFile: "",
       },
 
       validateOnBlur: false,
@@ -113,20 +159,23 @@ export default function About() {
         const data = {
           avatarImg: values.avatarImg,
           bio: values.bio,
+          name: values.name,
+          specialty: values.specialty,
           items: values.items,
+          // newItems: values.newItems,
           pPhoneNo: values.pPhoneNo,
           pAddress: values.pAddress,
           sPhoneNo: values.sPhoneNo,
           sAddress: values.sAddress,
+          // title: values.title,
+          // headerFile: values.headerFile,
         };
 
         supabase
           .from("authentication")
           .update(data)
           .eq("email", "drharis@test.com")
-          .then((res) => console.log("res", res));
-
-        getAboutData();
+          .then(getAboutData());
       },
     });
 
@@ -174,6 +223,27 @@ export default function About() {
             sx={{ mb: 1, width: "100%" }}
             value={values?.bio}
             onChange={handleChange}
+          />
+          <TextField
+            id="outlined-basic"
+            label="Name"
+            variant="outlined"
+            name="name" // Add the name attribute
+            value={values.name}
+            sx={{ width: "100%" }}
+            onChange={handleChange} // Pass handleChange
+            onBlur={handleBlur} // Pass handleBlur
+          />
+
+          <TextField
+            id="outlined-basic"
+            label="Specialty"
+            variant="outlined"
+            name="specialty" // Add the name attribute
+            value={values.specialty}
+            sx={{ mb: 1, width: "100%" }}
+            onChange={handleChange} // Pass handleChange
+            onBlur={handleBlur} // Pass handleBlur
           />
 
           <Grid item xs={6} mb={2}>
@@ -289,6 +359,63 @@ export default function About() {
               />
             </Card>
           </Grid>
+
+          {/* <Grid item xs={6} mb={2}>
+            <Card sx={{ width: "100%", boxShadow: 4 }}>
+              <CardHeader
+                sx={{ color: "#666666" }}
+                title={"Add Home Images With Text"}
+              />
+
+              <MenuItem onClick={() => handleAdded()}>
+                <ImageIcon sx={{ mr: 2 }}></ImageIcon>Image
+              </MenuItem>
+            </Card>
+          </Grid>
+          <Grid direction="column" container mb={2} mt={2} spacing={2}>
+            {values?.newItems?.map((x, index) => {
+              return (
+                <Grid item key={x}>
+                  <Card
+                    sx={{
+                      width: "100%",
+                      boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.7",
+                      mb: 2,
+                    }}
+                  >
+                    <Grid sx={{ display: "flex", justifyContent: "flex-end" }}>
+                      <CancelIcon
+                        sx={{
+                          color: "grey",
+                          mt: 1,
+                          mr: 1,
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handleDeleted(x)}
+                      />
+                    </Grid>
+
+                    <Grid sx={{ padding: "0 16px 16px" }}>
+                      <AddField
+                        key={x.id}
+                        field={x}
+                        handleFile={(e) => handleFiled(e, x)}
+                      />
+                      <TextField
+                        sx={{ width: "100%", mb: 2, mt: 2 }}
+                        id="outlined-basic"
+                        label="Title"
+                        name={`newItems[${index}].title`} // Use a unique name for each input
+                        value={x?.title} // Access the value using the unique name
+                        onChange={handleChange} // Pass the unique name to handleChange
+                        onBlur={handleBlur}
+                      />
+                    </Grid>
+                  </Card>
+                </Grid>
+              );
+            })}
+          </Grid> */}
           <Button
             sx={{
               mb: 6,
