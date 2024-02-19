@@ -5,6 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AbcIcon from "@mui/icons-material/Abc";
 import ImageIcon from "@mui/icons-material/Image";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import Menu from "@mui/material/Menu";
@@ -17,6 +18,7 @@ import { supabase } from "../pages/api/supabase";
 import { FIRST_PATH } from "../constants/Constant";
 export default function BlogFields() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [pdfFile, setPdfFile] = React.useState("");
   const open = Boolean(anchorEl);
   const router = useRouter();
   const { id } = router.query;
@@ -49,6 +51,7 @@ export default function BlogFields() {
         title: values.title,
         headerFile: values.headerFile,
         items: values.items,
+        pdfFile: pdfFile,
       };
 
       supabase
@@ -57,7 +60,7 @@ export default function BlogFields() {
         .then((response) => {
           console.log("response", response);
         });
-      resetForm({ title: "", headerFile: "", items: [] });
+      resetForm({ title: "", headerFile: "", items: [], pdfFile: "" });
     },
   });
   useEffect(() => {
@@ -68,9 +71,11 @@ export default function BlogFields() {
         .eq("id", id)
         .single()
         .then((response) => {
+          console.log("re", response);
           setFieldValue("items", response?.data?.items);
           setFieldValue("headerFile", response?.data?.headerFile);
           setFieldValue("title", response?.data?.title);
+          setPdfFile(response?.data?.pdfFile);
         });
     }
   }, [id]);
@@ -98,12 +103,14 @@ export default function BlogFields() {
   };
 
   const handleUpdate = async () => {
+    console.log("values", values);
     supabase
       .from("blog")
       .update({
         title: values.title,
         headerFile: values.headerFile,
         items: values.items,
+        pdfFile: pdfFile,
       })
       .eq("id", id)
       .then((response) => {
@@ -154,6 +161,7 @@ export default function BlogFields() {
   };
 
   const handleAdd = (data) => {
+    console.log("d", data);
     const type = {
       type: data,
       value: "",
@@ -163,7 +171,21 @@ export default function BlogFields() {
     setFieldValue("items", [...values.items, type]);
     setAnchorEl(null);
   };
+  const handlePdfFile = (e) => {
+    console.log("e", e);
+    const filedata = e?.target?.files[0];
 
+    supabase.storage
+      .from("media")
+      .upload(filedata?.name + Date.now(), filedata, {
+        cacheControl: "3600",
+        upsert: false,
+      })
+      .then((res) => {
+        setPdfFile(res?.data?.path);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <Grid>
       <form onSubmit={handleSubmit}>
@@ -252,6 +274,9 @@ export default function BlogFields() {
             <MenuItem onClick={() => handleAdd("file")}>
               <ImageIcon sx={{ mr: 2 }}></ImageIcon>Image
             </MenuItem>
+            <MenuItem onClick={() => handleAdd("url")}>
+              <YouTubeIcon sx={{ mr: 2 }}></YouTubeIcon>Video
+            </MenuItem>
           </Menu>
 
           <Grid>
@@ -338,7 +363,32 @@ export default function BlogFields() {
               Options
             </Button>
           </Grid>
-
+          <InputLabel sx={{ pb: 2 }}>PDF File</InputLabel>
+          {pdfFile ? (
+            <Grid>
+              <Grid sx={{ display: "flex", justifyContent: "flex-end" }}>
+                <CancelIcon
+                  sx={{
+                    color: "grey",
+                    mt: 1,
+                    mr: 1,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    supabase.storage.from("media").remove(pdfFile);
+                    setPdfFile("");
+                  }}
+                />
+              </Grid>
+              <Typography>{pdfFile}</Typography>
+            </Grid>
+          ) : (
+            <input
+              type="file"
+              accept=".pdf"
+              onChange={(e) => handlePdfFile(e)}
+            />
+          )}
           <Grid direction="column" container mb={2} mt={2} spacing={2}>
             {values.items?.map((x) => {
               return (
