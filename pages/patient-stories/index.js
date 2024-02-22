@@ -61,7 +61,7 @@ export default function PatientStories() {
     <Grid display={"flex"} container direction={"column"} gap={2} mb={2}>
       <Grid display={"flex"} direction={"column"} gap={1}>
         <Grid
-          paddingTop={1}
+          paddingTop={2}
           paddingRight={3}
           display={"flex"}
           justifyContent={"end"}

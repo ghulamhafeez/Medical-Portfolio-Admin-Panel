@@ -192,7 +192,7 @@ export default function BlogFields() {
         <Grid display={"flex"} direction={"column"} gap={1}>
           <Grid>
             <Grid
-              paddingTop={1}
+              paddingTop={2}
               paddingRight={3}
               paddingLeft={6}
               display={"flex"}

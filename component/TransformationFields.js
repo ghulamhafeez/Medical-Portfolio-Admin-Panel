@@ -4,78 +4,32 @@ import { useRouter } from "next/router";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import { FIRST_PATH } from "../constants/Constant";
-import * as Yup from "yup";
-import { useFormik } from "formik";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import { supabase } from "../pages/api/supabase";
 import CancelIcon from "@mui/icons-material/Cancel";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 
 export default function TransformationFields() {
   const router = useRouter();
   const { id } = router.query;
+
   const schema = Yup.object().shape({
-    title: Yup.string().required("Title is required"),
     afterFile: Yup.array().min(1, "After items are required"),
     beforeFile: Yup.array().min(1, "Before items are required"),
-  });
-  const {
-    handleBlur,
-    handleChange,
-    values,
-    setFieldValue,
-    handleSubmit,
-    errors,
-  } = useFormik({
-    initialValues: {
-      beforeFile: [],
-      beforeText: "",
-      title: "",
-      afterFile: [],
-      afterText: "",
-    },
-
-    validationSchema: schema,
-    validateOnBlur: false,
-    validateOnChange: false,
-
-    onSubmit: (values, { resetForm }) => {
-      const data = {
-        beforeFile: values.beforeFile,
-        beforeText: values.beforeText,
-        title: values.title,
-        afterFile: values.afterFile,
-        afterText: values.afterText,
-      };
-
-      supabase
-        .from("transformation")
-        .insert(data)
-        .then((response) => {
-          console.log("response", response);
-        });
-      resetForm({
-        title: "",
-        beforeText: "",
-        beforeFile: [],
-        afterText: "",
-        afterFile: [],
-      });
-    },
   });
 
   useEffect(() => {
     if (id) {
       supabase
-        .from("transformation")
+        .from("cases_gallery")
         .select()
         .eq("id", id)
         .single()
         .then((response) => {
           setFieldValue("beforeFile", response?.data?.beforeFile);
-          setFieldValue("beforeText", response?.data?.beforeText);
           setFieldValue("afterFile", response?.data?.afterFile);
-          setFieldValue("afterText", response?.data?.afterText);
           setFieldValue("title", response?.data?.title);
         });
     }
@@ -90,23 +44,55 @@ export default function TransformationFields() {
   const handleDeleteAfter = (x) => {
     supabase.storage.from("media").remove(x);
     const newitems = values.afterFile.filter((item) => x !== item);
+
     setFieldValue("afterFile", newitems);
   };
+  const {
+    handleBlur,
+    handleChange,
+    values,
+    setFieldValue,
+    handleSubmit,
+    errors,
+  } = useFormik({
+    initialValues: {
+      title: "",
+      beforeFile: [],
+      afterFile: [],
+    },
+
+    validationSchema: schema,
+    validateOnBlur: false,
+    validateOnChange: false,
+
+    onSubmit: (values, { resetForm }) => {
+      const data = {
+        title: values.title,
+        beforeFile: values.beforeFile,
+        afterFile: values.afterFile,
+      };
+
+      supabase
+        .from("cases_gallery")
+        .insert(data)
+        .then((response) => {
+          console.log("response", response);
+        });
+      resetForm({ title: "", beforeFile: [], afterFile: [] });
+    },
+  });
 
   const handleUpdate = () => {
     supabase
-      .from("transformation")
+      .from("cases_gallery")
       .update({
         beforeFile: values.beforeFile,
-        beforeText: values.beforeText,
         title: values.title,
         afterFile: values.afterFile,
-        afterText: values.afterText,
       })
       .eq("id", id)
       .then((response) => {
         console.log("response", response);
-
         router.back();
       })
       .catch((err) => console.log("err", err));
@@ -150,7 +136,7 @@ export default function TransformationFields() {
         <Grid display={"flex"} direction={"column"} gap={1}>
           <Grid>
             <Grid
-              paddingTop={1}
+              paddingTop={2}
               paddingRight={3}
               paddingLeft={6}
               display={"flex"}
@@ -217,22 +203,19 @@ export default function TransformationFields() {
           px={{ xl: 30, lg: 20, md: 15, sm: 13 }}
         >
           <Grid container xs={12} spacing={2}>
-            <TextField
+            {/* <TextField
               sx={{ width: "100%", mb: 2, ml: 2 }}
               id="outlined-basic"
               label="Title"
+              variant="outlined"
               name="title"
               value={values.title}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={errors.title}
-              helperText={errors.title ?? ""}
-            />
-
+            /> */}
             <Grid item xs={6} mb={2}>
               <Card sx={{ width: "100%", boxShadow: 4 }}>
                 <CardHeader sx={{ color: "#666666" }} title={"Before"} />
-
                 <CardContent>
                   <Grid container>
                     {values?.beforeFile?.map((x) => {
@@ -270,18 +253,6 @@ export default function TransformationFields() {
                     onChange={(e) => handleBeforeFile(e)}
                     multiple
                   ></input>
-
-                  <TextField
-                    sx={{ width: "100%", mt: 2 }}
-                    id="outlined-basic"
-                    label="Text"
-                    type={"text"}
-                    name="beforeText"
-                    value={values.beforeText}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    variant="outlined"
-                  />
                 </CardContent>
               </Card>
               {values.beforeFile && errors.beforeFile ? (
@@ -297,7 +268,6 @@ export default function TransformationFields() {
             <Grid item xs={6} mb={2}>
               <Card sx={{ width: "100%", boxShadow: 4 }}>
                 <CardHeader sx={{ color: "#666666" }} title={"After"} />
-
                 <CardContent>
                   <Grid container>
                     {values?.afterFile?.map((x) => {
@@ -333,21 +303,8 @@ export default function TransformationFields() {
                   <input
                     type="file"
                     onChange={(e) => handleAfterFile(e)}
-                    //   value={afterFile}
                     multiple
                   ></input>
-
-                  <TextField
-                    sx={{ width: "100%", mt: 2 }}
-                    id="outlined-basic"
-                    label="Text"
-                    type={"text"}
-                    name="afterText"
-                    value={values.afterText}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    variant="outlined"
-                  />
                 </CardContent>
               </Card>
               {values.afterFile && errors.afterFile ? (
