@@ -15,7 +15,7 @@ export default function Sidebar() {
 
   return (
     <Grid
-      pt={4}
+      pt={2}
       bgcolor={"#f8f9fb"}
       width={260}
       height={"100vh"}
