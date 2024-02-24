@@ -24,7 +24,7 @@ export default function Login() {
 
         if (res?.data.length) {
           localStorage.setItem("login", res.data[0].email);
-          router.push(`/about`);
+          router.push(`/home`);
         }
       });
   };
