@@ -38,11 +38,11 @@ export default function Home() {
         setFieldValue("specialty", response?.data?.specialty);
         setFieldValue("avatarImg", response?.data?.avatarImg);
         setFieldValue("items", response?.data?.items);
-        // setFieldValue("newItems", response?.data?.newItems);
-        setFieldValue("pAddress", response?.data?.pAddress);
-        setFieldValue("pPhoneNo", response?.data?.pPhoneNo);
-        setFieldValue("sAddress", response?.data?.sAddress);
-        setFieldValue("sPhoneNo", response?.data?.sPhoneNo);
+        setFieldValue("revolvingItems", response?.data?.revolvingItems);
+        // setFieldValue("pAddress", response?.data?.pAddress);
+        // setFieldValue("pPhoneNo", response?.data?.pPhoneNo);
+        // setFieldValue("sAddress", response?.data?.sAddress);
+        // setFieldValue("sPhoneNo", response?.data?.sPhoneNo);
         // setFieldValue("headerFile", response?.data?.headerFile);
       });
   };
@@ -80,6 +80,19 @@ export default function Home() {
     setAnchorEl(null);
   };
 
+  const handleAddRevolving = () => {
+    const type = {
+      type: "file",
+      value: "",
+      url: "",
+      id: Math.random().toString(16).slice(-4),
+    };
+
+    setFieldValue("revolvingItems", [...values?.revolvingItems, type]);
+
+    setAnchorEl(null);
+  };
+
   const handleDelete = ({ id, value }) => {
     supabase.storage.from("media").remove(value);
 
@@ -91,16 +104,16 @@ export default function Home() {
   const { handleBlur, handleChange, values, setFieldValue, handleSubmit } =
     useFormik({
       initialValues: {
-        avatarImg: "",
-        bio: "",
-        name: "",
-        specialty: "",
+        // avatarImg: "",
+        // bio: "",
+        // name: "",
+        // specialty: "",
         items: [],
-        // newItems: [],
-        pPhoneNo: "",
-        pAddress: "",
-        sPhoneNo: "",
-        sAddress: "",
+        revolvingItems: [],
+        // pPhoneNo: "",
+        // pAddress: "",
+        // sPhoneNo: "",
+        // sAddress: "",
 
         // headerFile: "",
       },
@@ -110,16 +123,16 @@ export default function Home() {
 
       onSubmit: (values) => {
         const data = {
-          avatarImg: values.avatarImg,
-          bio: values.bio,
-          name: values.name,
-          specialty: values.specialty,
+          // avatarImg: values.avatarImg,
+          // bio: values.bio,
+          // name: values.name,
+          // specialty: values.specialty,
           items: values.items,
-          // newItems: values.newItems,
-          pPhoneNo: values.pPhoneNo,
-          pAddress: values.pAddress,
-          sPhoneNo: values.sPhoneNo,
-          sAddress: values.sAddress,
+          revolvingItems: values.revolvingItems,
+          // pPhoneNo: values.pPhoneNo,
+          // pAddress: values.pAddress,
+          // sPhoneNo: values.sPhoneNo,
+          // sAddress: values.sAddress,
           // title: values.title,
           // headerFile: values.headerFile,
         };
@@ -169,6 +182,60 @@ export default function Home() {
           mt={2}
           px={{ xl: 45, lg: 40, md: 20, sm: 10, xs: 2 }}
         >
+          <Grid item xs={6} mb={2}>
+            <Card sx={{ width: "100%", boxShadow: 4 }}>
+              <CardHeader
+                sx={{ color: "#666666" }}
+                title={"Add revolving image"}
+              />
+              <Typography sx={{ ml: "18px", color: "grey" }}>
+                Add revolving image
+              </Typography>
+              <MenuItem onClick={() => handleAddRevolving()}>
+                <ImageIcon sx={{ mr: 2 }}></ImageIcon>Image
+              </MenuItem>
+            </Card>
+          </Grid>
+          <Grid direction="column" container mb={2} mt={2} spacing={2}>
+            {values?.revolvingItems
+              ?.slice()
+              .reverse()
+              .map((x, index) => {
+                return (
+                  <Grid item key={x}>
+                    <Card
+                      sx={{
+                        width: "100%",
+                        boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.7",
+                        mb: 2,
+                      }}
+                    >
+                      <Grid
+                        sx={{ display: "flex", justifyContent: "flex-end" }}
+                      >
+                        <CancelIcon
+                          sx={{
+                            color: "grey",
+                            mt: 1,
+                            mr: 1,
+                            cursor: "pointer",
+                          }}
+                          onClick={() => handleDelete(x)}
+                        />
+                      </Grid>
+
+                      <Grid sx={{ padding: "0 16px 16px" }}>
+                        <AddField
+                          key={x.id}
+                          field={x}
+                          handleFile={(e) => handleFile(e, x)}
+                        />
+                      </Grid>
+                    </Card>
+                  </Grid>
+                );
+              })}
+          </Grid>
           <Grid item xs={6} mb={2}>
             <Card sx={{ width: "100%", boxShadow: 4 }}>
               <CardHeader

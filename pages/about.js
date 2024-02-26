@@ -108,18 +108,6 @@ export default function About() {
 
     setAnchorEl(null);
   };
-  // const handleAdded = () => {
-  //   const type = {
-  //     type: "file",
-  //     value: "",
-  //     title: "",
-  //     id: Math.random().toString(16).slice(-4),
-  //   };
-  //   console.log("call", values);
-  //   setFieldValue("newItems", [...values?.newItems, type]);
-
-  //   setAnchorEl(null);
-  // };
 
   const handleDelete = ({ id, value }) => {
     supabase.storage.from("media").remove(value);
@@ -246,65 +234,6 @@ export default function About() {
             onBlur={handleBlur} // Pass handleBlur
           />
 
-          <Grid item xs={6} mb={2}>
-            <Card sx={{ width: "100%", boxShadow: 4 }}>
-              <CardHeader
-                sx={{ color: "#666666" }}
-                title={"Add Home Slider Image"}
-              />
-              <Typography sx={{ ml: "18px", color: "grey" }}>
-                Image ratio 1200 x 600
-              </Typography>
-              <MenuItem onClick={() => handleAdd()}>
-                <ImageIcon sx={{ mr: 2 }}></ImageIcon>Image
-              </MenuItem>
-            </Card>
-          </Grid>
-
-          <Grid direction="column" container mb={2} mt={2} spacing={2}>
-            {values?.items?.map((x, index) => {
-              return (
-                <Grid item key={x}>
-                  <Card
-                    sx={{
-                      width: "100%",
-                      boxShadow: "0px 0px 24px rgba(0, 0, 0, 0.7",
-                      mb: 2,
-                    }}
-                  >
-                    <Grid sx={{ display: "flex", justifyContent: "flex-end" }}>
-                      <CancelIcon
-                        sx={{
-                          color: "grey",
-                          mt: 1,
-                          mr: 1,
-                          cursor: "pointer",
-                        }}
-                        onClick={() => handleDelete(x)}
-                      />
-                    </Grid>
-
-                    <Grid sx={{ padding: "0 16px 16px" }}>
-                      <AddField
-                        key={x.id}
-                        field={x}
-                        handleFile={(e) => handleFile(e, x)}
-                      />
-                      <TextField
-                        sx={{ width: "100%", mb: 2, mt: 2 }}
-                        id="outlined-basic"
-                        label="Url"
-                        name={`items[${index}].url`} // Use a unique name for each input
-                        value={x.url} // Access the value using the unique name
-                        onChange={handleChange} // Pass the unique name to handleChange
-                        onBlur={handleBlur}
-                      />
-                    </Grid>
-                  </Card>
-                </Grid>
-              );
-            })}
-          </Grid>
           <Grid item xs={6} mb={2}>
             <Card sx={{ width: "100%", boxShadow: 4 }}>
               <CardHeader
