@@ -13,12 +13,9 @@ import ImageIcon from "@mui/icons-material/Image";
 import { useFormik } from "formik";
 import Card from "@mui/material/Card";
 import CancelIcon from "@mui/icons-material/Cancel";
-import CardContent from "@mui/material/CardContent";
+
 export default function Home() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [email] = useState(localStorage.getItem("login") || "");
-  const [width, setWidth] = useState("");
-  const [height, setHeight] = useState("");
 
   useEffect(() => {
     getAboutData();
@@ -32,18 +29,8 @@ export default function Home() {
       .single()
       .then((response) => {
         console.log("Fretresponse", response?.data);
-
-        setFieldValue("bio", response?.data?.bio);
-        setFieldValue("name", response?.data?.name);
-        setFieldValue("specialty", response?.data?.specialty);
-        setFieldValue("avatarImg", response?.data?.avatarImg);
         setFieldValue("items", response?.data?.items);
         setFieldValue("revolvingItems", response?.data?.revolvingItems);
-        // setFieldValue("pAddress", response?.data?.pAddress);
-        // setFieldValue("pPhoneNo", response?.data?.pPhoneNo);
-        // setFieldValue("sAddress", response?.data?.sAddress);
-        // setFieldValue("sPhoneNo", response?.data?.sPhoneNo);
-        // setFieldValue("headerFile", response?.data?.headerFile);
       });
   };
 
@@ -104,18 +91,8 @@ export default function Home() {
   const { handleBlur, handleChange, values, setFieldValue, handleSubmit } =
     useFormik({
       initialValues: {
-        // avatarImg: "",
-        // bio: "",
-        // name: "",
-        // specialty: "",
         items: [],
         revolvingItems: [],
-        // pPhoneNo: "",
-        // pAddress: "",
-        // sPhoneNo: "",
-        // sAddress: "",
-
-        // headerFile: "",
       },
 
       validateOnBlur: false,
@@ -123,18 +100,8 @@ export default function Home() {
 
       onSubmit: (values) => {
         const data = {
-          // avatarImg: values.avatarImg,
-          // bio: values.bio,
-          // name: values.name,
-          // specialty: values.specialty,
           items: values.items,
           revolvingItems: values.revolvingItems,
-          // pPhoneNo: values.pPhoneNo,
-          // pAddress: values.pAddress,
-          // sPhoneNo: values.sPhoneNo,
-          // sAddress: values.sAddress,
-          // title: values.title,
-          // headerFile: values.headerFile,
         };
 
         supabase
@@ -182,7 +149,7 @@ export default function Home() {
           mt={2}
           px={{ xl: 45, lg: 40, md: 20, sm: 10, xs: 2 }}
         >
-          <Grid item xs={6} mb={2}>
+          {/* <Grid item xs={6} mb={2}>
             <Card sx={{ width: "100%", boxShadow: 4 }}>
               <CardHeader
                 sx={{ color: "#666666" }}
@@ -235,7 +202,7 @@ export default function Home() {
                   </Grid>
                 );
               })}
-          </Grid>
+          </Grid> */}
           <Grid item xs={6} mb={2}>
             <Card sx={{ width: "100%", boxShadow: 4 }}>
               <CardHeader

@@ -1,64 +1,64 @@
-import React from "react";
-import { useEffect } from "react";
-import { Divider, Grid } from "@mui/material";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import React, { useState, useEffect } from "react";
+import { Grid, Button, Divider } from "@mui/material";
 import Link from "next/link";
+import AddIcon from "@mui/icons-material/Add";
+import { useRouter } from "next/router";
 import CardHeader from "@mui/material/CardHeader";
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import { FIRST_PATH } from "../../constants/Constant";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import { supabase } from "../api/supabase";
-import { useRouter } from "next/router";
-import { Add } from "@mui/icons-material";
+import { FIRST_PATH } from "../../constants/Constant";
 
-export default function Transformation() {
+export default function CasesGallery() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [transformation, setTransformation] = React.useState();
+  const [casesGallery, setCasesGallery] = useState();
   const [id, setId] = React.useState();
   const open = Boolean(anchorEl);
   const router = useRouter();
   useEffect(() => {
-    getTransformation();
+    getCasesGallery();
   }, []);
 
-  const getTransformation = () => {
+  const getCasesGallery = () => {
     supabase
-      .from("transformation")
+      .from("cases_gallery")
       .select()
       .order("id", { ascending: false })
       .then((response) => {
-        setTransformation(response?.data);
+        console.log("response123", response);
+        setCasesGallery(response?.data);
       });
-  };
-  const handleEdit = () => {
-    router.push(`transformation/edit-transformation/${id}`);
   };
   const handleClick = (event, x) => {
     setId(x?.id);
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleEdit = () => {
+    router.push(`transformation/edit-cases-gallery/${id}`);
   };
   const handleDelete = () => {
     setAnchorEl(null);
 
     supabase
-      .from("transformation")
+      .from("cases_gallery")
       .delete()
       .eq("id", id)
-      .then(() => getTransformation());
+      .then(() => getCasesGallery());
   };
 
   return (
-    <Grid display={"flex"} direction={"column"} gap={2} mb={2}>
+    <Grid>
       <Grid display={"flex"} direction={"column"} gap={1}>
         <Grid
-          paddingTop={1}
+          paddingTop={2}
           paddingRight={3}
           display={"flex"}
           justifyContent={"end"}
@@ -74,7 +74,7 @@ export default function Transformation() {
                   background: "#212b36",
                 },
               }}
-              startIcon={<Add />}
+              startIcon={<AddIcon />}
             >
               Add Transformation
             </Button>
@@ -84,7 +84,6 @@ export default function Transformation() {
           <Divider />
         </Grid>
       </Grid>
-
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -97,7 +96,6 @@ export default function Transformation() {
         <MenuItem onClick={handleEdit}>Edit</MenuItem>
         <MenuItem onClick={handleDelete}>Delete</MenuItem>
       </Menu>
-
       <Grid
         display={"flex"}
         px={{ xl: 30, lg: 20, md: 15, sm: 6 }}
@@ -105,8 +103,9 @@ export default function Transformation() {
         alignItems={"center"}
         gap={4}
         mb={4}
+        mt={2}
       >
-        {transformation?.map((x) => {
+        {casesGallery?.map((x) => {
           return (
             <Grid key={x} display={"flex"} direction={"column"}>
               <Card sx={{ bgcolor: "#f8f9fb" }}>
@@ -137,7 +136,6 @@ export default function Transformation() {
                         {x.beforeFile.map((x) => {
                           return (
                             <Grid key={x}>
-                              {/* <Field type={x?.type} value={x?.value} /> */}
                               <img
                                 width={"100%"}
                                 height={200}
@@ -148,9 +146,6 @@ export default function Transformation() {
                             </Grid>
                           );
                         })}
-                      </Grid>
-                      <Grid ml={2}>
-                        <Typography variant="body1">{x.beforeText}</Typography>
                       </Grid>
                     </Card>
                   </Grid>
@@ -169,7 +164,6 @@ export default function Transformation() {
                         {x.afterFile.map((x) => {
                           return (
                             <Grid key={x}>
-                              {/* <Field type={x?.type} value={x?.value} /> */}
                               <img
                                 width={"100%"}
                                 height={200}
@@ -180,11 +174,6 @@ export default function Transformation() {
                             </Grid>
                           );
                         })}
-                      </Grid>
-                      <Grid>
-                        <Typography ml={2} variant="body1">
-                          {x.afterText}
-                        </Typography>
                       </Grid>
                     </Card>
                   </Grid>
