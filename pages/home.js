@@ -3,7 +3,7 @@ import { Grid, Divider, InputLabel, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import { FIRST_PATH } from "../constants/Constant";
-import Textarea from "@mui/joy/Textarea";
+import { useRouter } from "next/router";
 import { supabase } from "../pages/api/supabase";
 import Button from "@mui/material/Button";
 import { AddField } from "../component/AddField";
@@ -16,21 +16,20 @@ import CancelIcon from "@mui/icons-material/Cancel";
 
 export default function Home() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const router = useRouter();
+  const { id } = router.query;
   useEffect(() => {
     getAboutData();
   }, []);
 
   const getAboutData = () => {
     supabase
-      .from("authentication")
+      .from("home")
       .select()
-      .eq("email", "drharis@test.com")
-      .single()
+      .order("id", { ascending: false })
       .then((response) => {
-        console.log("Fretresponse", response?.data);
-        setFieldValue("items", response?.data?.items);
-        setFieldValue("revolvingItems", response?.data?.revolvingItems);
+        console.log("response123", response);
+        setFieldValue("items", response?.data?.[0].items);
       });
   };
 
@@ -101,14 +100,15 @@ export default function Home() {
       onSubmit: (values) => {
         const data = {
           items: values.items,
-          revolvingItems: values.revolvingItems,
         };
 
         supabase
-          .from("authentication")
+          .from("home")
           .update(data)
-          .eq("email", "drharis@test.com")
-          .then(getAboutData());
+          .eq("id", "0")
+          .then((response) => {
+            console.log("response", response);
+          });
       },
     });
 
@@ -223,6 +223,7 @@ export default function Home() {
               ?.slice()
               .reverse()
               .map((x, index) => {
+                console.log("xt", x);
                 return (
                   <Grid item key={x}>
                     <Card
