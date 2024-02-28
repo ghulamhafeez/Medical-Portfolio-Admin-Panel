@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { Grid, InputLabel, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
@@ -14,9 +14,11 @@ import { useFormik } from "formik";
 import Card from "@mui/material/Card";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CardContent from "@mui/material/CardContent";
+
 export default function About() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [email] = useState(localStorage.getItem("login") || "");
+  const inputRef = useRef(null);
 
   useEffect(() => {
     getAboutData();
@@ -29,23 +31,19 @@ export default function About() {
       .eq("email", "drharis@test.com")
       .single()
       .then((response) => {
-        console.log("Fretresponse", response?.data);
-
         setFieldValue("bio", response?.data?.bio);
         setFieldValue("name", response?.data?.name);
         setFieldValue("specialty", response?.data?.specialty);
         setFieldValue("avatarImg", response?.data?.avatarImg);
         setFieldValue("items", response?.data?.items);
-        // setFieldValue("newItems", response?.data?.newItems);
         setFieldValue("pAddress", response?.data?.pAddress);
         setFieldValue("pPhoneNo", response?.data?.pPhoneNo);
         setFieldValue("sAddress", response?.data?.sAddress);
         setFieldValue("sPhoneNo", response?.data?.sPhoneNo);
-        // setFieldValue("headerFile", response?.data?.headerFile);
       });
   };
 
-  const handleFile = (e, x, i) => {
+  const handleFile = (e, x) => {
     const filedata = e?.target?.files[0];
     supabase.storage
       .from("media")
@@ -55,36 +53,15 @@ export default function About() {
       })
       .then((res) => {
         const newsetitems = values?.items.map((item) =>
-          item.id == x.id ? { ...item, value: res?.data?.path } : item
+          item.id === x.id ? { ...item, value: res?.data?.path } : item
         );
-
-        console.log("newsetitems", newsetitems);
         setFieldValue("items", newsetitems);
       })
       .catch((err) => console.log(err));
   };
-  // const handleFiled = (e, x, i) => {
-  //   const filedata = e?.target?.files[0];
-  //   supabase.storage
-  //     .from("media")
-  //     .upload("bio/" + filedata?.name + Date.now(), filedata, {
-  //       cacheControl: "3600",
-  //       upsert: false,
-  //     })
-  //     .then((res) => {
-  //       const newsetitems = values?.newItems.map((item) =>
-  //         item.id == x.id ? { ...item, value: res?.data?.path } : item
-  //       );
-
-  //       console.log("newsetitems", newsetitems);
-  //       setFieldValue("newitems", newsetitems);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
 
   const handAvatarFile = (e) => {
     const filedata = e?.target?.files[0];
-
     supabase.storage
       .from("media")
       .upload("bio/" + filedata?.name + Date.now(), filedata, {
@@ -96,76 +73,63 @@ export default function About() {
       })
       .catch((err) => console.log(err));
   };
+
+  const handleChange = (e, index) => {
+    const { name, value } = e.target;
+    const newItems = [...values.items];
+    newItems[index].title = value; // Update the specific item's title
+    setFieldValue("items", newItems);
+  };
+
   const handleAdd = () => {
-    const type = {
+    const newTitle = {
       type: "file",
       value: "",
-      url: "",
+      title: "", // Initialize title as an empty string
       id: Math.random().toString(16).slice(-4),
     };
-
-    setFieldValue("items", [...values?.items, type]);
-
-    setAnchorEl(null);
+    setFieldValue("items", [...values.items, newTitle]);
   };
 
   const handleDelete = ({ id, value }) => {
     supabase.storage.from("media").remove(value);
-
     const newitems = values.items.filter((item) => id !== item.id);
-
     setFieldValue("items", newitems);
   };
-  // const handleDeleted = ({ id, value }) => {
-  //   supabase.storage.from("media").remove(value);
 
-  //   const newitems = values.newItems.filter((item) => id !== item.id);
-
-  //   setFieldValue("newItems", newitems);
-  // };
-  const { handleBlur, handleChange, values, setFieldValue, handleSubmit } =
-    useFormik({
-      initialValues: {
-        avatarImg: "",
-        bio: "",
-        name: "",
-        specialty: "",
-        items: [],
-        // newItems: [],
-        pPhoneNo: "",
-        pAddress: "",
-        sPhoneNo: "",
-        sAddress: "",
-        // title: "",
-        // headerFile: "",
-      },
-
-      validateOnBlur: false,
-      validateOnChange: false,
-
-      onSubmit: (values) => {
-        const data = {
-          avatarImg: values.avatarImg,
-          bio: values.bio,
-          name: values.name,
-          specialty: values.specialty,
-          items: values.items,
-          // newItems: values.newItems,
-          pPhoneNo: values.pPhoneNo,
-          pAddress: values.pAddress,
-          sPhoneNo: values.sPhoneNo,
-          sAddress: values.sAddress,
-          // title: values.title,
-          // headerFile: values.headerFile,
-        };
-
-        supabase
-          .from("authentication")
-          .update(data)
-          .eq("email", "drharis@test.com")
-          .then(getAboutData());
-      },
-    });
+  const { handleBlur, values, setFieldValue, handleSubmit } = useFormik({
+    initialValues: {
+      avatarImg: "",
+      bio: "",
+      name: "",
+      specialty: "",
+      items: [],
+      pPhoneNo: "",
+      pAddress: "",
+      sPhoneNo: "",
+      sAddress: "",
+    },
+    validateOnBlur: false,
+    validateOnChange: false,
+    onSubmit: (values) => {
+      const data = {
+        avatarImg: values.avatarImg,
+        bio: values.bio,
+        name: values.name,
+        specialty: values.specialty,
+        items: values.items,
+        pPhoneNo: values.pPhoneNo,
+        pAddress: values.pAddress,
+        sPhoneNo: values.sPhoneNo,
+        sAddress: values.sAddress,
+      };
+      supabase
+        .from("authentication")
+        .update(data)
+        .eq("email", "drharis@test.com")
+        .then(getAboutData());
+    },
+  });
 
   return (
     <Grid
@@ -216,22 +180,22 @@ export default function About() {
             id="outlined-basic"
             label="Name"
             variant="outlined"
-            name="name" // Add the name attribute
+            name="name"
             value={values.name}
             sx={{ width: "100%" }}
-            onChange={handleChange} // Pass handleChange
-            onBlur={handleBlur} // Pass handleBlur
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
 
           <TextField
             id="outlined-basic"
             label="Specialty"
             variant="outlined"
-            name="specialty" // Add the name attribute
+            name="specialty"
             value={values.specialty}
             sx={{ mb: 1, width: "100%" }}
-            onChange={handleChange} // Pass handleChange
-            onBlur={handleBlur} // Pass handleBlur
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
 
           <Grid item xs={6} mb={2}>
@@ -288,23 +252,19 @@ export default function About() {
               />
             </Card>
           </Grid>
-
-          {/* <Grid item xs={6} mb={2}>
+          <Grid item xs={6} mb={2}>
             <Card sx={{ width: "100%", boxShadow: 4 }}>
-              <CardHeader
-                sx={{ color: "#666666" }}
-                title={"Add Home Images With Text"}
-              />
+              <CardHeader sx={{ color: "#666666" }} title={"Add Teammate"} />
 
-              <MenuItem onClick={() => handleAdded()}>
+              <MenuItem onClick={() => handleAdd()}>
                 <ImageIcon sx={{ mr: 2 }}></ImageIcon>Image
               </MenuItem>
             </Card>
           </Grid>
           <Grid direction="column" container mb={2} mt={2} spacing={2}>
-            {values?.newItems?.map((x, index) => {
+            {values?.items.map((x, index) => {
               return (
-                <Grid item key={x}>
+                <Grid item key={x.id}>
                   <Card
                     sx={{
                       width: "100%",
@@ -320,7 +280,7 @@ export default function About() {
                           mr: 1,
                           cursor: "pointer",
                         }}
-                        onClick={() => handleDeleted(x)}
+                        onClick={() => handleDelete(x)}
                       />
                     </Grid>
 
@@ -328,15 +288,16 @@ export default function About() {
                       <AddField
                         key={x.id}
                         field={x}
-                        handleFile={(e) => handleFiled(e, x)}
+                        handleFile={(e) => handleFile(e, x)}
                       />
                       <TextField
                         sx={{ width: "100%", mb: 2, mt: 2 }}
-                        id="outlined-basic"
+                        id={x.id}
                         label="Title"
-                        name={`newItems[${index}].title`} // Use a unique name for each input
-                        value={x?.title} // Access the value using the unique name
-                        onChange={handleChange} // Pass the unique name to handleChange
+                        inputRef={inputRef}
+                        name={`items[${x.id}].title`}
+                        value={x.title}
+                        onChange={(e) => handleChange(e, index)}
                         onBlur={handleBlur}
                       />
                     </Grid>
@@ -344,7 +305,7 @@ export default function About() {
                 </Grid>
               );
             })}
-          </Grid> */}
+          </Grid>
           <Button
             sx={{
               mb: 6,
