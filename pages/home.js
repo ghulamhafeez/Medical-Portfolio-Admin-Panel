@@ -30,7 +30,29 @@ export default function Home() {
       .then((response) => {
         console.log("response123", response);
         setFieldValue("items", response?.data?.[0].items);
+        setFieldValue("revolvingItems", response?.data?.[0].revolvingItems);
       });
+  };
+
+  const handleRevolvingFile = (e, x, i) => {
+    const filedata = e?.target?.files[0];
+    console.log("filedata", filedata);
+    supabase.storage
+      .from("media")
+      .upload("bio/" + filedata?.name + Date.now(), filedata, {
+        cacheControl: "3600",
+        upsert: false,
+      })
+      .then((res) => {
+        const newsetitems = values?.revolvingItems.map((item) =>
+          item.id == x.id ? { ...item, value: res?.data?.path } : item
+        );
+
+        console.log("newsetitems", newsetitems);
+
+        setFieldValue("revolvingItems", newsetitems);
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleFile = (e, x, i) => {
@@ -70,11 +92,11 @@ export default function Home() {
     const type = {
       type: "file",
       value: "",
-      url: "",
+
       id: Math.random().toString(16).slice(-4),
     };
-
-    setFieldValue("revolvingItems", [...values?.revolvingItems, type]);
+    console.log("values", values);
+    setFieldValue("revolvingItems", [...(values?.revolvingItems || []), type]);
 
     setAnchorEl(null);
   };
@@ -85,6 +107,14 @@ export default function Home() {
     const newitems = values.items.filter((item) => id !== item.id);
 
     setFieldValue("items", newitems);
+  };
+
+  const handleDeleteRevolving = ({ id, value }) => {
+    supabase.storage.from("media").remove(value);
+
+    const newitems = values.revolvingItems.filter((item) => id !== item.id);
+
+    setFieldValue("revolvingItems", newitems);
   };
 
   const { handleBlur, handleChange, values, setFieldValue, handleSubmit } =
@@ -100,6 +130,7 @@ export default function Home() {
       onSubmit: (values) => {
         const data = {
           items: values.items,
+          revolvingItems: values.revolvingItems,
         };
 
         supabase
@@ -149,15 +180,15 @@ export default function Home() {
           mt={2}
           px={{ xl: 45, lg: 40, md: 20, sm: 10, xs: 2 }}
         >
-          {/* <Grid item xs={6} mb={2}>
+          <Grid item xs={6} mb={2}>
             <Card sx={{ width: "100%", boxShadow: 4 }}>
               <CardHeader
                 sx={{ color: "#666666" }}
                 title={"Add revolving image"}
               />
-              <Typography sx={{ ml: "18px", color: "grey" }}>
-                Add revolving image
-              </Typography>
+              {/* <Typography sx={{ ml: "18px", color: "grey" }}>
+                  Add revolving image
+                </Typography> */}
               <MenuItem onClick={() => handleAddRevolving()}>
                 <ImageIcon sx={{ mr: 2 }}></ImageIcon>Image
               </MenuItem>
@@ -187,7 +218,7 @@ export default function Home() {
                             mr: 1,
                             cursor: "pointer",
                           }}
-                          onClick={() => handleDelete(x)}
+                          onClick={() => handleDeleteRevolving(x)}
                         />
                       </Grid>
 
@@ -195,14 +226,14 @@ export default function Home() {
                         <AddField
                           key={x.id}
                           field={x}
-                          handleFile={(e) => handleFile(e, x)}
+                          handleFile={(e) => handleRevolvingFile(e, x)}
                         />
                       </Grid>
                     </Card>
                   </Grid>
                 );
               })}
-          </Grid> */}
+          </Grid>
           <Grid item xs={6} mb={2}>
             <Card sx={{ width: "100%", boxShadow: 4 }}>
               <CardHeader
