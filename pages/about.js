@@ -18,6 +18,7 @@ import CardContent from "@mui/material/CardContent";
 export default function About() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [email] = useState(localStorage.getItem("login") || "");
+
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -25,12 +26,14 @@ export default function About() {
   }, []);
 
   const getAboutData = () => {
+    console.log("called");
     supabase
       .from("authentication")
       .select()
       .eq("email", "drharis@test.com")
       .single()
       .then((response) => {
+        console.log("called2", response);
         setFieldValue("bio", response?.data?.bio);
         setFieldValue("name", response?.data?.name);
         setFieldValue("specialty", response?.data?.specialty);
@@ -40,6 +43,8 @@ export default function About() {
         setFieldValue("pPhoneNo", response?.data?.pPhoneNo);
         setFieldValue("sAddress", response?.data?.sAddress);
         setFieldValue("sPhoneNo", response?.data?.sPhoneNo);
+        setFieldValue("height", response?.data?.height);
+        setFieldValue("width", response?.data?.width);
       });
   };
 
@@ -73,13 +78,16 @@ export default function About() {
       })
       .catch((err) => console.log(err));
   };
-
   const handleChange = (e, index) => {
     const { name, value } = e.target;
-    const newItems = [...values.items];
-    newItems[index].title = value; // Update the specific item's title
-    setFieldValue("items", newItems);
+    setFieldValue(name, value);
   };
+  // const handleChange = (e, index) => {
+  //   const { name, value } = e.target;
+  //   const newItems = [...values.items];
+  //   newItems[index].title = value; // Update the specific item's title
+  //   setFieldValue("items", newItems);
+  // };
 
   const handleAdd = () => {
     const newTitle = {
@@ -108,6 +116,8 @@ export default function About() {
       pAddress: "",
       sPhoneNo: "",
       sAddress: "",
+      height: "",
+      width: "",
     },
     validateOnBlur: false,
     validateOnChange: false,
@@ -122,12 +132,16 @@ export default function About() {
         pAddress: values.pAddress,
         sPhoneNo: values.sPhoneNo,
         sAddress: values.sAddress,
+        height: values.height,
+        width: values.width,
       };
       supabase
         .from("authentication")
         .update(data)
         .eq("email", "drharis@test.com")
-        .then(getAboutData());
+        .then((res) => {
+          getAboutData();
+        });
     },
   });
 
@@ -157,8 +171,37 @@ export default function About() {
             hidden
           />
         </Grid>
-
-        <Grid display={"flex"} direction={"column"} gap={2}>
+        <Grid display={"flex"} justifyContent={"space-between"}>
+          <Card sx={{ width: "100%", boxShadow: 4 }}>
+            <CardHeader
+              sx={{ color: "#666666" }}
+              title={"Profile Pic dimension"}
+            />
+            <Grid display={"flex"} justifyContent={"space-between"}>
+              <TextField
+                id="outlined-basic"
+                label="Width"
+                variant="outlined"
+                name="width"
+                value={values?.width}
+                sx={{ width: "46%", margin: 2 }}
+                onChange={handleChange} // Pass handleChange
+                onBlur={handleBlur} // Pass handleBlur
+              />
+              <TextField
+                id="outlined-basic"
+                label="Height"
+                variant="outlined"
+                name="height"
+                value={values?.height}
+                sx={{ width: "46%", margin: 2 }}
+                onChange={handleChange} // Pass handleChange
+                onBlur={handleBlur} // Pass handleBlur
+              />
+            </Grid>
+          </Card>
+        </Grid>
+        <Grid display={"flex"} direction={"column"} gap={2} mt={3}>
           <TextField
             id="outlined-basic"
             label="Email"
